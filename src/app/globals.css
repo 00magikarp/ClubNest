@@ -32,11 +32,3 @@ h1, h2, h3, header, footer {
   color: var(--fssgold);
   border-color: var(--fssgold);
 }
-
-.truncate-vertical {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: unset; /* optional, just make sure it’s not interfering */
-}
