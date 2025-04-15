@@ -1,0 +1,30 @@
+'use client';
+
+import Modal from '@mui/material/Modal';
+import React, {ReactNode} from "react";
+
+type ModalButtonProps = {
+  buttonClass?: string | undefined;
+  modalClass?: string | undefined;
+  buttonTitle: string;
+  modalTitle?: string | undefined;
+  modalBody: ReactNode;
+}
+
+export function ModalButton({ buttonClass, modalClass, buttonTitle, modalTitle, modalBody }: ModalButtonProps) {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  return (
+    <div>
+      <button className={ buttonClass } onClick={handleOpen}>{ buttonTitle }</button>
+      <Modal className={ modalClass } open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 color-">
+          <h1 className="font-bold text-2xl text-center">{ modalTitle }</h1>
+          <span className="whitespace-pre-wrap">{ modalBody }</span>
+        </div>
+      </Modal>
+    </div>
+  )
+}

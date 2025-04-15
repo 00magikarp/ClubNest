@@ -1,31 +1,39 @@
-import {Club, ClubButton} from "@/app/ClubButton";
+import {Club, ClubBox} from "@/app/components/ClubBox";
 
 const clubs: Club[] = [
-  { name: "Club 1", sponsor: "Mr. Foo", members: ["1"]},
-  { name: "Club 2", sponsor: "Ms. Bar", members: ["2"]},
-  { name: "Full Club", sponsor: "Dr. Baz", members: ["3", "4"], type: "Academic"}
+  { name: "Club 1", sponsor: "Mr. Foo", members: ["1"], description: "Nunc eu sem volutpat, egestas dolor ut, interdum nisl. Morbi in diam sit amet ligula auctor mollis. Aenean dapibus tortor at hendrerit faucibus."},
+  { name: "Club 2", sponsor: "Ms. Bar", members: ["2"], description: "Etiam ac purus sed magna consequat mollis id vel odio. In interdum lectus posuere nunc ultrices consectetur. Mauris dictum lectus venenatis, interdum elit sit amet, ornare mi. Pellentesque quis leo blandit, pretium magna eu, condimentum velit. "},
+  { name: "Club 3", sponsor: "i give", members: ["3"], description: "Fusce pulvinar tortor nec suscipit viverra. In vel augue nec diam mattis interdum. Donec quis nunc scelerisque lorem scelerisque placerat at a elit."},
+  { name: "Club 4", sponsor: "up on", members: ["4"], description: "Maecenas et nibh maximus, efficitur lectus nec, aliquet massa. Mauris ac odio at eros interdum condimentum. Curabitur accumsan leo vitae turpis bibendum congue."},
+  { name: "Club 5", sponsor: "the sponsor", members: ["5"], description: "Proin lacinia risus vel dui mollis efficitur. In lobortis ex eget faucibus egestas. Vivamus molestie ipsum eu sodales gravida."},
+  { name: "Club 6", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
+  { name: "Full Club", sponsor: "Dr. Baz", members: ["7", "8"], type: "Academic", description: "A totally real club, meant for real people just like you and me. Right now, I'm testing a longer description to see how it fares on multiple lines.", time: "Mondays at Lunch", location: "1"}
 ];
 
 export default function Home() {
   return (
-    <div className="flex flex-col justify-between items-center justify-items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <header className="flex items-center justify-center border w-[100vw] h-[10vh] bg-[var(--bars)]">
-        <h1 className="font-bold text-4xl tracking-wider justify-start">Club Central</h1>
-        <a href="https://www.google.com" target="_blank">
-          <button className="font-bold text-2xl tracking-wider justify-end">Register a New Club</button>
-        </a>
+    <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+      <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
+        <div className="justify-center">
+          <h1 className="font-bold text-4xl tracking-wider ">Club Central</h1>
+        </div>
+        <div className="justify-end">
+          <a href="https://www.google.com" target="_blank">
+            <button className="font-bold text-2xl tracking-wider ">Register a New Club</button>
+          </a>
+        </div>
       </header>
 
-      <div className="club-layout flex flex-row justify-center items-center flex-wrap w-[80vw]">
+      <section className="club-layout flex flex-col flex-grow flex-wrap justify-center items-center pb-2">
         {
           clubs.map((club, idx) => (
-            <ClubButton key={idx} club={club} />
+            <ClubBox key={idx} club={club} />
           ))
         }
-      </div>
+      </section>
 
-      <footer className="flex items-center justify-center border w-[100vw] h-[8vh] bg-[var(--bars)]">
-        <p>test footer</p>
+      <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
+        <h3>test footer</h3>
       </footer>
     </div>
   );
