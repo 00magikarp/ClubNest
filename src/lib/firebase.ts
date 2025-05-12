@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import { FirebaseApp, initializeApp } from "firebase/app";
 import {getFirestore, addDoc, collection, getDocs, Firestore } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { Club } from "@/app/components/ClubBox";
 
 dotenv.config();
@@ -18,6 +18,7 @@ const firebaseConfig = {
 
 const app: FirebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth();
+await signOut();
 await signInWithEmailAndPassword(auth, process.env.FIREBASE_ADMIN_EMAIL!, process.env.FIREBASE_ADMIN_PASS!);
 const db: Firestore = getFirestore(app);
 

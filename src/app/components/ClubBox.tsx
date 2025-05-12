@@ -8,7 +8,7 @@ export type Club = {
   student_leads_contact: string[];
   student_ids: number[];
   student_names: string[];
-  type?: string | undefined;
+  type: string;
   description?: string | undefined;
   time?: string | undefined;
   location?: string | undefined;
@@ -21,17 +21,14 @@ type ClubBoxProps = {
 
 export function ClubBox({ club }: ClubBoxProps) {
   return (
-    <div className="p-4 flex flex-row m-2 w-[40vw] h-[120px] text-xl bg-[var(--mid)] text-white rounded border-2 border-black select-text items-center justify-start">
-      <div className="w-[30%] flex flex-col justify-center items-start p-1">
+    <div className="p-4 flex flex-row m-2 max-w-[380px] min-w-[200px] h-[120px] text-xl bg-[var(--mid)] text-white rounded border-2 border-black select-text items-center justify-start">
+      <div className="w-[11vw] flex flex-col justify-center items-start p-1 mr-auto">
         <h3 className="font-bold">{ club.name }</h3>
         <p className="text-gray-500 text-lg">{ club.type || "" }</p>
       </div>
-      <p className="flex flex-col items-start justify-start text-left p-1 w-[40%] text-base text-gray-300 overflow-hidden text-ellipsis whitespace-normal max-h-[100px] ">
-        { club.description || "" }
-      </p>
       <ModalButton
-        buttonClass="ml-[5%] w-[10vw] bg-[var(--fssgold)] rounded-md"
-        modalClass=""
+        buttonClass="ml-[5%] w-[10vw] bg-[var(--fssgold)] rounded-md justify-end max-w-[150px]"
+        modalClass="text-gray-300"
         buttonTitle="Info"
         modalTitle={ club.name }
         modalBody={
@@ -44,7 +41,7 @@ export function ClubBox({ club }: ClubBoxProps) {
             <ul className="list-disc list-inside">
               {
                 club.student_leads_name.map((student: string, idx: number) => (
-                  <li key={idx}>{ club.student_leads_name[idx] } (<a href={"mailto:" + club.student_leads_contact[idx]}>{ club.student_leads_contact[idx] }</a>)</li>
+                  <li key={idx}>{ club.student_leads_name[idx] } (<a className="underline underline-offset-4" href={"mailto:" + club.student_leads_contact[idx]}>{ club.student_leads_contact[idx] }</a>)</li>
                 ))
               }
             </ul>
@@ -53,7 +50,7 @@ export function ClubBox({ club }: ClubBoxProps) {
             <ul className="list-disc list-inside">
               {
                 club.sponsors_name.map((student: string, idx: number) => (
-                  <li key={idx}>{ club.sponsors_name[idx]} (<a href={"mailto:" + club.sponsors_contact[idx]}>{ club.sponsors_contact[idx] }</a>)</li>
+                  <li key={idx}>{ club.sponsors_name[idx]} (<a className="underline underline-offset-4" href={"mailto:" + club.sponsors_contact[idx]}>{ club.sponsors_contact[idx] }</a>)</li>
                 ))
               }
             </ul>
