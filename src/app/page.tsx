@@ -23,36 +23,14 @@ import {ClubBox} from "@/app/components/ClubBox";
 //   { name: "Club C", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
 //   { name: "Club D", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
 //   { name: "Club E", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   // { name: "Club 1", sponsor: "Mr. Foo", members: ["1"], description: "Nunc eu sem volutpat, egestas dolor ut, interdum nisl. Morbi in diam sit amet ligula auctor mollis. Aenean dapibus tortor at hendrerit faucibus."},
-//   // { name: "Club 2", sponsor: "Ms. Bar", members: ["2"], description: "Etiam ac purus sed magna consequat mollis id vel odio. In interdum lectus posuere nunc ultrices consectetur. Mauris dictum lectus venenatis, interdum elit sit amet, ornare mi. Pellentesque quis leo blandit, pretium magna eu, condimentum velit. "},
-//   // { name: "Club 3", sponsor: "i give", members: ["3"], description: "Fusce pulvinar tortor nec suscipit viverra. In vel augue nec diam mattis interdum. Donec quis nunc scelerisque lorem scelerisque placerat at a elit."},
-//   // { name: "Club 4", sponsor: "up on", members: ["4"]},
-//   // { name: "Club 5", sponsor: "the sponsor", members: ["5"], description: "Proin lacinia risus vel dui mollis efficitur. In lobortis ex eget faucibus egestas. Vivamus molestie ipsum eu sodales gravida."},
-//   // { name: "Club 6", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6A", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6B", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6C", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6D", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6E", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6F", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6G", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6H", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Club 6I", sponsor: "names lol", members: ["6"], description: "Mauris et massa fringilla, suscipit elit dictum, elementum eros. Cras sollicitudin nisi mattis nulla fringilla, accumsan semper enim ultrices. "},
-//   // { name: "Full Club", sponsor: "Dr. Baz", members: ["7", "8"], type: "Academic", description: "A totally real club, meant for real people just like you and me. Right now, I'm testing a longer description to see how it fares on multiple lines.", time: "Mondays at Lunch", location: "1"}
 // ];
 
-const clubs: Club[] = await getClubs();
-
 export default function Home() {
-  // const [clubs, setClubs] = useState<Club[]>([]);
-  //
-  // useEffect(() => {
-  //   const fetchClubs = (async () => {
-  //     const data: Club[] = await getClubs();
-  //     setClubs(data);
-  //   });
-  //   fetchClubs();
-  // }, []);
+  const [clubs, setClubs] = useState<Club[]>([]);
+
+  useEffect(() => {
+    getClubs().then(setClubs).catch(console.error);
+  }, []);
 
 
   const [selectedType, setSelectedType] = useState<string | null>('All');

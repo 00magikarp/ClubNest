@@ -19,7 +19,7 @@ export async function readClubs(): Promise<Club[]> {
   try {
     return JSON.parse(text);
   } catch (err) {
-    console.error("Failed to parse JSON:", text);
+    console.error("Failed to parse JSON:", text, err);
     throw new Error("Invalid JSON response from /api/readClubs");
   }
 }
