@@ -1,26 +1,8 @@
-import dotenv from "dotenv";
-import { FirebaseApp, initializeApp } from "firebase/app";
-import {getFirestore, addDoc, collection, getDocs, Firestore } from "firebase/firestore";
-import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { Club } from "@/app/components/ClubBox";
+import { db, signInAdmin } from "./firebase";
+import { collection, addDoc, getDocs } from "firebase/firestore";
+import { Club } from "@/lib/objects";
 
-dotenv.config();
-
-const firebaseConfig = {
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.FIREBASE_MESSENGING_SENDER_ID,
-  appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID
-};
-
-const app: FirebaseApp = initializeApp(firebaseConfig);
-const auth = getAuth();
-await signOut();
-await signInWithEmailAndPassword(auth, process.env.FIREBASE_ADMIN_EMAIL!, process.env.FIREBASE_ADMIN_PASS!);
-const db: Firestore = getFirestore(app);
+await signInAdmin();
 
 /**
  * Write a new club to the database.
@@ -56,8 +38,6 @@ export async function readClubs(): Promise<Club[]> {
       sponsors_contact: data.sponsors_contact,
       student_leads_name: data.student_leads_name,
       student_leads_contact: data.student_leads_contact,
-      student_ids: data.student_ids,
-      student_names: data.student_names,
       type: data.type,
       description: data.description,
       time: data.time,
@@ -65,7 +45,7 @@ export async function readClubs(): Promise<Club[]> {
       other: data.other
     })
   });
-  cl.sort((c1, c2) => (c1.name > c2.name ? 1 : -1))
+  cl.sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
   return cl;
 }
 
@@ -75,7 +55,3 @@ export class DocumentWriteError extends Error {
     this.name = "DocumentWriteError";
   }
 }
-
-// // list of clubs
-// const cl: Club[] = await readClubs();
-// console.log(JSON.stringify(cl, null, 2))

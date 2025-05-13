@@ -1,19 +1,6 @@
 import { ModalButton } from "@/app/components/ModalButton";
+import {Club} from "@/lib/objects";
 
-export type Club = {
-  name: string;
-  sponsors_name: string[];
-  sponsors_contact: string[];
-  student_leads_name: string[];
-  student_leads_contact: string[];
-  student_ids: number[];
-  student_names: string[];
-  type: string;
-  description?: string | undefined;
-  time?: string | undefined;
-  location?: string | undefined;
-  other?: string | undefined;
-};
 
 type ClubBoxProps = {
   club: Club;

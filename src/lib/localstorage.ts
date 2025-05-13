@@ -1,6 +1,6 @@
-import {Club} from "@/app/components/ClubBox";
 // import expiryLocalStorage from "expiry-localstorage";
-import {readClubs} from "@/lib/firebase";
+import {Club} from "@/lib/objects";
+import {readClubs} from "@/lib/firebaseClient";
 
 export function setItem<T>(key: string, value: T): void {
   localStorage.setItem(key, JSON.stringify(value));

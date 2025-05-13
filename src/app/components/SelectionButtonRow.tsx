@@ -9,7 +9,7 @@ export const TYPES: string[] = [
   "Activism",
   "Arts",
   "Business",
-  "Culture & Identity",
+  "Identity",
   "Fitness",
   "Hobbies",
   "STEM",

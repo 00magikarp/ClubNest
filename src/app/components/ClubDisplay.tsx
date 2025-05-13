@@ -1,4 +1,5 @@
-import {Club, ClubBox} from "@/app/components/ClubBox";
+import {ClubBox} from "@/app/components/ClubBox";
+import {Club} from "@/lib/objects";
 
 type ClubDisplayProps = {
   style: string,
@@ -8,17 +9,19 @@ type ClubDisplayProps = {
 export function ClubDisplay({ style, clubs } : ClubDisplayProps) {
   if (clubs === null) {
     return (
-      <p>No clubs found...</p>
+      <div>
+        <p>No clubs found...</p>
+      </div>
+    );
+  } else {
+    return (
+      <div className={style}>
+        {
+          clubs.map((club: Club, idx: number) => (
+            <ClubBox key={idx} club={club} />
+          ))
+        }
+      </div>
     );
   }
-
-  return (
-    <div className={style}>
-      {
-        clubs.map((club: Club, idx: number) => (
-          <ClubBox key={idx} club={club} />
-        ))
-      }
-    </div>
-  );
 }
