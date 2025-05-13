@@ -49,7 +49,20 @@ export function SelectionButtonRow({ passToPage }: SelectionButtonRowProps) {
             color="primary"
             value={type}
             key={idx}
-            className="rounded border-2 border-[var(--fssgold)]"
+            className="rounded custom-button"
+            sx={{
+              color: 'var(--fssgold)',
+              '&.Mui-selected': {
+                backgroundColor: 'var(--fssgold)',
+                color: 'black'
+              },
+              '&.Mui-selected:hover': {
+                backgroundColor: 'gold',
+              },
+              '&:hover': {
+                backgroundColor: '#1a1111'
+              }
+            }}
           >
             <p>{type}</p>
           </ToggleButton>
