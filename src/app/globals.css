@@ -32,3 +32,9 @@ h1, h2, h3, header, footer {
   color: var(--fssgold);
   border-color: var(--fssgold);
 }
+
+.custom-button {
+  border: 2px solid var(--fssgold);
+  transition: all 150ms ease-in-out;
+  outline: none;
+}

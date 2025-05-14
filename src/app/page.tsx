@@ -1,10 +1,10 @@
 'use client';
 
-import {getClubs} from "@/lib/localstorage";
-import {SelectionButtonRow, TYPES} from "@/app/components/SelectionButtonRow";
-import {useEffect, useState} from "react";
-import {Club} from "@/lib/objects";
-import {ClubBox} from "@/app/components/ClubBox";
+import { getClubs } from "@/lib/localstorage";
+import { SelectionButtonRow, TYPES } from "@/app/components/SelectionButtonRow";
+import { useEffect, useState } from "react";
+import { Club } from "@/lib/objects";
+import { ClubBox } from "@/app/components/ClubBox";
 
 
 // const clubs: Club[] = [
@@ -42,7 +42,7 @@ export default function Home() {
   if (selectedType == "All") {
     clubsDisplayed = clubs;
   } else if (selectedType == "Other") {
-    clubs.forEach((c: Club)=> {
+    clubs.forEach((c: Club) => {
       if (!TYPES.includes(c.type)) clubsDisplayed.push(c);
     });
   } else {
@@ -69,16 +69,24 @@ export default function Home() {
         <SelectionButtonRow passToPage={handleTypeChange}></SelectionButtonRow>
       </div>
 
-      <div className={"mb-auto h-[100%] w-[80vw] max-w-[1200px] overflow-y-scroll flex flex-row flex-grow flex-wrap justify-center pb-2"}>
+      <div className={"mb-auto h-[100%] w-[80vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center"}>
         {
           clubsDisplayed.map((club: Club, idx: number) => (
-            <ClubBox key={idx} club={club}/>
+            <ClubBox key={idx} club={club} />
           ))
         }
       </div>
 
       <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
-        <h3>test footer</h3>
+        <h3 className="justify-center items-center text-[var(--fssgold)]">
+          Have any problems? Shoot us an email at{' '}
+          <a
+            href="mailto:falconsoftwaresolutions27@gmail.com"
+            className="underline hover:text-gray-500 transition-colors duration-200"
+          >
+            falconsoftwaresolutions27@gmail.com
+          </a>
+        </h3>
       </footer>
     </div>
   );
