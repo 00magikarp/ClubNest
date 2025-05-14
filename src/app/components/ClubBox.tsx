@@ -14,7 +14,7 @@ export function ClubBox({ club }: ClubBoxProps) {
         <p className="text-gray-300 text-lg">{ club.type || "" }</p>
       </div>
       <ModalButton
-        buttonClass="ml-[5%] w-[10vw] h-[6vw] bg-[var(--fssgold)] rounded-md justify-center 
+        buttonClass="ml-[5%] w-[10.2vw] h-[7vh] text-[2.1vw] bg-[var(--fssgold)] rounded-sm justify-center 
         max-w-[150px] cursor-pointer hover:bg-neutral-900 hover:text-[var(--fssgold)] 
         hover:shadow-lg hover:scale-[1.02] custom-button "
         modalClass="text-gray-300"
