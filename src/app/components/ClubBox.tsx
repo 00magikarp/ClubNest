@@ -1,6 +1,5 @@
 import { ModalButton } from "@/app/components/ModalButton";
-import {Club} from "@/lib/objects";
-
+import { Club } from "@/lib/objects";
 
 type ClubBoxProps = {
   club: Club;
@@ -8,49 +7,65 @@ type ClubBoxProps = {
 
 export function ClubBox({ club }: ClubBoxProps) {
   return (
-    <div className="p-3 flex flex-col m-3 max-w-[380px] min-w-[200px] h-[140px] text-xl bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start">
-      <div className="w-full flex flex-col justify-start items-center mr-auto mb-auto mt-1">
-        <h3 className="font-semibold text-lg">{ club.name }</h3>
-        <p className="text-gray-400 text-lg">{ club.type || "" }</p>
+    <div className="p-5 flex flex-col m-5 max-w-[684px] min-w-[360px] h-[252px] text-[1.625rem] bg-[var(--mid)] text-gray rounded-lg select-text items-center justify-start">
+      <div className="w-full flex flex-col justify-start items-center mr-auto mb-auto mt-2">
+        <h3 className="font-semibold text-[1.625rem]">{club.name}</h3>
+        <p className="text-gray-400 text-lg">{club.type || ""}</p>
       </div>
-      <div className="w-full justify-center items-center max-w-[150px]">
+      <div className="w-full flex justify-center items-center mt-2 py-10">
         <ModalButton
-          buttonClass="w-full h-[35px] bg-[var(--fssgold)] rounded-sm justify-center items-center
-          cursor-pointer hover:bg-neutral-900 hover:text-[var(--fssgold)] mb-[10px]
-          hover:shadow-lg hover:scale-[1.02] custom-button"
+          buttonClass="w-[270px] h-[63px] bg-[var(--fssgold)] rounded-md cursor-pointer 
+          hover:bg-neutral-900 hover:text-[var(--fssgold)] hover:shadow-lg hover:scale-[1.02] custom-button text-[2rem]"
           modalClass="text-gray-300"
           buttonTitle="Info"
-          modalTitle={ club.name }
+          modalTitle={club.name}
           modalBody={
-            <div className="rounded">
+            <div className="rounded text-base">
               <p className="text-gray-400 text-lg text-center">{club.type || "Other"}</p>
-              <br/>
+              <br />
               <p>{club.description || "No description found"}</p>
-              <br/>
-              <p>Student(s) in charge:</p>
+              <br />
+              <p className="font-semibold">Student(s) in charge:</p>
               <ul className="list-disc list-inside">
-                {
-                  club.student_leads_name.map((student: string, idx: number) => (
-                    <li key={idx}>{ club.student_leads_name[idx] } (<a className="underline underline-offset-4" href={"mailto:" + club.student_leads_contact[idx]}>{ club.student_leads_contact[idx] }</a>)</li>
-                  ))
-                }
+                {club.student_leads_name.map((student: string, idx: number) => (
+                  <li key={idx}>
+                    {student} (
+                    <a
+                      className="underline underline-offset-4"
+                      href={`mailto:${club.student_leads_contact[idx]}`}
+                    >
+                      {club.student_leads_contact[idx]}
+                    </a>
+                    )
+                  </li>
+                ))}
               </ul>
-              <br/>
-              <p>Sponsor(s):</p>
+              <br />
+              <p className="font-semibold">Sponsor(s):</p>
               <ul className="list-disc list-inside">
-                {
-                  club.sponsors_name.map((student: string, idx: number) => (
-                    <li key={idx}>{ club.sponsors_name[idx]} (<a className="underline underline-offset-4" href={"mailto:" + club.sponsors_contact[idx]}>{ club.sponsors_contact[idx] }</a>)</li>
-                  ))
-                }
+                {club.sponsors_name.map((sponsor: string, idx: number) => (
+                  <li key={idx}>
+                    {sponsor} (
+                    <a
+                      className="underline underline-offset-4"
+                      href={`mailto:${club.sponsors_contact[idx]}`}
+                    >
+                      {club.sponsors_contact[idx]}
+                    </a>
+                    )
+                  </li>
+                ))}
               </ul>
-              <br/>
-              <p>Meets @ <b>{club.time || "unstructured times"}</b> in <b>{club.location || "different places"}</b></p>
-              <p>Additional information: { club.other || "None" }</p>
+              <br />
+              <p>
+                Meets @ <b>{club.time || "unstructured times"}</b> in{" "}
+                <b>{club.location || "different places"}</b>
+              </p>
+              <p>Additional information: {club.other || "None"}</p>
             </div>
           }
         />
       </div>
     </div>
-  )
+  );
 }
