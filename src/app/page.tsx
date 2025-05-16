@@ -2,7 +2,7 @@
 
 import { getClubs } from "@/lib/localstorage";
 import { SelectionButtonRow, TYPES } from "@/app/components/SelectionButtonRow";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Club } from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
@@ -107,7 +107,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={"mb-auto h-[100%] w-[80vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center"}>
+      <div className={"mb-auto h-[100%] w-[80vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
         {
           clubsDisplayed.map((club: Club, idx: number) => (
             <ClubBox key={idx} club={club} />

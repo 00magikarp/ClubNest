@@ -8,22 +8,22 @@ type ClubBoxProps = {
 
 export function ClubBox({ club }: ClubBoxProps) {
   return (
-    <div className="p-3 flex flex-col m-2 max-w-[380px] min-w-[200px] h-[150px] text-xl bg-[var(--mid)] text-gray rounded border-4 border-neutral-800 select-text items-center justify-start">
-      <div className="w-full flex flex-col justify-start items-center mr-auto">
+    <div className="p-3 flex flex-col m-3 max-w-[380px] min-w-[200px] h-[140px] text-xl bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start">
+      <div className="w-full flex flex-col justify-start items-center mr-auto mb-auto mt-1">
         <h3 className="font-semibold text-lg">{ club.name }</h3>
-        <p className="text-gray-300 text-sm">{ club.type || "" }</p>
+        <p className="text-gray-400 text-lg">{ club.type || "" }</p>
       </div>
-      <div className="w-full justify-center py-3">
+      <div className="w-full justify-center items-center max-w-[150px]">
         <ModalButton
-          buttonClass="w-full ml-[5%] h-[50px] bg-[var(--fssgold)] rounded-sm justify-center 
-          max-w-[150px] cursor-pointer hover:bg-neutral-900 hover:text-[var(--fssgold)] 
-          hover:shadow-lg hover:scale-[1.02] custom-button "
+          buttonClass="w-full h-[35px] bg-[var(--fssgold)] rounded-sm justify-center items-center
+          cursor-pointer hover:bg-neutral-900 hover:text-[var(--fssgold)] mb-[10px]
+          hover:shadow-lg hover:scale-[1.02] custom-button"
           modalClass="text-gray-300"
           buttonTitle="Info"
           modalTitle={ club.name }
           modalBody={
             <div className="rounded">
-              <p className="text-gray-500 text-lg text-center">{club.type || "Other"}</p>
+              <p className="text-gray-400 text-lg text-center">{club.type || "Other"}</p>
               <br/>
               <p>{club.description || "No description found"}</p>
               <br/>
