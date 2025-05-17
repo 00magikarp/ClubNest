@@ -16,3 +16,17 @@ export type Roster = {
   ids: number[];
   names: string[];
 }
+
+// Alphabetical
+export const TYPES: string[] = [
+  "All",
+  "Activism",
+  "Arts",
+  "Business",
+  "Identity",
+  "Fitness",
+  "Hobbies",
+  "STEM",
+  "Service",
+  "Other"
+];

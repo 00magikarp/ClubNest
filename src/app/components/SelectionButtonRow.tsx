@@ -2,26 +2,13 @@
 
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {useState} from "react";
-
-// organized alphabetically
-export const TYPES: string[] = [
-  "All",
-  "Activism",
-  "Arts",
-  "Business",
-  "Identity",
-  "Fitness",
-  "Hobbies",
-  "STEM",
-  "Service",
-  "Other"
-];
+import {TYPES} from "@/lib/objects";
 
 type SelectionButtonRowProps = {
-  passToPage: (data: string) => void;
+  passToPageAction: (data: string) => void;
 }
 
-export function SelectionButtonRow({ passToPage }: SelectionButtonRowProps) {
+export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps) {
   const [selectedType, setSelectedType] = useState<string | null>('All');
 
   const handleSelection = (
@@ -30,7 +17,7 @@ export function SelectionButtonRow({ passToPage }: SelectionButtonRowProps) {
   ) => {
     if (newSelection !== null) {
       setSelectedType(newSelection);
-      passToPage(newSelection)
+      passToPageAction(newSelection)
     }
   };
 

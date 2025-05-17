@@ -1,4 +1,3 @@
-// lib/client/firebaseClient.ts
 import { Club } from "@/lib/objects";
 
 export async function writeClub(data: Club): Promise<void> {

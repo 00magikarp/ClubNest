@@ -1,9 +1,9 @@
 'use client';
 
 import { getClubs } from "@/lib/localstorage";
-import { SelectionButtonRow, TYPES } from "@/app/components/SelectionButtonRow";
-import { useState } from "react";
-import { Club } from "@/lib/objects";
+import { SelectionButtonRow } from "@/app/components/SelectionButtonRow";
+import {useEffect, useState} from "react";
+import {Club, TYPES} from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
 
@@ -69,7 +69,7 @@ export default function Home() {
 
       <div className={"flex mb-auto h-[100%] w-[90vw] p-5 justify-center"}>
         <div className="block lg:hidden">
-          <DropDown passToPage={handleTypeChange} 
+          <DropDown passToPageAction={handleTypeChange}
           formControlClass={"w-[90vw]"}
           inputLabelStyle={{
             color: 'var(--fssgold)',
@@ -81,7 +81,7 @@ export default function Home() {
           </DropDown>
         </div>
         <div className="hidden lg:block">
-          <SelectionButtonRow passToPage={handleTypeChange}></SelectionButtonRow>
+          <SelectionButtonRow passToPageAction={handleTypeChange}></SelectionButtonRow>
         </div>
       </div>
 
