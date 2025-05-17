@@ -107,12 +107,13 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={"mb-auto h-[100%] w-[80vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
+      <div className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
         {
           clubsDisplayed.map((club: Club, idx: number) => (
             <ClubBox key={idx} club={club} />
           ))
         }
+
       </div>
 
       <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
