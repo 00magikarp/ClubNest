@@ -11,7 +11,7 @@ export function ClubBox({ club }: ClubBoxProps) {
       <ModalButton
         buttonClass="
         p-3 flex flex-col m-3 max-w-[380px] min-w-[200px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
-        transform transition-transform duration-200 hover:scale-105
+        transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
         modalClass="text-gray-300"
         buttonTitle={
