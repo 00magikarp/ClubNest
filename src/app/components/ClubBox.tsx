@@ -1,6 +1,5 @@
 import { ModalButton } from "@/app/components/ModalButton";
-import {Club} from "@/lib/objects";
-
+import { Club } from "@/lib/objects";
 
 type ClubBoxProps = {
   club: Club;
@@ -8,21 +7,23 @@ type ClubBoxProps = {
 
 export function ClubBox({ club }: ClubBoxProps) {
   return (
-    <div className="p-6 flex flex-row m-2 max-w-[380px] min-w-[200px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded border-4 border-neutral-800 select-text items-center justify-start">
-      <div className="w-[11vw] flex flex-col justify-center items-start p-2.5 mr-auto">
-        <h3 className="font-semibold">{ club.name }</h3>
-        <p className="text-gray-300 text-lg">{ club.type || "" }</p>
-      </div>
+    <div>
       <ModalButton
-        buttonClass="ml-[5%] w-[10.2vw] h-[7vh] text-[2.1vw] bg-[var(--fssgold)] rounded-sm justify-center 
-        max-w-[150px] cursor-pointer hover:bg-neutral-900 hover:text-[var(--fssgold)] 
-        hover:shadow-lg hover:scale-[1.02] custom-button "
+        buttonClass="
+        p-3 flex flex-col m-3 max-w-[380px] min-w-[200px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
+        transform transition-transform duration-200 hover:scale-105 cursor-pointer
+        "
         modalClass="text-gray-300"
-        buttonTitle="Info"
+        buttonTitle={
+        <div className="h-full w-full flex flex-col justify-start items-center mt-2 mt-1">
+          <h3 className="h-[50%] font-semibold text-xl">{club.name}</h3>
+          <p className="text-gray-400 text-lg">{club.type || ""}</p>
+        </div>
+        }
         modalTitle={ club.name }
         modalBody={
           <div className="rounded">
-            <p className="text-gray-500 text-lg text-center">{club.type || "Other"}</p>
+            <p className="text-gray-400 text-lg text-center">{club.type || "Other"}</p>
             <br/>
             <p>{club.description || "No description found"}</p>
             <br/>
@@ -50,5 +51,5 @@ export function ClubBox({ club }: ClubBoxProps) {
         }
       />
     </div>
-  )
+  );
 }
