@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {Club} from "@/lib/objects";
-import {ClubBox} from "@/app/components/ClubBox";
+import {ClubBox } from "@/app/components/ClubBox";
+import { ClubWriter } from "@/app/components/ClubWriter";
 
 export default function Home() {
   return (
@@ -22,7 +23,7 @@ export default function Home() {
       <div
         className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-evenly"}>
         {
-          // stuff when
+          <ClubWriter />
         }
 
       </div>
