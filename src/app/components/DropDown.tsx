@@ -36,10 +36,10 @@ export function DropDown({formControlClass, selectClass, inputLabelStyle, dropDo
     return (
         <FormControl className={formControlClass || ""}>
             <InputLabel sx={inputLabelStyle || null}>Club Category</InputLabel>
-            <Select className={selectClass || ""} value={selectedOption} onChange={handleChange}>
+            <Select className={selectClass || ""} value={selectedOption} onChange={handleChange} sx={{}}>
             {
                 TYPES.map((type: string, idx: number) => (
-                    <MenuItem value = {type} key={idx} className="w-full bg-black">
+                    <MenuItem value = {type} key={idx} className="w-full" sx={{}}>
                         <p className={dropDownTextClass}>{type}</p>
                     </MenuItem>
                 ))
