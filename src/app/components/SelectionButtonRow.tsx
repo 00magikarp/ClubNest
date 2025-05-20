@@ -36,7 +36,7 @@ export function SelectionButtonRow({ passToPage }: SelectionButtonRowProps) {
 
   return (
     <ToggleButtonGroup
-      color=""
+      color="primary"
       size="large"
       className="max-w-[80vw] flex flex-row flex-wrap justify-center"
       value={selectedType}
