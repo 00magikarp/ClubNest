@@ -1,6 +1,4 @@
 import Link from "next/link";
-import {Club} from "@/lib/objects";
-import {ClubBox } from "@/app/components/ClubBox";
 import { ClubWriter } from "@/app/components/ClubWriter";
 
 export default function Home() {

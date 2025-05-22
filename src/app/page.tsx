@@ -7,8 +7,6 @@ import {Club, TYPES} from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
 import { SearchBar } from "@/app/components/SearchBar"
-import { FormContainer } from "react-hook-form-mui";
-
 import Link from "next/link";
 
 
