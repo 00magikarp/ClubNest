@@ -1,4 +1,3 @@
-// components/SearchBar.tsx
 'use client';
 
 import { TextField, InputAdornment } from '@mui/material';
@@ -7,7 +6,7 @@ import { styled } from '@mui/material/styles';
 import React from 'react';
 
 interface SearchBarProps {
-    onSearch: (query: string) => void;
+    onSearchAction: (query: string) => void;
 }
 
 const GoldOutlinedTextField = styled(TextField)({
@@ -32,9 +31,9 @@ const GoldOutlinedTextField = styled(TextField)({
     },
 });
 
-export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+export const SearchBar: React.FC<SearchBarProps> = ({ onSearchAction }) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onSearch(event.target.value);
+        onSearchAction(event.target.value);
     };
 
     return (
