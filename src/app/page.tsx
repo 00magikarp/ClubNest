@@ -6,6 +6,9 @@ import {useEffect, useState} from "react";
 import {Club, TYPES} from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
+import { SearchBar } from "@/app/components/SearchBar"
+import { FormContainer } from "react-hook-form-mui";
+
 import Link from "next/link";
 
 
@@ -29,6 +32,7 @@ import Link from "next/link";
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     getClubs().then(setClubs).catch(console.error);
@@ -52,6 +56,11 @@ export default function Home() {
       if (selectedType == c.type) clubsDisplayed.push(c);
     });
   }
+  if (searchQuery.trim() !== "") {
+    clubsDisplayed = clubsDisplayed.filter((club: Club) =>
+        club.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
 
 
   return (
@@ -71,6 +80,8 @@ export default function Home() {
         </div>
       </header>
 
+
+
       <div className={"flex mb-auto h-[100%] w-[90vw] p-5 justify-center"}>
         <div className="block lg:hidden">
           <DropDown passToPageAction={handleTypeChange}
@@ -84,6 +95,11 @@ export default function Home() {
 
           </DropDown>
         </div>
+        <div className="w-[90vw] max-w-[600px] mb-6">
+          <SearchBar onSearch={setSearchQuery} />
+        </div>
+
+
         <div className="hidden lg:block">
           <SelectionButtonRow passToPageAction={handleTypeChange}></SelectionButtonRow>
         </div>
