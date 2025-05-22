@@ -25,7 +25,7 @@ export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps
     <ToggleButtonGroup
       color="primary"
       size="large"
-      className="max-w-[80vw] flex flex-row flex-wrap justify-center"
+      className="max-w-[80vw] h-full flex flex-row flex-wrap justify-center"
       value={selectedType}
       exclusive
       onChange={handleSelection}
