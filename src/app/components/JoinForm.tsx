@@ -1,4 +1,4 @@
-import {FormContainer, TextFieldElement, SelectElement, useForm, Controller} from 'react-hook-form-mui'
+import {FormContainer, TextFieldElement, SelectElement, useForm, Controller, useFormContext} from 'react-hook-form-mui'
 import { Autocomplete, InputLabel, MenuItem } from '@mui/material'
 import { SxProps, Theme } from '@mui/material'
 import { getClubs } from '@/lib/localstorage'
@@ -9,28 +9,32 @@ import { useEffect, useState } from 'react'
 type FormProps = {
     selectElementStyle?: SxProps<Theme>,
     joinFormContainerStyle?: string | undefined,
-    clubs?: Club[] | null
+    pLabelStyle?: string | undefined
 }
 
 
-export default function JoinForm({selectElementStyle, joinFormContainerStyle, clubs}: FormProps) {
-    const formContext = useForm({
-        defaultValues: {gradeSelection: '9th', nameEntry: 'Foo Bar Baz', idEntry: '123456', clubSelection: null}
-    })
+export default function JoinForm({selectElementStyle, joinFormContainerStyle}: FormProps) {
+        
+    const [clubs, setClubs] = useState<Club[]>([]);
+    const { handleSubmit } = useForm();
 
-    const {control} = formContext;
-    
-    const [clubOptions, setClubOptions] = useState<Club[]>([]);
+    useEffect(() => {
+        getClubs().then(data => {
+            setClubs(data);
+        })
+    }, [])
 
-    // useEffect(() => {
-    //     if (clubs) {
-    //         clubs.then(setClubOptions);
-    //     }
-    // }, [clubs])
+    const onSubmit = async () => {
+        try {
+            
+        } catch (e) {
+
+        }
+    }
 
     return (
         <div className = {joinFormContainerStyle}>
-            <FormContainer defaultValues={{gradeSelection: '9th', nameEntry: 'Foo Bar Baz', idEntry: '123456', autoCompleteEntry: ''}}>
+            <FormContainer defaultValues={{gradeSelection: 'ENTER GRADE', nameEntry: 'NAME HERE', idEntry: 'ENTER STUDENT ID', autoCompleteEntry: 'ENTER CLUB'}}>
                 <p>Grade Level:</p>
                 <SelectElement name="gradeSelection" sx={selectElementStyle}
                 options = {[
@@ -44,12 +48,12 @@ export default function JoinForm({selectElementStyle, joinFormContainerStyle, cl
                 <TextFieldElement name="nameEntry"></TextFieldElement>
                 <p>Student ID:</p>
                 <TextFieldElement name="idEntry"></TextFieldElement>
-                 <Controller
+                <p>Club: </p>
+                <Controller
                     name="clubSelection"
-                    control={control}
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <Autocomplete
-                            options={clubOptions}
+                            options={clubs}
                             getOptionLabel={(option: Club) => option.name}
                             value={value}
                             onChange={(_, newValue) => onChange(newValue)}
@@ -65,6 +69,7 @@ export default function JoinForm({selectElementStyle, joinFormContainerStyle, cl
                         />
                     )}
                 />
+                <button onClick={handleSubmit(onSubmit)}></button>
             </FormContainer>
         </div>
     )

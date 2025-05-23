@@ -7,6 +7,8 @@ import { Club } from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
 import JoinForm from "./components/JoinForm";
+import { Router } from "next/router";
+import { ModalButton } from "./components/ModalButton";
 
 
 // const clubs: Club[] = [
@@ -90,17 +92,26 @@ export default function Home() {
         </div>
       </header>
 
-      <JoinForm joinFormContainerStyle = 
-      {
-        "w-[50%] justify-center items-center"
-      } 
-        selectElementStyle={{
-        color: 'primary',
-        width: '100%',
-        '&. MuiInputLabel-root': {
-          color: 'var(--fssgold)'
+
+      <ModalButton
+        buttonClass="
+        p-3 flex flex-col m-3 w-[240px] h-[150px] text-xl bg-[var(--fssgold)] text-gray-300 rounded-md select-text items-center justify-start
+        transform transition-transform duration-200 hover:scale-105 cursor-pointer
+        "
+        modalClass="text-gray-300"
+        buttonTitle={
+        <div className="rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 p-4 text-gray-300">
+          <h3 className="h-[50%] font-semibold text-3xl text-gray-300">goon</h3>
+          <p className="text-gray-400 text-xl">{""}</p>
+        </div>
         }
-      }}></JoinForm>
+        modalTitle={ "Title fr bruh" }
+        modalContainerClass="w-[700px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+        modalBody={
+          <JoinForm>
+
+          </JoinForm>
+        }/>
 
       <div className={"flex mb-auto h-[100%] w-[90vw] p-5 justify-center"}>
         <div className="block lg:hidden">

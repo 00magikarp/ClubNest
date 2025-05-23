@@ -16,3 +16,10 @@ export type Roster = {
   ids: number[];
   names: string[];
 }
+
+export type Student = {
+  name: string;
+  id: number;
+  firstName: string;
+  lastName: string;
+}
