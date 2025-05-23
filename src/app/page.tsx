@@ -6,6 +6,9 @@ import {useEffect, useState} from "react";
 import {Club, TYPES} from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
+import Link from "next/link";
+import { DarkModeToggle } from "@/app/components/DarkModeToggle";
+
 
 
 // const clubs: Club[] = [
@@ -57,10 +60,14 @@ export default function Home() {
 
     <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
+        <div className="justify-start">
+          <Link href={'/admin'}>Admin</Link>
+        </div>
         <div className="justify-center">
-          <h1 className="font-bold text-2xl tracking-wider p-3">Club Central</h1>
+          <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
         </div>
         <div className="justify-end">
+          <DarkModeToggle />
           <a href="https://forms.gle/eiioHTM579rQt3Jq8" target="_blank">
             <button className="font-bold text-xl tracking-wider p-2">Register a New Club</button>
           </a>
