@@ -6,9 +6,6 @@ export default function JoinPage() {
     return (
         <div>
             <FormContainer>
-                <TextFieldElement>
-                    
-                </TextFieldElement>
             </FormContainer>
         </div>
     );

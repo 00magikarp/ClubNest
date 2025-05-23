@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Club } from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
+import JoinForm from "./components/JoinForm";
 
 
 // const clubs: Club[] = [
@@ -88,6 +89,18 @@ export default function Home() {
           </a>
         </div>
       </header>
+
+      <JoinForm joinFormContainerStyle = 
+      {
+        "w-[50%] justify-center items-center"
+      } 
+        selectElementStyle={{
+        color: 'primary',
+        width: '100%',
+        '&. MuiInputLabel-root': {
+          color: 'var(--fssgold)'
+        }
+      }}></JoinForm>
 
       <div className={"flex mb-auto h-[100%] w-[90vw] p-5 justify-center"}>
         <div className="block lg:hidden">
