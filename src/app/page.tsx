@@ -95,34 +95,35 @@ export default function Home() {
 
       <ModalButton
         buttonClass="
-        p-3 flex flex-col m-3 w-[240px] h-[150px] text-xl bg-[var(--fssgold)] text-gray-300 rounded-md select-text items-center justify-start
-        transform transition-transform duration-200 hover:scale-105 cursor-pointer
-        "
-        modalClass="text-gray-300"
+  p-2 flex items-center justify-center m-3 w-[90vw] h-[60px]
+  text-xl !text-[var(--mid)] rounded-md select-text
+  transform transition-transform duration-200 hover:scale-102 cursor-pointer
+  bg-[var(--fssgold)]
+"
+        modalClass=""
         buttonTitle={
-        <div className="rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-2 p-4 text-gray-300">
-          <h3 className="h-[50%] font-semibold text-3xl text-gray-300">goon</h3>
-          <p className="text-gray-400 text-xl">{""}</p>
-        </div>
+          <h3 className="!text-[var(--mid)]">
+            Join Clubs Here!
+          </h3>
         }
-        modalTitle={ "Title fr bruh" }
-        modalContainerClass="w-[700px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+        modalTitle={"Club Joining Form"}
+        modalContainerClass="w-[400px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
         modalBody={
-          <JoinForm>
-
-          </JoinForm>
-        }/>
+          <JoinForm joinFormContainerStyle="flex flex-col" selectElementStyle={{
+            color: 'gray'
+          }} />
+        } />
 
       <div className={"flex mb-auto h-[100%] w-[90vw] p-5 justify-center"}>
         <div className="block lg:hidden">
-          <DropDown passToPage={handleTypeChange} 
-          formControlClass={"w-[90vw]"}
-          inputLabelStyle={{
-            color: 'var(--fssgold)',
-            fontWeight: 'bold',
-            fontSize: '1.3em',
-          }}
-          dropDownTextClass={"w-full text-center text-[var(--fssgold)]"}>
+          <DropDown passToPage={handleTypeChange}
+            formControlClass={"w-[90vw]"}
+            inputLabelStyle={{
+              color: 'var(--fssgold)',
+              fontWeight: 'bold',
+              fontSize: '1.3em',
+            }}
+            dropDownTextClass={"w-full text-center text-[var(--fssgold)]"}>
 
           </DropDown>
         </div>
