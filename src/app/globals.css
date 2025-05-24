@@ -8,12 +8,12 @@
 }
 
 :root {
-  --background: #f0f0f4;
-  --mid: #dcdce2;
-  --foreground: #2a2a2a;
-  --bars: #f5f4f0;
-  --fssgold: #b08c4e;
-  --text-color: #111111;
+  --background: #e0e0e8;    /* Slightly darker than before */
+  --mid: #b0b0b8;           /* More contrast from background */
+  --foreground: #1a1a1a;    /* Darker text */
+  --bars: #dcdce2;          /* Darker bars */
+  --fssgold: #835f1f;       /* Slightly deeper gold */
+  --text-color: #0a0a0a;    /* Strong black */
 }
 
 
