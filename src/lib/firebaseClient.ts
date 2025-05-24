@@ -22,3 +22,27 @@ export async function readClubs(): Promise<Club[]> {
     throw new Error("Invalid JSON response from /api/readClubs");
   }
 }
+
+export async function updateClub(data: Club): Promise<void> {
+  const res = await fetch("/api/updateClub", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(`Write failed: ${err.error}`);
+  }
+}
+
+export async function deleteClub(data: Club): Promise<void> {
+  const res = await fetch("/api/deleteClub", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(`Write failed: ${err.error}`);
+  }
+}

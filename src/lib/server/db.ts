@@ -1,5 +1,5 @@
 import { db, signInAdmin } from "./firebase";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, QuerySnapshot, updateDoc, doc, deleteDoc} from "firebase/firestore";
 import { Club } from "@/lib/objects";
 
 await signInAdmin();
@@ -42,12 +42,44 @@ export async function readClubs(): Promise<Club[]> {
       description: data.description,
       time: data.time,
       location: data.location,
-      other: data.other
+      other: data.other,
+      approved: data.approved
     })
   });
   cl.sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
   return cl;
 }
+
+export async function updateClub(c: Club): Promise<void> {
+  const q = query(
+    collection(db, "clubs"),
+    where('name', '==', c.name)
+  );
+  const clubRef = await getDocs(q);
+
+  // should be only one doc in the snapshot
+  clubRef.forEach((data) => {
+    const d = doc(db, "clubs", data.id);
+    updateDoc(d, {
+      ...c
+    });
+  });
+}
+
+export async function deleteClub(c: Club): Promise<void> {
+  const q = query(
+    collection(db, "clubs"),
+    where('name', '==', c.name)
+  );
+  const clubRef = await getDocs(q);
+
+  // should be only one doc in the snapshot
+  clubRef.forEach((data) => {
+    const d = doc(db, "clubs", data.id);
+    deleteDoc(d);
+  });
+}
+
 
 export class DocumentWriteError extends Error {
   constructor(message: string = "Error writing to a document") {

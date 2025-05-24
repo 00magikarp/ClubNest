@@ -9,6 +9,7 @@ export type Club = {
   time?: string | undefined;
   location?: string | undefined;
   other?: string | undefined;
+  approved: boolean;
 };
 
 export type Roster = {
