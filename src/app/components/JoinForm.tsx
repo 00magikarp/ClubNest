@@ -83,8 +83,11 @@ export default function JoinForm({ selectElementStyle, joinFormContainerStyle }:
                             renderInput={(params) => (
                                 <TextFieldElement
                                     name="autoCompleteEntry"
+                                    placeholder="Select a club"
+                                    sx={{
+                                        textFieldStyling
+                                    }}
                                     {...params}
-                                    label="Select a club"
                                     error={!!error}
                                     helperText={error?.message}
                                     required={value in clubs}
