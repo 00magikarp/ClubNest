@@ -46,6 +46,7 @@ import { ModalButton } from "./components/ModalButton";
 // ];
 
 const clubs: Club[] = await getClubs();
+export { clubs }
 
 export default function Home() {
   // const [clubs, setClubs] = useState<Club[]>([]);

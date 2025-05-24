@@ -18,7 +18,7 @@ export type Roster = {
 }
 
 export type Student = {
-  name: string;
+  club: string;
   id: number;
   firstName: string;
   lastName: string;

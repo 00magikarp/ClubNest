@@ -1,7 +1,7 @@
 // lib/client/firebaseClient.ts
 import { Club, Student } from "@/lib/objects";
 
-export async function writeClub(data: Club): Promise<void> {
+export async function writeClub(data: Club): Promise<boolean> {
   const res = await fetch("/api/writeClub", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -11,6 +11,7 @@ export async function writeClub(data: Club): Promise<void> {
     const err = await res.json();
     throw new Error(`Write failed: ${err.error}`);
   }
+  return true;
 }
 
 export async function readClubs(): Promise<Club[]> {
@@ -24,7 +25,7 @@ export async function readClubs(): Promise<Club[]> {
   }
 }
 
-export async function writeStudent(data: Student): Promise<void> {
+export async function writeStudent(data: Student): Promise<boolean> {
   const res = await fetch("/api/writeStudent", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
@@ -33,5 +34,9 @@ export async function writeStudent(data: Student): Promise<void> {
   
   if (!res.ok) {
     const err = await res.json()
+    console.log(err);
+    return false;
   }
+  return res.status != 400;
+
 }

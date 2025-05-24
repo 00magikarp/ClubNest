@@ -1,8 +1,11 @@
-import { FormContainer, TextFieldElement, SelectElement, useForm, Controller, useFormContext } from 'react-hook-form-mui'
-import { Autocomplete, InputLabel, MenuItem, Box, Button, SxProps, Theme } from '@mui/material'
-import { getClubs } from '@/lib/localstorage'
-import { Club } from '@/lib/objects'
-import { useEffect, useState } from 'react'
+'use client';
+
+import { FormContainer, TextFieldElement, Controller } from 'react-hook-form-mui'
+import { Autocomplete, Box, Button, SxProps, Theme } from '@mui/material'
+import {Club, Student} from '@/lib/objects'
+import {writeStudent} from "@/lib/firebaseClient";
+import {clubs} from "@/app/page";
+import {useEffect, useState} from "react";
 
 
 type FormProps = {
@@ -11,10 +14,37 @@ type FormProps = {
     pLabelStyle?: string | undefined
 }
 
+type FormReturn = {
+    club: Club;
+    id: string;
+    firstName: string;
+    lastName: string;
+}
+
+async function sendData(data: FormReturn): Promise<void> {
+    if (isNaN(Number(data.id))) {
+        window.alert("Error: ID is not a number.")
+    }
+
+    const s: Student = {
+        club: data.club.name,
+        id: Number(data.id),
+        firstName: data.firstName,
+        lastName: data.lastName
+    }
+    const res = await writeStudent(s);
+
+    if (!res) {
+        window.alert("Student already in club!");
+    } else {
+        window.alert("Successfully added student to club!")
+    }
+}
+
 
 export default function JoinForm({ selectElementStyle, joinFormContainerStyle }: FormProps) {
-
     const textFieldStyling: SxProps<Theme> = {
+        margin: 1,
         border: 3,
         borderRadius: 3,
         borderColor: 'var(--fssgold)',
@@ -29,48 +59,26 @@ export default function JoinForm({ selectElementStyle, joinFormContainerStyle }:
 
     }
 
-    const [clubs, setClubs] = useState<Club[]>([]);
-    const formContext = useForm();
-    const { handleSubmit } = formContext;
-
-    useEffect(() => {
-        getClubs().then(data => {
-            setClubs(data);
-        })
-    }, [])
-
-    const onSubmit = async (data: any) => {
-        console.log(data)
-    }
-
     return (
         <div className={joinFormContainerStyle}>
-            <FormContainer
-                formContext={formContext}
-                onSuccess={onSubmit}
-                defaultValues={{ gradeSelection: '', nameEntry: '', idEntry: '', autoCompleteEntry: null }}>
-                <p>Grade Level:</p>
+            <FormContainer<FormReturn>
+              onSuccess={data => sendData(data)}
+              defaultValues={{ firstName: '', lastName: '', id: '', club: '' }}>
                 <Box display="flex" flexDirection="column" gap="3">
-                <SelectElement name="gradeSelection" sx={selectElementStyle}
-                    options={[
-                        { id: '9th', label: '9th' },
-                        { id: '10th', label: '10th' },
-                        { id: '11th', label: '11th' },
-                        { id: '12th', label: '12th' },
-                    ]}/>
-                <TextFieldElement name="nameEntry" placeholder='NAME HERE' sx={textFieldStyling}></TextFieldElement>
-                <TextFieldElement name="idEntry" placeholder='ENTER STUDENT ID' sx={textFieldStyling}></TextFieldElement>
+                <TextFieldElement name="firstName" placeholder='FIRST NAME HERE' sx={textFieldStyling} required/>
+                <TextFieldElement name="lastName" placeholder='LAST NAME HERE' sx={textFieldStyling} required/>
+                <TextFieldElement name="id" placeholder='ENTER STUDENT ID' sx={textFieldStyling} required/>
                 <Controller
-                    name="clubSelection"
+                    name="club"
                     render={({ field: { onChange, value }, fieldState: { error } }) => (
                         <Autocomplete
                             sx={{
                                 color: 'white',
-
+                                ...textFieldStyling
                             }}
                             options={clubs}
                             getOptionLabel={(option: Club) => option.name}
-                            value={value}
+                            value={value || null}
                             onChange={(_, newValue) => onChange(newValue)}
                             renderInput={(params) => (
                                 <TextFieldElement
@@ -79,6 +87,7 @@ export default function JoinForm({ selectElementStyle, joinFormContainerStyle }:
                                     label="Select a club"
                                     error={!!error}
                                     helperText={error?.message}
+                                    required={value in clubs}
                                 />
                             )}
                         />

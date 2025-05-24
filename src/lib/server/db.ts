@@ -1,6 +1,6 @@
 import { db, signInAdmin } from "./firebase";
-import { collection, addDoc, getDocs } from "firebase/firestore";
-import { Club } from "@/lib/objects";
+import {collection, addDoc, getDocs, where, query, QuerySnapshot} from "firebase/firestore";
+import {Club, Student} from "@/lib/objects";
 
 await signInAdmin();
 
@@ -54,4 +54,26 @@ export class DocumentWriteError extends Error {
     super(message);
     this.name = "DocumentWriteError";
   }
+}
+
+/**
+ * Write a new document for a student to join a Club to the rosters collection. Fails if the student is already
+ * registered in the club.
+ *
+ * @return If adding the student was successful.
+ */
+export async function addStudent(student: Student): Promise<boolean> {
+  const q = query(
+    collection(db, "rosters"),
+    where('club', '==', student.club),
+    where('id', '==', student.id)
+  );
+  const rosterRef: QuerySnapshot = await getDocs(q);
+  if (rosterRef.empty) {
+    const docRef = await addDoc(collection(db, "rosters"), student);
+    console.log("Document written with ID: ", docRef.id);
+  } else {
+    return false;
+  }
+  return true;
 }
