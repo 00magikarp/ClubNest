@@ -13,17 +13,17 @@ export function ClubBox({ club }: ClubBoxProps) {
         p-3 flex flex-col m-3 max-w-[380px] min-w-[200px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
         transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
-        modalClass="text-gray-300"
+        modalClass=""
         buttonTitle={
         <div className="h-full w-full flex flex-col justify-start items-center mt-2 mt-1">
           <h3 className="h-[50%] font-semibold text-xl">{club.name}</h3>
-          <p className="text-gray-400 text-lg">{club.type || ""}</p>
+          <p className="text-lg">{club.type || ""}</p>
         </div>
         }
         modalTitle={ club.name }
         modalBody={
           <div className="rounded">
-            <p className="text-gray-400 text-lg text-center">{club.type || "Other"}</p>
+            <p className="text-gray-500 text-lg text-center">{club.type || "Other"}</p>
             <br/>
             <p>{club.description || "No description found"}</p>
             <br/>

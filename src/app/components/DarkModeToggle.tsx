@@ -23,7 +23,7 @@ export const DarkModeToggle = () => {
     return (
         <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-md border font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+            className="p-2 rounded-md border font-semibold hover:bg-gray-300 dark:hover:bg-gray-500 transition"
         >
             <img
                 src={isDark ? "/images/sun.png" : "images/moon.png" }
