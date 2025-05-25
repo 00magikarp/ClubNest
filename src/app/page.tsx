@@ -8,8 +8,7 @@ import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
 import Link from "next/link";
 import { DarkModeToggle } from "@/app/components/DarkModeToggle";
-
-
+import Skeleton from '@mui/material/Skeleton';
 
 // const clubs: Club[] = [
 //   { name: "Club 1", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
@@ -93,10 +92,21 @@ export default function Home() {
 
       <div className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
         {
-          clubsDisplayed.map((club: Club, idx: number) => (
-            <ClubBox key={idx} club={club} />
-          ))
+          clubsDisplayed.length === 0 ? (
+              Array.from({ length: 8 }).map((_, idx) => (
+                  <div key={idx} className="m-4">
+                    <Skeleton variant="rectangular" width={210} height={118} />
+                  </div>
+              ))
+          ) : (
+              clubsDisplayed.map((club: Club, idx: number) => (
+                  <ClubBox key={idx} club={club} />
+              ))
+          )
         }
+
+
+
 
       </div>
 
