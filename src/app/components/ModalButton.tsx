@@ -26,7 +26,7 @@ export function ModalButton({ buttonClass, modalClass, buttonTitle, modalTitle, 
         <div
           className={modalContainerClass || "w-[400px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"}
         >
-          <h1 className="font-bold text-2xl text-center">{ modalTitle }</h1>
+          <h1 className="font-bold text-2xl text-center mt-2">{ modalTitle }</h1>
           <span className="whitespace-pre-wrap">{ modalBody }</span>
         </div>
       </Modal>

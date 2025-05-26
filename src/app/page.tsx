@@ -93,27 +93,7 @@ export default function Home() {
         </div>
       </header>
 
-
-      <ModalButton
-        buttonClass="
-  p-2 flex items-center justify-center m-3 w-[90vw] h-[60px]
-  text-xl !text-[var(--mid)] rounded-md select-text
-  transform transition-transform duration-200 hover:scale-102 cursor-pointer
-  bg-[var(--fssgold)]
-"
-        modalClass=""
-        buttonTitle={
-          <h3 className="!text-[var(--mid)]">
-            Join Clubs Here!
-          </h3>
-        }
-        modalTitle={"Club Joining Form"}
-        modalContainerClass="w-[400px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
-        modalBody={
-          <JoinForm joinFormContainerStyle="flex flex-col" selectElementStyle={{
-            color: 'gray'
-          }} />
-        } />
+      <JoinForm />
 
       <div className={"flex mb-auto h-[100%] w-[90vw] p-5 justify-center"}>
         <div className="block lg:hidden">
