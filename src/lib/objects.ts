@@ -28,5 +28,5 @@ export const TYPES: string[] = [
   "Hobbies",
   "STEM",
   "Service",
-  "Academic"
+  "Other"
 ];
