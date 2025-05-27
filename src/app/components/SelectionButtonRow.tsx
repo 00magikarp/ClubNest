@@ -2,26 +2,13 @@
 
 import {ToggleButton, ToggleButtonGroup} from "@mui/material";
 import {useState} from "react";
-
-// organized alphabetically
-export const TYPES: string[] = [
-  "All",
-  "Activism",
-  "Arts",
-  "Business",
-  "Identity",
-  "Fitness",
-  "Hobbies",
-  "STEM",
-  "Service",
-  "Other"
-];
+import {TYPES} from "@/lib/objects";
 
 type SelectionButtonRowProps = {
-  passToPage: (data: string) => void;
+  passToPageAction: (data: string) => void;
 }
 
-export function SelectionButtonRow({ passToPage }: SelectionButtonRowProps) {
+export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps) {
   const [selectedType, setSelectedType] = useState<string | null>('All');
 
   const handleSelection = (
@@ -30,7 +17,7 @@ export function SelectionButtonRow({ passToPage }: SelectionButtonRowProps) {
   ) => {
     if (newSelection !== null) {
       setSelectedType(newSelection);
-      passToPage(newSelection)
+      passToPageAction(newSelection)
     }
   };
 
@@ -38,7 +25,7 @@ export function SelectionButtonRow({ passToPage }: SelectionButtonRowProps) {
     <ToggleButtonGroup
       color="primary"
       size="large"
-      className="max-w-[80vw] flex flex-row flex-wrap justify-center"
+      className="max-w-[80vw] h-full flex flex-row flex-wrap justify-center"
       value={selectedType}
       exclusive
       onChange={handleSelection}
@@ -53,14 +40,14 @@ export function SelectionButtonRow({ passToPage }: SelectionButtonRowProps) {
             sx={{
               color: 'var(--fssgold)',
               '&.Mui-selected': {
+                color: 'var(--foreground)',
                 backgroundColor: 'var(--fssgold)',
-                color: 'black'
               },
               '&.Mui-selected:hover': {
-                backgroundColor: 'gold',
+                backgroundColor: 'GoldenRod',
               },
               '&:hover': {
-                backgroundColor: '#1a1111'
+                backgroundColor: 'var(--mid)'
               }
             }}
           >

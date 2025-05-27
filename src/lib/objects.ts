@@ -9,12 +9,14 @@ export type Club = {
   time?: string | undefined;
   location?: string | undefined;
   other?: string | undefined;
+  approved: boolean;
 };
 
 export type Roster = {
-  name: string;
-  ids: number[];
-  names: string[];
+  firstName: string;
+  lastName: string;
+  id: number;
+  club: string;
 }
 
 export type Student = {
@@ -23,3 +25,17 @@ export type Student = {
   firstName: string;
   lastName: string;
 }
+
+// Alphabetical
+export const TYPES: string[] = [
+  "All",
+  "Activism",
+  "Arts",
+  "Business",
+  "Identity",
+  "Fitness",
+  "Hobbies",
+  "STEM",
+  "Service",
+  "Other"
+];

@@ -1,31 +1,31 @@
 import { ModalButton } from "@/app/components/ModalButton";
 import { Club } from "@/lib/objects";
 
-type ClubBoxProps = {
+type ClubReviewBoxProps = {
   club: Club;
 };
 
-export function ClubBox({ club }: ClubBoxProps) {
+export function ClubReviewBox({ club }: ClubReviewBoxProps) {
   return (
     <div>
       <ModalButton
         buttonClass="
-        p-3 flex flex-col m-3 w-[240px] h-[150px] text-xl bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
-        transform transition-transform duration-200 hover:scale-105 cursor-pointer
+        mt-1 ml-2 mr-2 flex flex-col max-w-[380px] min-w-[200px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded-md
+        select-text items-center justify-start transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
-        modalClass=""
+        modalClass="text-gray-300"
         buttonTitle={
-        <div className="h-full w-full flex flex-col justify-start items-center mt-2 mt-1">
-          <h3 className="h-[50%] font-semibold text-xl">{club.name}</h3>
-          <p className="text-lg">{club.type || ""}</p>
-        </div>
+          <div className="h-full w-full flex flex-col justify-start items-center mt-2 mt-1">
+            <h3 className="h-[50%] font-semibold text-xl">{club.name}</h3>
+            <p className="text-gray-400 text-lg">{club.type || ""}</p>
+          </div>
         }
         modalTitle={ club.name }
         modalBody={
           <div className="rounded">
-            <p className="text-gray-500 text-lg text-center">{club.type || "Other"}</p>
+            <p className="text-gray-400 text-lg text-center">Type: {club.type || "Other"}</p>
             <br/>
-            <p>{club.description || "No description found"}</p>
+            <p>Description: {club.description || "No description found"}</p>
             <br/>
             <p>Student(s) in charge:</p>
             <ul className="list-disc list-inside">
@@ -45,7 +45,8 @@ export function ClubBox({ club }: ClubBoxProps) {
               }
             </ul>
             <br/>
-            <p>Meets @ <b>{club.time || "unstructured times"}</b> in <b>{club.location || "different places"}</b></p>
+            <p>Meeting times: {club.time || "unspecified"}</p>
+            <p>Meeting locations: {club.location || "unspecified"}</p>
             <p>Additional information: { club.other || "None" }</p>
           </div>
         }
