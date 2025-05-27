@@ -13,9 +13,10 @@ export type Club = {
 };
 
 export type Roster = {
-  name: string;
-  ids: number[];
-  names: string[];
+  firstName: string;
+  lastName: string;
+  id: number;
+  club: string;
 }
 
 // Alphabetical

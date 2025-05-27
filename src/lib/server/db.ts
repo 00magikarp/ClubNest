@@ -1,6 +1,6 @@
 import { db, signInAdmin } from "./firebase";
 import {collection, addDoc, getDocs, query, where, QuerySnapshot, updateDoc, doc, deleteDoc} from "firebase/firestore";
-import { Club } from "@/lib/objects";
+import { Club, Roster } from "@/lib/objects";
 
 await signInAdmin();
 
@@ -48,6 +48,24 @@ export async function readClubs(): Promise<Club[]> {
   });
   cl.sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
   return cl;
+}
+
+
+export async function readRoster(): Promise<Roster[]> {
+  const querySnapshot = await getDocs(collection(db, "rosters"));
+  const roster: Roster[] = [];
+
+  querySnapshot.forEach((doc) => {
+    const data = doc.data();
+    roster.push({
+      id: data.id,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      club: data.club
+    });
+  });
+
+  return roster;
 }
 
 export async function updateClub(c: Club): Promise<void> {

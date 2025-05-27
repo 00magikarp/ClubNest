@@ -1,5 +1,8 @@
 import Link from "next/link";
-import {ClubReviewer} from "@/app/admin/components/ClubReviewer";
+import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
+import RosterTable from "./components/RosterTable";
+
+
 
 export default function Home() {
   return (
@@ -18,13 +21,17 @@ export default function Home() {
         </div>
       </header>
 
-      <div
-        className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-evenly"}>
-        {
-          // <ClubWriter />
-          <ClubReviewer/>
-        }
+      <div className="mb-auto h-[70vh] w-[85vw] max-w-[1200px] flex flex-col items-center space-y-8">
+        {/* Club review panel */}
+        <div className="w-full">
+          <ClubReviewer />
+        </div>
 
+        {/* Roster table */}
+        <div className="w-full">
+          <h2 className="text-xl font-semibold mb-2">Club Roster</h2>
+          <RosterTable />
+        </div>
       </div>
 
       <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
@@ -39,5 +46,5 @@ export default function Home() {
         </h3>
       </footer>
     </div>
-  )
+  );
 }

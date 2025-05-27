@@ -1,4 +1,4 @@
-import { Club } from "@/lib/objects";
+import { Club, Roster } from "@/lib/objects";
 
 export async function writeClub(data: Club): Promise<void> {
   const res = await fetch("/api/writeClub", {
@@ -14,6 +14,17 @@ export async function writeClub(data: Club): Promise<void> {
 
 export async function readClubs(): Promise<Club[]> {
   const res = await fetch("/api/readClubs");
+  const text = await res.text(); // Read raw response
+  try {
+    return JSON.parse(text);
+  } catch (err) {
+    console.error("Failed to parse JSON:", text, err);
+    throw new Error("Invalid JSON response from /api/readClubs");
+  }
+}
+
+export async function readRoster(): Promise<Roster[]> {
+  const res = await fetch("/api/readRoster");
   const text = await res.text(); // Read raw response
   try {
     return JSON.parse(text);
