@@ -78,24 +78,15 @@ export default function Home() {
                 <div className="absolute left-1/2 transform -translate-x-1/2">
                     <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
                 </div>
-                <div>
-                    <ModalButton buttonClass=" p-2 flex items-center justify-center m-3 w-[30vw] h-[20px] text-xl !text-[var(--mid)] rounded-md select-text
-      transform transition-transform duration-200 hover:scale-102 cursor-pointer bg-[var(--fssgold)]
-      " modalClass="" buttonTitle={
-                        <h3 className="!text-[var(--mid)]">
-                            Create Clubs Here!
-                        </h3>
-                    }
-                                 modalTitle={"Club Creation Form"}
-                                 modalContainerClass="
-      w-[55vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
-                                 modalBody=<ClubWriter/>
-                    ></ModalButton>
+                <div className="absolute right-4">
+                    <DarkModeToggle/>
                 </div>
             </header>
+            <div className={"flex md:flex-row flex-col flex-wrap justify-center"}>
+                <JoinForm clubs={clubs}/>
+                <ClubWriter/>
+            </div>
 
-            <JoinForm clubs={clubs}/>
 
             <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
                 <div className="w-[90vw] flex xl:hidden">
@@ -147,9 +138,7 @@ export default function Home() {
             </div>
 
             <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
-                <div className="absolute left-4">
-                    <DarkModeToggle/>
-                </div>
+
                 <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
                     Have any problems? Shoot us an email at{' '}
                     <a
