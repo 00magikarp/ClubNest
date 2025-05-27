@@ -17,13 +17,13 @@ const GoldOutlinedTextField = styled(TextField)({
         color: 'var(--fssgold)',
     },
     '& .MuiOutlinedInput-root': {
-        color: 'white',
-        backgroundColor: 'black',
+        color: 'var(--foreground)',
+        backgroundColor: 'var(--bars)',
         '& fieldset': {
             borderColor: 'var(--fssgold)',
         },
         '&:hover fieldset': {
-            borderColor: 'gold',
+            borderColor: 'var(--fssgold)',
         },
         '&.Mui-focused fieldset': {
             borderColor: 'var(--fssgold)',
