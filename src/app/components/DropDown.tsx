@@ -1,25 +1,8 @@
 'use client';
 
 import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, SxProps} from "@mui/material";
-<<<<<<< HEAD
-import React, {useState} from "react";
-
-export const TYPES: string[] = [
-  "All",
-  "Activism",
-  "Arts",
-  "Business",
-  "Identity",
-  "Fitness",
-  "Hobbies",
-  "STEM",
-  "Service",
-  "Other"
-];
-=======
 import React, { useState } from "react";
 import {TYPES} from "@/lib/objects";
->>>>>>> 176b13cce3552bfa6924fd972bbf7e919707ab6f
 
 type DropDownProps = {
     formControlClass?: string | undefined
