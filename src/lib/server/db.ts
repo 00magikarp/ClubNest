@@ -1,5 +1,5 @@
 import { db, signInAdmin } from "./firebase";
-import {collection, addDoc, getDocs, query, where, QuerySnapshot, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc} from "firebase/firestore";
 import { Club, Roster } from "@/lib/objects";
 
 await signInAdmin();

@@ -41,7 +41,7 @@ export function ClubReviewer() {
 
   return (
     <div
-      className="w-full h-full bg-[var(--mid)] rounded-md border-[var(--fssgold)] border-2 flex flex-col justify-center items-center content-evenly p-4">
+      className="w-[40vw] h-full bg-[var(--mid)] rounded-md border-[var(--fssgold)] border-2 flex flex-col justify-center items-center content-evenly p-4">
 
       <div
         className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>

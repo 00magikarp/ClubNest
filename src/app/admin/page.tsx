@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
 import RosterTable from "./components/RosterTable";
+import {DarkModeToggle} from "@/app/components/DarkModeToggle";
 
 
 
@@ -21,20 +22,22 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="mb-auto h-[70vh] w-[85vw] max-w-[1200px] flex flex-col items-center space-y-8">
-        {/* Club review panel */}
-        <div className="w-full">
-          <ClubReviewer />
+      <div className="mb-auto h-[70vh] w-[85vw] flex flex-row justify-between items-center flex-1">
+        <div className="w-[40vw] h-[70vh]">
+          <h2 className="text-xl font-semibold mb-2">Clubs to approve:</h2>
+          <ClubReviewer/>
         </div>
 
-        {/* Roster table */}
-        <div className="w-full">
+        <div className="w-[40vw] h-[70vh]">
           <h2 className="text-xl font-semibold mb-2">Club Roster</h2>
           <RosterTable />
         </div>
       </div>
 
       <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
+        <div className="absolute left-4">
+          <DarkModeToggle/>
+        </div>
         <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
           Have any problems? Shoot us an email at{' '}
           <a
