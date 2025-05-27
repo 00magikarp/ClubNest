@@ -9,12 +9,14 @@ export type Club = {
   time?: string | undefined;
   location?: string | undefined;
   other?: string | undefined;
+  approved: boolean;
 };
 
 export type Roster = {
-  name: string;
-  ids: number[];
-  names: string[];
+  firstName: string;
+  lastName: string;
+  id: number;
+  club: string;
 }
 
 // Alphabetical

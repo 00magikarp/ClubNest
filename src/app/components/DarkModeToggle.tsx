@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 export const DarkModeToggle = () => {
     const [isDark, setIsDark] = useState(false);
@@ -25,10 +26,12 @@ export const DarkModeToggle = () => {
             onClick={toggleDarkMode}
             className="p-2 rounded-md border font-semibold hover:bg-gray-300 dark:hover:bg-gray-500 transition"
         >
-            <img
-                src={isDark ? "/images/sun.png" : "images/moon.png" }
-                alt={isDark ? 'Light mode' : 'Dark mode'}
-                className="w-6 h-6"
+            <Image
+              height={50}
+              width={50}
+              src={isDark ? "/images/sun.png" : "/images/moon.png" }
+              alt={isDark ? 'Light mode' : 'Dark mode'}
+              className="w-6 h-6"
             />
         </button>
     );

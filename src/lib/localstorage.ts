@@ -11,7 +11,7 @@ export function getItem<T>(key: string): T | null {
   return item ? JSON.parse(item) as T : null;
 }
 
-export async function getClubs(): Promise<Club[]> {
+export async function getClubs(forceNew: boolean = false): Promise<Club[]> {
   // const [clubsValue, setClubsValue] = useState(null);
   
   // useEffect(() => {
@@ -30,5 +30,9 @@ export async function getClubs(): Promise<Club[]> {
   // // // }
   // return clubs;
 
-  return await readClubs();
+  if (forceNew) return await readClubs();
+  else {
+    // TODO add local storage logic here
+    return await readClubs();
+  }
 }

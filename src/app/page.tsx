@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import {Club, TYPES} from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
+import { SearchBar } from "@/app/components/SearchBar"
 import Link from "next/link";
 import { DarkModeToggle } from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
@@ -30,6 +31,7 @@ import Skeleton from '@mui/material/Skeleton';
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     getClubs().then(setClubs).catch(console.error);
@@ -53,7 +55,13 @@ export default function Home() {
       if (selectedType == c.type) clubsDisplayed.push(c);
     });
   }
+  if (searchQuery.trim() !== "") {
+    clubsDisplayed = clubsDisplayed.filter((club: Club) =>
+        club.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
 
+  clubsDisplayed = clubsDisplayed.filter((c: Club) => c.approved)
 
   return (
 
@@ -72,25 +80,40 @@ export default function Home() {
         </div>
       </header>
 
-      <div className={"flex mb-auto h-[100%] w-[90vw] p-5 justify-center"}>
-        <div className="block lg:hidden">
-          <DropDown passToPageAction={handleTypeChange}
-          formControlClass={"w-[90vw]"}
-          inputLabelStyle={{
-            color: 'var(--fssgold)',
-            fontWeight: 'bold',
-            fontSize: '1.3em',
-          }}
-          dropDownTextClass={"w-full text-center text-[var(--fssgold)]"}>
 
-          </DropDown>
+
+      <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
+        <div className="w-[90vw] flex xl:hidden">
+          <div className={"flex flex-col"}>
+            <div className="w-full mb-6">
+              <SearchBar onSearchAction={setSearchQuery}/>
+            </div>
+            <DropDown
+              passToPageAction={handleTypeChange}
+              formControlClass={"w-[90vw]"}
+              inputLabelStyle={{
+                color: 'var(--fssgold)',
+                fontWeight: 'bold',
+                fontSize: '1.3em',
+              }}
+              dropDownTextClass={"w-full text-center text-[var(--fssgold)]"}
+            />
+          </div>
         </div>
-        <div className="hidden lg:block">
-          <SelectionButtonRow passToPageAction={handleTypeChange}></SelectionButtonRow>
+
+
+        <div className="w-[90vw] max-h-[60px] hidden xl:flex flex flex-row justify-center items-center">
+          <div className="w-[20vw] max-w-[300px] mr-10">
+            <SearchBar onSearchAction={setSearchQuery}/>
+          </div>
+          <div className={"min-w-[910px]"}>
+            <SelectionButtonRow passToPageAction={handleTypeChange}/>
+          </div>
         </div>
       </div>
 
-      <div className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
+      <div
+        className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
         {
           clubsDisplayed.length === 0 ? (
               Array.from({ length: 8 }).map((_, idx) => (
