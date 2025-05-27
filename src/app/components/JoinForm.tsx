@@ -4,8 +4,11 @@ import {FormContainer, Controller, TextFieldElement} from 'react-hook-form-mui'
 import {Autocomplete, Box, Button, SxProps, TextField, Theme} from '@mui/material'
 import {Club, Student} from '@/lib/objects'
 import {writeStudent} from "@/lib/firebaseClient";
-import {clubs} from "@/app/page";
 import {ModalButton} from "@/app/components/ModalButton";
+
+type JoinFormProps = {
+  clubs: Club[];
+}
 
 type FormReturn = {
   club: Club;
@@ -36,7 +39,7 @@ async function sendData(data: FormReturn): Promise<void> {
 }
 
 
-export default function JoinForm() {
+export default function JoinForm( { clubs } : JoinFormProps) {
   const textFieldStyling: SxProps<Theme> = {
     width: '100%',
     minWidth: '200px',

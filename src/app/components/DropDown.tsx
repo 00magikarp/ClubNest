@@ -1,7 +1,7 @@
 'use client';
 
-import { FormControl, InputLabel, MenuItem, Select, SxProps } from "@mui/material";
-import React, {ReactNode, useState} from "react";
+import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, SxProps} from "@mui/material";
+import React, {useState} from "react";
 
 export const TYPES: string[] = [
   "All",
@@ -28,9 +28,9 @@ type DropDownProps = {
 export function DropDown({formControlClass, selectClass, inputLabelStyle, dropDownTextClass, passToPage}: DropDownProps) {
     const [selectedOption, setSelectedOption] = useState('All');
 
-    const handleChange = (e: any) => {
-        setSelectedOption(e.target.value);
-        passToPage(e.target.value)
+    const handleChange = (e: SelectChangeEvent) => {
+        setSelectedOption(e.target.value as string);
+        passToPage(e.target.value as string)
     }
 
     return (
@@ -43,7 +43,7 @@ export function DropDown({formControlClass, selectClass, inputLabelStyle, dropDo
                         <p className={dropDownTextClass}>{type}</p>
                     </MenuItem>
                 ))
-            };
+            }
             </Select>
         </FormControl>
     )

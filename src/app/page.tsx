@@ -2,13 +2,11 @@
 
 import { getClubs } from "@/lib/localstorage";
 import { SelectionButtonRow, TYPES } from "@/app/components/SelectionButtonRow";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Club } from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
 import JoinForm from "./components/JoinForm";
-import { Router } from "next/router";
-import { ModalButton } from "./components/ModalButton";
 
 
 // const clubs: Club[] = [
@@ -45,19 +43,12 @@ import { ModalButton } from "./components/ModalButton";
 //   // { name: "Full Club", sponsor: "Dr. Baz", members: ["7", "8"], type: "Academic", description: "A totally real club, meant for real people just like you and me. Right now, I'm testing a longer description to see how it fares on multiple lines.", time: "Mondays at Lunch", location: "1"}
 // ];
 
-const clubs: Club[] = await getClubs();
-export { clubs }
 
 export default function Home() {
-  // const [clubs, setClubs] = useState<Club[]>([]);
-  //
-  // useEffect(() => {
-  //   const fetchClubs = (async () => {
-  //     const data: Club[] = await getClubs();
-  //     setClubs(data);
-  //   });
-  //   fetchClubs();
-  // }, []);
+  const [clubs, setClubs] = useState<Club[]>([]);
+  useEffect(() => {
+    getClubs().then(setClubs).catch(console.error);
+  }, []);
 
 
   const [selectedType, setSelectedType] = useState<string | null>('All');
@@ -93,7 +84,7 @@ export default function Home() {
         </div>
       </header>
 
-      <JoinForm />
+      <JoinForm clubs={clubs}/>
 
       <div className={"flex mb-auto h-[100%] w-[90vw] p-5 justify-center"}>
         <div className="block lg:hidden">
