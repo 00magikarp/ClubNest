@@ -1,18 +1,18 @@
 'use client';
 
-import { getClubs } from "@/lib/localstorage";
+import {getClubs} from "@/lib/localstorage";
 import {useEffect, useState} from "react";
 import JoinForm from "./components/JoinForm";
-import { SelectionButtonRow } from "@/app/components/SelectionButtonRow";
+import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
 import {Club, TYPES} from "@/lib/objects";
-import { ClubBox } from "@/app/components/ClubBox";
-import { DropDown } from "@/app/components/DropDown";
-import { SearchBar } from "@/app/components/SearchBar"
+import {ClubBox} from "@/app/components/ClubBox";
+import {DropDown} from "@/app/components/DropDown";
+import {SearchBar} from "@/app/components/SearchBar"
 import Link from "next/link";
-import { DarkModeToggle } from "@/app/components/DarkModeToggle";
+import {DarkModeToggle} from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
 import {ModalButton} from "@/app/components/ModalButton";
-import { ClubWriter} from "@/app/components/ClubWriter";
+import {ClubWriter} from "@/app/components/ClubWriter";
 // const clubs: Club[] = [
 //   { name: "Club 1", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
 //   { name: "Club 2", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
@@ -33,133 +33,133 @@ import { ClubWriter} from "@/app/components/ClubWriter";
 
 
 export default function Home() {
-  const [clubs, setClubs] = useState<Club[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
+    const [clubs, setClubs] = useState<Club[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
-  useEffect(() => {
-    getClubs().then(setClubs).catch(console.error);
-  }, []);
+    useEffect(() => {
+        getClubs().then(setClubs).catch(console.error);
+    }, []);
 
 
-  const [selectedType, setSelectedType] = useState<string | null>('All');
-  const handleTypeChange = (data: string) => {
-    setSelectedType(data);
-  }
+    const [selectedType, setSelectedType] = useState<string | null>('All');
+    const handleTypeChange = (data: string) => {
+        setSelectedType(data);
+    }
 
-  let clubsDisplayed: Club[] = [];
-  if (selectedType == "All") {
-    clubsDisplayed = clubs;
-  } else if (selectedType == "Other") {
-    clubs.forEach((c: Club) => {
-      if (!TYPES.includes(c.type)) clubsDisplayed.push(c);
-    });
-  } else {
-    clubs.forEach((c: Club) => {
-      if (selectedType == c.type) clubsDisplayed.push(c);
-    });
-  }
-  if (searchQuery.trim() !== "") {
-    clubsDisplayed = clubsDisplayed.filter((club: Club) =>
-        club.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }
+    let clubsDisplayed: Club[] = [];
+    if (selectedType == "All") {
+        clubsDisplayed = clubs;
+    } else if (selectedType == "Other") {
+        clubs.forEach((c: Club) => {
+            if (!TYPES.includes(c.type)) clubsDisplayed.push(c);
+        });
+    } else {
+        clubs.forEach((c: Club) => {
+            if (selectedType == c.type) clubsDisplayed.push(c);
+        });
+    }
+    if (searchQuery.trim() !== "") {
+        clubsDisplayed = clubsDisplayed.filter((club: Club) =>
+            club.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }
 
-  clubsDisplayed = clubsDisplayed.filter((c: Club) => c.approved)
+    clubsDisplayed = clubsDisplayed.filter((c: Club) => c.approved)
 
-  return (
+    return (
 
-    <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
-        <div>
-          <Link href={'/admin'}>Admin</Link>
-        </div>
-        <div className="absolute left-1/2 transform -translate-x-1/2">
-          <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
-        </div>
-        <div>
-          <ModalButton buttonClass=" p-2 flex items-center justify-center m-3 w-[30vw] h-[20px] text-xl !text-[var(--mid)] rounded-md select-text
+        <div
+            className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+            <header
+                className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
+                <div>
+                    <Link href={'/admin'}>Admin</Link>
+                </div>
+                <div className="absolute left-1/2 transform -translate-x-1/2">
+                    <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
+                </div>
+                <div>
+                    <ModalButton buttonClass=" p-2 flex items-center justify-center m-3 w-[30vw] h-[20px] text-xl !text-[var(--mid)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer bg-[var(--fssgold)]
       " modalClass="" buttonTitle={
-                <h3 className="!text-[var(--mid)]">
-                  Create Clubs Here!
-                </h3>
-              }
-              modalTitle={"Club Creation Form"}
-              modalContainerClass="
+                        <h3 className="!text-[var(--mid)]">
+                            Create Clubs Here!
+                        </h3>
+                    }
+                                 modalTitle={"Club Creation Form"}
+                                 modalContainerClass="
       w-[55vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
       border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
-              modalBody=<ClubWriter/>
-            ></ModalButton>
-                           </div>
-      </header>
+                                 modalBody=<ClubWriter/>
+                    ></ModalButton>
+                </div>
+            </header>
 
-      <JoinForm clubs={clubs}/>
+            <JoinForm clubs={clubs}/>
 
-      <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
-        <div className="w-[90vw] flex xl:hidden">
-          <div className={"flex flex-col"}>
-            <div className="w-full mb-6">
-              <SearchBar onSearchAction={setSearchQuery}/>
+            <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
+                <div className="w-[90vw] flex xl:hidden">
+                    <div className={"flex flex-col"}>
+                        <div className="w-full mb-6">
+                            <SearchBar onSearchAction={setSearchQuery}/>
+                        </div>
+                        <DropDown
+                            passToPageAction={handleTypeChange}
+                            formControlClass={"w-[90vw]"}
+                            inputLabelStyle={{
+                                color: 'var(--fssgold)',
+                                fontWeight: 'bold',
+                                fontSize: '1.3em',
+                            }}
+                            dropDownTextClass={"w-full text-center text-[var(--fssgold)]"}
+                        />
+                    </div>
+                </div>
+
+
+                <div className="w-[90vw] max-h-[60px] hidden xl:flex flex flex-row justify-center items-center">
+                    <div className="w-[20vw] max-w-[300px] mr-10">
+                        <SearchBar onSearchAction={setSearchQuery}/>
+                    </div>
+                    <div className={"min-w-[910px]"}>
+                        <SelectionButtonRow passToPageAction={handleTypeChange}/>
+                    </div>
+                </div>
             </div>
-            <DropDown
-              passToPageAction={handleTypeChange}
-              formControlClass={"w-[90vw]"}
-              inputLabelStyle={{
-                color: 'var(--fssgold)',
-                fontWeight: 'bold',
-                fontSize: '1.3em',
-              }}
-              dropDownTextClass={"w-full text-center text-[var(--fssgold)]"}
-            />
-          </div>
+
+            <div
+                className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
+                {
+                    clubsDisplayed.length === 0 ? (
+                        Array.from({length: 8}).map((_, idx) => (
+                            <div key={idx} className="m-4">
+                                <Skeleton variant="rectangular" width={210} height={118}/>
+                            </div>
+                        ))
+                    ) : (
+                        clubsDisplayed.map((club: Club, idx: number) => (
+                            <ClubBox key={idx} club={club}/>
+                        ))
+                    )
+                }
+
+
+            </div>
+
+            <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
+                <div className="absolute left-4">
+                    <DarkModeToggle/>
+                </div>
+                <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
+                    Have any problems? Shoot us an email at{' '}
+                    <a
+                        href="mailto:falconsoftwaresolutions27@gmail.com"
+                        className="underline hover:text-gray-500 transition-colors duration-200"
+                    >
+                        falconsoftwaresolutions27@gmail.com
+                    </a>
+                </h3>
+            </footer>
         </div>
-
-
-        <div className="w-[90vw] max-h-[60px] hidden xl:flex flex flex-row justify-center items-center">
-          <div className="w-[20vw] max-w-[300px] mr-10">
-            <SearchBar onSearchAction={setSearchQuery}/>
-          </div>
-          <div className={"min-w-[910px]"}>
-            <SelectionButtonRow passToPageAction={handleTypeChange}/>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
-        {
-          clubsDisplayed.length === 0 ? (
-              Array.from({ length: 8 }).map((_, idx) => (
-                  <div key={idx} className="m-4">
-                    <Skeleton variant="rectangular" width={210} height={118} />
-                  </div>
-              ))
-          ) : (
-              clubsDisplayed.map((club: Club, idx: number) => (
-                  <ClubBox key={idx} club={club} />
-              ))
-          )
-        }
-
-
-
-
-      </div>
-
-      <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
-        <div className="absolute left-4">
-          <DarkModeToggle />
-        </div>
-        <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
-          Have any problems? Shoot us an email at{' '}
-          <a
-            href="mailto:falconsoftwaresolutions27@gmail.com"
-            className="underline hover:text-gray-500 transition-colors duration-200"
-          >
-            falconsoftwaresolutions27@gmail.com
-          </a>
-        </h3>
-      </footer>
-    </div>
-  );
+    );
 }
