@@ -11,7 +11,8 @@ import { SearchBar } from "@/app/components/SearchBar"
 import Link from "next/link";
 import { DarkModeToggle } from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
-
+import {ModalButton} from "@/app/components/ModalButton";
+import { ClubWriter} from "@/app/components/ClubWriter";
 // const clubs: Club[] = [
 //   { name: "Club 1", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
 //   { name: "Club 2", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
@@ -76,10 +77,20 @@ export default function Home() {
           <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
         </div>
         <div>
-          <a href="https://forms.gle/eiioHTM579rQt3Jq8" target="_blank">
-            <button className="font-bold text-xl tracking-wider p-2">Register a New Club</button>
-          </a>
-        </div>
+          <ModalButton buttonClass=" p-2 flex items-center justify-center m-3 w-[30vw] h-[20px] text-xl !text-[var(--mid)] rounded-md select-text
+      transform transition-transform duration-200 hover:scale-102 cursor-pointer bg-[var(--fssgold)]
+      " modalClass="" buttonTitle={
+                <h3 className="!text-[var(--mid)]">
+                  Create Clubs Here!
+                </h3>
+              }
+              modalTitle={"Club Creation Form"}
+              modalContainerClass="
+      w-[55vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
+      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+              modalBody=<ClubWriter/>
+            ></ModalButton>
+                           </div>
       </header>
 
       <JoinForm clubs={clubs}/>
