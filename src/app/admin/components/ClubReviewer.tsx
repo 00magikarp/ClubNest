@@ -47,7 +47,7 @@ export function ClubReviewer() {
         className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
         {
           clubsForReview.map((club: Club, idx: number) => (
-            <div key={idx} className="border-2 border-[var(--fssgold)] rounded-md">
+            <div key={idx} className="border-2 border-[var(--fssgold)] rounded-md shadow-xl/60">
               <ClubReviewBox key={idx} club={club}/>
               <div className="flex flex-row w-full justify-evenly items-center mb-3">
                 <Button onClick={() => {handleApprove(clubsForReview[idx]);}} variant="outlined">Approve</Button>
