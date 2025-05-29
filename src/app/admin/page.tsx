@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
-import RosterTable from "./components/RosterTable";
-
-
+import RosterTableButton from "./components/RosterTableButton";
+import ClubsTableButton from "@/app/admin/components/ClubsTableButton";
+import DownloadButton from "@/app/admin/components/DownloadButton";
 
 export default function Home() {
   return (
@@ -21,18 +21,20 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="mb-auto h-[70vh] w-[85vw] max-w-[1200px] flex flex-col items-center space-y-8">
-        {/* Club review panel */}
-        <div className="w-full">
+
+      <div className="mb-auto h-[70vh] w-[85vw] max-w-[1200px] flex flex-col items-center space-x-2">
+        <div className="min-w-[40vw] h-full">
           <ClubReviewer />
         </div>
 
-        {/* Roster table */}
-        <div className="w-full">
-          <h2 className="text-xl font-semibold mb-2">Club Roster</h2>
-          <RosterTable />
+        <div className="w-full h-[10vh] bg-[var(--mid)] rounded-md border-[var(--fssgold)] border-2 mt-2
+                        flex md:flex-row flex-col flex-wrap flex-1 justify-between items-center p-1">
+          <RosterTableButton/>
+          <ClubsTableButton/>
+          <DownloadButton/>
         </div>
       </div>
+
 
       <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
         <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
