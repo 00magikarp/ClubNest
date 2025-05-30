@@ -1,56 +1,54 @@
 'use client'
 
 import * as React from 'react';
-import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
-} from '@mui/material';
 import { readRoster } from '@/lib/firebaseClient';
 import { Roster } from '@/lib/objects';
 import { ModalButton } from '@/app/components/ModalButton';
+import { DataGrid } from '@mui/x-data-grid';
 
 const roster: Roster[] = await readRoster();
 
 export default function RosterTableButton() {
   return (
     <ModalButton
-      buttonClass="p-2 flex items-center justify-center h-[7vh] text-xl !text-[var(--fssgold)] rounded-md select-text
+      buttonClass="p-2 flex items-center justify-center h-[7vh] text-lg !text-[var(--fssgold)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer border border-1 border-[var(--fssgold)]
       "
       modalClass=""
       buttonTitle={
-        <h3>
+        <h3 style={{ fontFamily: 'var(--font-sans)' }}>
           Club Student Data
         </h3>
       }
       modalTitle={"Club Student Data"}
       modalContainerClass="
-      w-[55vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
+      w-[65vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
       border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
       modalBody={
         <>
           <p className="w-0 h-5"></p>
-          <TableContainer component={Paper}>
-            <Table aria-label="roster table">
-              <TableHead>
-                <TableRow>
-                  <TableCell><strong>FirstName</strong></TableCell>
-                  <TableCell><strong>LastName</strong></TableCell>
-                  <TableCell><strong>clubName</strong></TableCell>
-                  <TableCell><strong>id</strong></TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {roster.map((entry, idx) => (
-                  <TableRow key={idx}>
-                    <TableCell>{entry.firstName}</TableCell>
-                    <TableCell>{entry.lastName}</TableCell>
-                    <TableCell>{entry.club}</TableCell>
-                    <TableCell>{entry.id}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <div className="w-full h-full max-h-[70vh]">
+            <DataGrid
+              rows={roster.map((entry, idx) => (
+                { id: idx, student_id: entry.id, firstName: entry.firstName, lastName: entry.lastName, club: entry.club }
+              ))}
+            columns={[
+              { field: 'student_id', headerName: 'Student ID#', flex: 1 },
+              { field: 'lastName', headerName: 'Student Name (Last)', flex: 1 },
+              { field: 'firstName', headerName: 'Student Name (First)', flex: 1 },
+              { field: 'club', headerName: 'Name of Club', flex:  1},
+            ]}
+              autosizeOnMount={true}
+              sx={{
+                boxShadow: 2,
+                border: 2,
+                borderColor: 'var(--fssgold)',
+                '& .MuiDataGrid-cell:hover': {
+                  color: 'var(--fssgold)',
+                },
+              }}
+            />
+          </div>
         </>
       }
       />

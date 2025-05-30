@@ -27,10 +27,9 @@ export default function Home() {
           <ClubReviewer />
         </div>
 
-        <div className="w-full h-[10vh] bg-[var(--mid)] rounded-md border-[var(--fssgold)] border-2 mt-2
-                        flex md:flex-row flex-col flex-wrap flex-1 justify-between items-center p-1">
-          <RosterTableButton/>
+        <div className="w-full h-[10vh] mt-2 flex md:flex-row flex-col flex-wrap flex-1 justify-between items-center p-1">
           <ClubsTableButton/>
+          <RosterTableButton/>
           <DownloadButton/>
         </div>
       </div>

@@ -44,7 +44,7 @@ export default function DownloadButton() {
   return (
     <>
       <button
-        className={"p-2 flex items-center justify-center h-[7vh] text-xl !text-[var(--fssgold)] rounded-md select-text" +
+        className={"p-2 flex items-center justify-center h-[7vh] text-lg !text-[var(--fssgold)] rounded-md select-text" +
           "transform transition-transform duration-200 hover:scale-102 cursor-pointer border border-1 border-[var(--fssgold)]"}
         type="button"
         onClick={onClickDownload}
