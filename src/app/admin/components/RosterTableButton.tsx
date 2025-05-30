@@ -29,14 +29,15 @@ export default function RosterTableButton() {
           <p className="w-0 h-5"></p>
           <div className="w-full h-full max-h-[70vh]">
             <DataGrid
+              editMode="row"
               rows={roster.map((entry, idx) => (
                 { id: idx, student_id: entry.id, firstName: entry.firstName, lastName: entry.lastName, club: entry.club }
               ))}
             columns={[
-              { field: 'student_id', headerName: 'Student ID#', flex: 1 },
-              { field: 'lastName', headerName: 'Student Name (Last)', flex: 1 },
-              { field: 'firstName', headerName: 'Student Name (First)', flex: 1 },
-              { field: 'club', headerName: 'Name of Club', flex:  1},
+              { field: 'student_id', headerName: 'Student ID#', flex: 1, editable: true  },
+              { field: 'lastName', headerName: 'Student Name (Last)', flex: 1, editable: true  },
+              { field: 'firstName', headerName: 'Student Name (First)', flex: 1, editable: true  },
+              { field: 'club', headerName: 'Name of Club', flex: 1, editable: true },
             ]}
               autosizeOnMount={true}
               sx={{

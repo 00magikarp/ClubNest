@@ -1,14 +1,25 @@
 'use client'
 
 import * as React from 'react';
-import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
-} from '@mui/material';
-import { readRoster } from '@/lib/firebaseClient';
-import {Club, Roster} from '@/lib/objects';
+import {updateClub} from '@/lib/firebaseClient';
+import {Club, TYPES} from '@/lib/objects';
 import { ModalButton } from '@/app/components/ModalButton';
 import {getClubs} from "@/lib/localstorage";
 import {DataGrid} from "@mui/x-data-grid";
+
+type UnparsedClub = {
+  name: string;
+  sponsors_name: string[] | string;
+  sponsors_contact: string[] | string;
+  student_leads_name: string[] | string;
+  student_leads_contact: string[] | string;
+  type: string;
+  description?: string | undefined;
+  time?: string | undefined;
+  location?: string | undefined;
+  other?: string | undefined;
+  approved: boolean | string;
+}
 
 const clubs: Club[] = await getClubs(true);
 
@@ -33,6 +44,39 @@ export default function ClubsTableButton() {
           <p className="w-0 h-5"></p>
           <div className="w-full h-full max-h-[70vh]">
             <DataGrid
+              editMode="row"
+              processRowUpdate={async (updated: UnparsedClub, old: UnparsedClub) => {
+                if (updated.name === '') {
+                  return { ...updated, _action: 'delete' };
+                }
+                if (typeof updated.sponsors_name === "string") {
+                  updated.sponsors_name = updated.sponsors_name.split(',');
+                }
+                if (typeof updated.sponsors_contact === "string") {
+                  updated.sponsors_contact = updated.sponsors_contact.split(',');
+                }
+                if (typeof updated.student_leads_name === "string") {
+                  updated.student_leads_name = updated.student_leads_name.split(',');
+                }
+                if (typeof updated.student_leads_contact === "string") {
+                  updated.student_leads_contact = updated.student_leads_contact.split(',');
+                }
+                if (typeof updated.approved === "string") {
+                  updated.approved = updated.approved === "true";
+                }
+                if (!TYPES.includes(updated.type)) {
+                  window.alert(`Illegal type of club "${updated.type}"`);
+                  return old;
+                }
+
+                // TODO: add data validation to updateclub, user prompt, etc.
+                await updateClub(updated as Club);
+                console.log(updated);
+                return updated;
+              }}
+              onProcessRowUpdateError={() => {
+                window.alert("Failed to edit data!");
+              }}
               rows={clubs.map((entry, idx) => (
                 {
                   id: idx,
@@ -46,21 +90,21 @@ export default function ClubsTableButton() {
                   time: entry.time,
                   location: entry.location,
                   other: entry.other,
-                  approved: entry.approved ? "Yes" : "No"
+                  approved: entry.approved
                 }
               ))}
               columns={[
-                { field: 'name', headerName: 'Club Name', flex: 1},
-                { field: 'sponsors_name' , headerName: 'Sponsor(s) Name', flex: 1},
-                { field: 'sponsors_contact', headerName: 'Sponsor(s) Contact', flex: 1},
-                { field: 'student_leads_name', headerName: 'Student Lead(s) Name', flex: 1},
-                { field: 'student_leads_contact', headerName: 'Student Lead(s) Contact', flex: 1},
-                { field: 'type', headerName: 'Type', flex: 1},
-                { field: 'description', headerName: 'Description', flex: 1},
-                { field: 'time', headerName: 'Meeting Dates and Times', flex: 1},
-                { field: 'location', headerName: 'Meeting Locations', flex: 1},
-                { field: 'other', headerName: 'Other Information', flex: 1},
-                { field: 'approved', headerName: 'Approved?', flex: 1},
+                { field: 'name', headerName: 'Club Name', flex: 1, editable: true },
+                { field: 'sponsors_name' , headerName: 'Sponsor(s) Name', flex: 1, editable: true },
+                { field: 'sponsors_contact', headerName: 'Sponsor(s) Contact', flex: 1, editable: true },
+                { field: 'student_leads_name', headerName: 'Student Lead(s) Name', flex: 1, editable: true },
+                { field: 'student_leads_contact', headerName: 'Student Lead(s) Contact', flex: 1, editable: true },
+                { field: 'type', headerName: 'Type', flex: 1, editable: true },
+                { field: 'description', headerName: 'Description', flex: 1, editable: true },
+                { field: 'time', headerName: 'Meeting Dates and Times', flex: 1, editable: true },
+                { field: 'location', headerName: 'Meeting Locations', flex: 1, editable: true },
+                { field: 'other', headerName: 'Other Information', flex: 1, editable: true },
+                { field: 'approved', headerName: 'Approved?', flex: 1 },
               ]}
             autosizeOnMount={true}
               sx={{
