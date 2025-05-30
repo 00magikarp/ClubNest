@@ -1,8 +1,9 @@
 'use client';
 
 import { getClubs } from "@/lib/localstorage";
-import { SelectionButtonRow } from "@/app/components/SelectionButtonRow";
 import {useEffect, useState} from "react";
+import JoinForm from "./components/JoinForm";
+import { SelectionButtonRow } from "@/app/components/SelectionButtonRow";
 import {Club, TYPES} from "@/lib/objects";
 import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
@@ -28,6 +29,7 @@ import Skeleton from '@mui/material/Skeleton';
 //   { name: "Club D", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
 //   { name: "Club E", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
 // ];
+
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
@@ -80,7 +82,7 @@ export default function Home() {
         </div>
       </header>
 
-
+      <JoinForm clubs={clubs}/>
 
       <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
         <div className="w-[90vw] flex xl:hidden">
