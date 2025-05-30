@@ -10,7 +10,6 @@ import { SearchBar } from "@/app/components/SearchBar"
 import Link from "next/link";
 import { DarkModeToggle } from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
-import Box from "@mui/material/Box";
 import {NoClubsFound} from "@/app/components/NoClubsFound";
 
 // const clubs: Club[] = [
