@@ -11,6 +11,7 @@ import { SearchBar } from "@/app/components/SearchBar"
 import Link from "next/link";
 import { DarkModeToggle } from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
+import {NoClubsFound} from "@/app/components/NoClubsFound";
 
 // const clubs: Club[] = [
 //   { name: "Club 1", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
@@ -34,10 +35,22 @@ import Skeleton from '@mui/material/Skeleton';
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getClubs().then(setClubs).catch(console.error);
+    getClubs()
+        .then((data) => {
+          setClubs(data);
+        })
+        .catch(console.error);
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 10000); // 10 seconds
+
+    return () => clearTimeout(timer);
   }, []);
+
 
 
   const [selectedType, setSelectedType] = useState<string | null>('All');
@@ -117,18 +130,21 @@ export default function Home() {
       <div
         className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
         {
-          clubsDisplayed.length === 0 ? (
+          loading ? (
               Array.from({ length: 8 }).map((_, idx) => (
                   <div key={idx} className="m-4">
                     <Skeleton variant="rectangular" width={210} height={118} />
                   </div>
               ))
+          ) : clubsDisplayed.length === 0 ? (
+                  <NoClubsFound/>
           ) : (
               clubsDisplayed.map((club: Club, idx: number) => (
                   <ClubBox key={idx} club={club} />
               ))
           )
         }
+
 
 
 
