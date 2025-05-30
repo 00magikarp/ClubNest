@@ -1,10 +1,100 @@
 'use client';
 
-import {FormContainer, TextFieldElement} from 'react-hook-form-mui'
-import {Button, Box, SxProps, Theme} from "@mui/material";
-import {writeClub} from "@/lib/firebaseClient";
-import {Club} from "@/lib/objects";
-import {ModalButton} from "@/app/components/ModalButton";
+import { FormContainer, TextFieldElement } from 'react-hook-form-mui'
+import { Button, Box, SxProps, Theme, Divider } from "@mui/material";
+import { writeClub } from "@/lib/firebaseClient";
+import { Club } from "@/lib/objects";
+import { ModalButton } from "@/app/components/ModalButton";
+import { useState } from 'react';
+
+const buttonStyling: SxProps<Theme> = {
+  padding: 5,
+  borderRadius: 3,
+  width: '40%',
+  height: '40px',
+  flex: 'true',
+  margin: 2,
+  color: 'var(--fssgold)',
+  borderColor: '#FF69B4'
+}
+
+const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme> }) => {
+  const [sponsors, setSponsors] = useState([{ name: "", contact: "" }]);
+
+  const addSponsor = () => {
+    setSponsors([...sponsors, { name: "", contact: "" }]);
+  };
+
+  const removeSponsor = () => {
+    sponsors.length > 1 ? setSponsors([...sponsors.slice(0, -1)]) : true;
+  }
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Button onClick={addSponsor} variant="outlined" sx={buttonStyling}>
+        +
+      </Button>
+      <Button onClick={removeSponsor} variant="outlined" sx={buttonStyling}>
+        -
+      </Button>
+      {sponsors.map((_, index) => (
+        <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
+          <TextFieldElement
+            sx={textFieldStyling}
+            name={`sponsors[${index}].name`}
+            label="Sponsor Name"
+            required
+          />
+          <TextFieldElement
+            sx={textFieldStyling}
+            name={`sponsors[${index}].contact`}
+            label="Sponsor Contact"
+            required
+          />
+        </Box>
+      ))}
+    </Box>
+  );
+};
+
+const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: any },) => {
+  const [students, setStudents] = useState([{ name: "", contact: "" }]);
+
+  const addStudent = () => {
+    setStudents([...students, { name: "", contact: "" }]);
+  };
+
+  const removeStudent = () => {
+    students.length > 1 ? setStudents([...students.slice(0, -1)]) : true;
+  }
+
+  return (
+    <Box sx={{ width: '100%' }}>
+      <Button onClick={addStudent} variant="outlined" sx={buttonStyling}>
+        +
+      </Button>
+      <Button onClick={removeStudent} variant="outlined" sx={buttonStyling}>
+        -
+      </Button>
+      {students.map((_, index) => (
+        <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
+          <TextFieldElement
+            sx={textFieldStyling}
+            name={`sponsors[${index}].name`}
+            label="Sponsor Name"
+            required
+          />
+          <TextFieldElement
+            sx={textFieldStyling}
+            name={`sponsors[${index}].contact`}
+            label="Sponsor Contact"
+            required
+          />
+        </Box>
+      ))}
+    </Box>
+  );
+};
 
 async function sendClub(data: FormReturn): Promise<void> {
   const dataProcessed: Club = {
@@ -14,10 +104,10 @@ async function sendClub(data: FormReturn): Promise<void> {
     student_leads_name: data.student_leads_name.split("|"),
     student_leads_contact: data.student_leads_contact.split("|"),
     type: data.type,
-    ...(data.description !== '' && {description: data.description}),
-    ...(data.time !== '' && {time: data.time}),
-    ...(data.location !== '' && {location: data.location}),
-    ...(data.other !== '' && {other: data.other}),
+    ...(data.description !== '' && { description: data.description }),
+    ...(data.time !== '' && { time: data.time }),
+    ...(data.location !== '' && { location: data.location }),
+    ...(data.other !== '' && { other: data.other }),
     approved: false
   }
   await writeClub(dataProcessed)
@@ -93,12 +183,16 @@ export function ClubWriter() {
       }
       modalTitle={"Club Creation Form"}
       modalContainerClass="
-      w-[55vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+  w-[55vw] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
+  -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)]
+  shadow-2xl p-4 text-gray
+  max-h-[90vh] overflow-y-auto
+"
       modalBody={
         <div
-          className="w-full h-[70vh] mt-[2vh] rounded-md flex flex-col justify-start overflow-auto items-center content-evenly p-2"
+          className="w-full mt-[2vh] rounded-md flex flex-col justify-start overflow-auto items-center content-evenly p-2"
         >
+
           <FormContainer<FormReturn>
             defaultValues={{
               name: '',
@@ -115,33 +209,28 @@ export function ClubWriter() {
             onSuccess={data => sendClub(data)}
           >
             <Box display="flex" flexDirection="row" gap="3"
-                 className="w-[50vw] h-[70vh] flex-wrap h-full flex-shrink overflow-y-auto overflow-x-hidden">
-              <TextFieldElement sx={{...textFieldStyling, flexBasis: '100%'}} name="name" label="Club Name" required/>
+              className="w-[50vw] h-[70vh] flex-wrap h-full flex-shrink overflow-y-auto overflow-x-hidden">
+              <TextFieldElement sx={{ ...textFieldStyling, flexBasis: '100%' }} name="name" label="Club Name" required />
 
-              <TextFieldElement sx={textFieldStyling} name="sponsors_name" label="Sponsors Names (seperate by |)"
-                                required/>
-              <TextFieldElement sx={textFieldStyling} name="sponsors_contact" label="Sponsors Contacts (seperate by |)"
-                                required/>
+              <DynamicSponsors textFieldStyling={textFieldStyling}></DynamicSponsors>
+              <Divider sx={{
+                color: 'white'
+              }}></Divider>
+              <DynamicStudents textFieldStyling={textFieldStyling} />
 
-              <TextFieldElement sx={textFieldStyling} name="student_leads_name"
-                                label="Student Lead Names (seperate by |)"
-                                required/>
-              <TextFieldElement sx={textFieldStyling} name="student_leads_contact"
-                                label="Student Lead Contacts (seperate by |)" required/>
+              <TextFieldElement sx={textFieldStyling} name="type" label="Type" required />
+              <TextFieldElement sx={textFieldStyling} name="description" label="Description" />
+              <TextFieldElement sx={textFieldStyling} name="time" label="Meeting times" />
+              <TextFieldElement sx={textFieldStyling} name="location" label="Location" />
+              <TextFieldElement sx={textFieldStyling} name="other" label="Other" />
 
-              <TextFieldElement sx={textFieldStyling} name="type" label="Type" required/>
-              <TextFieldElement sx={textFieldStyling} name="description" label="Description"/>
-              <TextFieldElement sx={textFieldStyling} name="time" label="Meeting times"/>
-              <TextFieldElement sx={textFieldStyling} name="location" label="Location"/>
-              <TextFieldElement sx={textFieldStyling} name="other" label="Other"/>
-
-              <Button type={'submit'} color={'primary'} sx={{width: '100%'}}>
+              <Button type={'submit'} color={'primary'} sx={buttonStyling}>
                 Submit
               </Button>
             </Box>
           </FormContainer>
         </div>
-      }/>
+      } />
 
   )
 }
