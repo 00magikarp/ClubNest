@@ -1,11 +1,29 @@
 'use client'
 
 import * as React from 'react';
-import {updateClub} from '@/lib/firebaseClient';
+import {deleteClub, updateClub} from '@/lib/firebaseClient';
 import {Club, TYPES} from '@/lib/objects';
 import { ModalButton } from '@/app/components/ModalButton';
-import {getClubs} from "@/lib/localstorage";
 import {DataGrid} from "@mui/x-data-grid";
+
+function parseClub(o: UnparsedClub): Club {
+  if (typeof o.sponsors_name === "string") {
+    o.sponsors_name = o.sponsors_name.split(',');
+  }
+  if (typeof o.sponsors_contact === "string") {
+    o.sponsors_contact = o.sponsors_contact.split(',');
+  }
+  if (typeof o.student_leads_name === "string") {
+    o.student_leads_name = o.student_leads_name.split(',');
+  }
+  if (typeof o.student_leads_contact === "string") {
+    o.student_leads_contact = o.student_leads_contact.split(',');
+  }
+  if (typeof o.approved === "string") {
+    o.approved = o.approved === "true";
+  }
+  return o as Club;
+}
 
 type UnparsedClub = {
   name: string;
@@ -21,9 +39,11 @@ type UnparsedClub = {
   approved: boolean | string;
 }
 
-const clubs: Club[] = await getClubs(true);
+type ClubsTableButtonProps = {
+  clubs: Club[];
+}
 
-export default function ClubsTableButton() {
+export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
   return (
     <ModalButton
       buttonClass="p-2 flex items-center justify-center h-[7vh] text-lg !text-[var(--fssgold)] rounded-md select-text
@@ -37,40 +57,50 @@ export default function ClubsTableButton() {
       }
       modalTitle={"Club Information Data"}
       modalContainerClass="
-      w-[70vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
+      w-[80vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
       border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
       modalBody={
         <>
           <p className="w-0 h-5"></p>
           <div className="w-full h-full max-h-[70vh]">
             <DataGrid
+              slotProps={{
+                toolbar: {
+                  printOptions: { disableToolbarButton: true },
+                  csvOptions: { allColumns: true },
+                },
+              }}
+              showToolbar
+              checkboxSelection
+              keepNonExistentRowsSelected
               editMode="row"
               processRowUpdate={async (updated: UnparsedClub, old: UnparsedClub) => {
                 if (updated.name === '') {
+                  await deleteClub(parseClub(old));
                   return { ...updated, _action: 'delete' };
                 }
-                if (typeof updated.sponsors_name === "string") {
-                  updated.sponsors_name = updated.sponsors_name.split(',');
+                if (updated.name !== old.name) {
+                  window.alert("ERROR: Cannot edit a club to change it's name. You must make a new club.");
+                  return old;
                 }
-                if (typeof updated.sponsors_contact === "string") {
-                  updated.sponsors_contact = updated.sponsors_contact.split(',');
-                }
-                if (typeof updated.student_leads_name === "string") {
-                  updated.student_leads_name = updated.student_leads_name.split(',');
-                }
-                if (typeof updated.student_leads_contact === "string") {
-                  updated.student_leads_contact = updated.student_leads_contact.split(',');
+                if (updated.name !== old.name) {
+                  window.alert("ERROR: Cannot edit a club to change it's name. You must make a new club.");
+                  return old;
                 }
                 if (typeof updated.approved === "string") {
+                  if (!["true", "false"].includes(updated.approved)) {
+                    window.alert("New approved field cannot be evaulated (must be \"true\" or \"false\"");
+                    return old;
+                  }
                   updated.approved = updated.approved === "true";
                 }
                 if (!TYPES.includes(updated.type)) {
                   window.alert(`Illegal type of club "${updated.type}"`);
                   return old;
                 }
-
                 // TODO: add data validation to updateclub, user prompt, etc.
-                await updateClub(updated as Club);
+                const club: Club = parseClub(updated);
+                await updateClub(club);
                 console.log(updated);
                 return updated;
               }}
@@ -117,43 +147,6 @@ export default function ClubsTableButton() {
               }}
             />
           </div>
-        {/*  <p className="w-0 h-5"></p>*/}
-        {/*  <TableContainer component={Paper}>*/}
-        {/*    <Table aria-label="roster table">*/}
-        {/*      <TableHead>*/}
-        {/*        <TableRow>*/}
-        {/*          <TableCell><strong>Name</strong></TableCell>*/}
-        {/*          <TableCell><strong>Sponsors Name</strong></TableCell>*/}
-        {/*          <TableCell><strong>Sponsors Contact</strong></TableCell>*/}
-        {/*          <TableCell><strong>Students Leads Name</strong></TableCell>*/}
-        {/*          <TableCell><strong>Students Leads Contact</strong></TableCell>*/}
-        {/*          <TableCell><strong>Type</strong></TableCell>*/}
-        {/*          <TableCell><strong>Description</strong></TableCell>*/}
-        {/*          <TableCell><strong>Time</strong></TableCell>*/}
-        {/*          <TableCell><strong>Location</strong></TableCell>*/}
-        {/*          <TableCell><strong>Other</strong></TableCell>*/}
-        {/*          <TableCell><strong>Approved</strong></TableCell>*/}
-        {/*        </TableRow>*/}
-        {/*      </TableHead>*/}
-        {/*      <TableBody>*/}
-        {/*        {clubs.map((entry, idx) => (*/}
-        {/*          <TableRow key={idx}>*/}
-        {/*            <TableCell>{entry.name}</TableCell>*/}
-        {/*            <TableCell>{entry.sponsors_name.join('\n')}</TableCell>*/}
-        {/*            <TableCell>{entry.sponsors_contact.join('\n')}</TableCell>*/}
-        {/*            <TableCell>{entry.student_leads_name.join('\n')}</TableCell>*/}
-        {/*            <TableCell>{entry.student_leads_contact.join('\n')}</TableCell>*/}
-        {/*            <TableCell>{entry.type}</TableCell>*/}
-        {/*            <TableCell>{entry.description}</TableCell>*/}
-        {/*            <TableCell>{entry.time}</TableCell>*/}
-        {/*            <TableCell>{entry.location}</TableCell>*/}
-        {/*            <TableCell>{entry.other}</TableCell>*/}
-        {/*            <TableCell>{entry.approved ? "Yes" : "No"}</TableCell>*/}
-        {/*          </TableRow>*/}
-        {/*        ))}*/}
-        {/*      </TableBody>*/}
-        {/*    </Table>*/}
-        {/*  </TableContainer>*/}
         </>
       }
     />

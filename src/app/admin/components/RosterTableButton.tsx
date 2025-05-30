@@ -1,17 +1,18 @@
 'use client'
 
 import * as React from 'react';
-import { readRoster } from '@/lib/firebaseClient';
 import { Roster } from '@/lib/objects';
 import { ModalButton } from '@/app/components/ModalButton';
 import { DataGrid } from '@mui/x-data-grid';
 
-const roster: Roster[] = await readRoster();
+type RosterTableButtonProps = {
+  rosters: Roster[];
+}
 
-export default function RosterTableButton() {
+export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
   return (
     <ModalButton
-      buttonClass="p-2 flex items-center justify-center h-[7vh] text-lg !text-[var(--fssgold)] rounded-md select-text
+      buttonClass="p-2 flex items-center justify-stretch h-[7vh] text-lg !text-[var(--fssgold)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer border border-1 border-[var(--fssgold)]
       "
       modalClass=""
@@ -30,7 +31,7 @@ export default function RosterTableButton() {
           <div className="w-full h-full max-h-[70vh]">
             <DataGrid
               editMode="row"
-              rows={roster.map((entry, idx) => (
+              rows={rosters.map((entry, idx) => (
                 { id: idx, student_id: entry.id, firstName: entry.firstName, lastName: entry.lastName, club: entry.club }
               ))}
             columns={[

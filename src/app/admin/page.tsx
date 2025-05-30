@@ -2,7 +2,12 @@ import Link from "next/link";
 import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
 import RosterTableButton from "./components/RosterTableButton";
 import ClubsTableButton from "@/app/admin/components/ClubsTableButton";
-import DownloadButton from "@/app/admin/components/DownloadButton";
+import {Club, Roster} from "@/lib/objects";
+import {readRoster} from "@/lib/firebaseClient";
+import {getClubs} from "@/lib/localstorage";
+
+const clubs: Club[] = await getClubs(true);
+const rosters: Roster[] = await readRoster();
 
 export default function Home() {
   return (
@@ -28,9 +33,8 @@ export default function Home() {
         </div>
 
         <div className="w-full h-[10vh] mt-2 flex md:flex-row flex-col flex-wrap flex-1 justify-between items-center p-1">
-          <ClubsTableButton/>
-          <RosterTableButton/>
-          <DownloadButton/>
+          <ClubsTableButton clubs={clubs}/>
+          <RosterTableButton rosters={rosters}/>
         </div>
       </div>
 
