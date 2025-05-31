@@ -9,7 +9,7 @@ import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
 import { SearchBar } from "@/app/components/SearchBar"
 import Link from "next/link";
-import { DarkModeToggle } from "@/app/components/DarkModeToggle";
+import DarkModeToggle from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
 import {NoClubsFound} from "@/app/components/NoClubsFound";
 
