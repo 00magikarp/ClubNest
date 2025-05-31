@@ -57,3 +57,15 @@ export async function deleteClub(data: Club): Promise<void> {
     throw new Error(`Write failed: ${err.error}`);
   }
 }
+
+export async function removeStudent(data: Roster): Promise<void> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/removeStudent`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(`Write failed: ${err.error}`);
+  }
+}

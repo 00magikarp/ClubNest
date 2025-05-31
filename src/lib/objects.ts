@@ -15,7 +15,7 @@ export type Club = {
 export type Roster = {
   firstName: string;
   lastName: string;
-  id: number;
+  student_id: number;
   club: string;
 }
 

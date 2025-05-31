@@ -58,7 +58,7 @@ export async function readRoster(): Promise<Roster[]> {
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     roster.push({
-      id: data.id,
+      student_id: data.id,
       firstName: data.firstName,
       lastName: data.lastName,
       club: data.club
@@ -94,6 +94,21 @@ export async function deleteClub(c: Club): Promise<void> {
   // should be only one doc in the snapshot
   clubRef.forEach((data) => {
     const d = doc(db, "clubs", data.id);
+    deleteDoc(d);
+  });
+}
+
+export async function removeStudent(r: Roster): Promise<void> {
+  const q = query(
+    collection(db, "rosters"),
+    where('id', '==', r.student_id),
+    where('club', '==', r.club)
+  );
+  const rosterRef = await getDocs(q);
+
+  // should be only one doc in the snapshot
+  rosterRef.forEach((data) => {
+    const d = doc(db, "rosters", data.id);
     deleteDoc(d);
   });
 }

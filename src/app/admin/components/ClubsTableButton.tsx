@@ -57,12 +57,12 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
       }
       modalTitle={"Club Information Data"}
       modalContainerClass="
-      w-[80vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
+      w-[80vw] h-[70vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
       border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
       modalBody={
         <>
           <p className="w-0 h-5"></p>
-          <div className="w-full h-full max-h-[70vh]">
+          <div className="w-full h-[58vh]">
             <DataGrid
               slotProps={{
                 toolbar: {
@@ -136,7 +136,7 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                 { field: 'other', headerName: 'Other Information', flex: 1, editable: true },
                 { field: 'approved', headerName: 'Approved?', flex: 1 },
               ]}
-            autosizeOnMount={true}
+              autosizeOnMount={true}
               sx={{
                 boxShadow: 2,
                 border: 2,
