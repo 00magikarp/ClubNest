@@ -19,7 +19,7 @@ export function AdminHelpButton() {
       border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
       modalBody={
         <>
-          <p className="w-0 h-5 "></p>
+          <span className="text-gray-400 text-md w-full text-center">Extra help coming soon!</span>
         </>
       }
     />

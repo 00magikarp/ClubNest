@@ -36,7 +36,7 @@ export default function Home() {
         <div className="flex-col justify-start w-[275px]">
           <AdminHelpButton/>
 
-          <div className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full h-[25vh] mt-2 flex flex-col flex-wrap flex-1 p-3 justify-around">
+          <div className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full h-[25vh] flex flex-col flex-wrap flex-1 p-3 justify-around">
             <h2 className="!text-gray-300 text-xl w-full text-center">Data Tables</h2>
             <ClubsTableButton clubs={clubs}/>
             <RosterTableButton rosters={rosters}/>
