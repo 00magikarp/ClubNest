@@ -19,6 +19,11 @@ export default function ThemeContextProvider({children}: ThemeContextProviderPro
     const [theme, setTheme] = useState<Theme | null>(null);
 
     useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') as Theme;
+        setTheme(savedTheme ?? 'light');
+    }, []);
+
+    useEffect(() => {
         if (!theme) {
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme) {
@@ -28,7 +33,7 @@ export default function ThemeContextProvider({children}: ThemeContextProviderPro
             }
         } else {
             localStorage.setItem('theme', theme);
-            document.documentElement.classList.toggle('dark', true);
+            document.documentElement.classList.toggle('dark', theme === 'dark');
         }
     }, [theme]);
 
