@@ -1,3 +1,5 @@
+'use client';
+
 import Link from "next/link";
 import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
 import RosterTableButton from "./components/RosterTableButton";
@@ -6,11 +8,21 @@ import {Club, Roster} from "@/lib/objects";
 import {readRoster} from "@/lib/firebaseClient";
 import {getClubs} from "@/lib/localstorage";
 import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";
-
-const clubs: Club[] = await getClubs(true);
-const rosters: Roster[] = await readRoster();
+import {useEffect, useState} from "react";
 
 export default function Home() {
+  const [clubs, setClubs] = useState<Club[]>([]);
+  const [rosters, setRosters] = useState<Roster[]>([]);
+
+  useEffect(() => {
+    getClubs(true).then(setClubs).catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    readRoster().then(setRosters).catch(console.error);
+  }, []);
+
+
   return (
     <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">

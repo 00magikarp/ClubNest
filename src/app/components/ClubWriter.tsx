@@ -17,7 +17,7 @@ async function sendClub(data: FormReturn): Promise<void> {
     ...(data.time !== '' && { time: data.time }),
     ...(data.location !== '' && { location: data.location }),
     ...(data.other !== '' && { other: data.other }),
-    approved: false
+    approved: 0
   }
   await writeClub(dataProcessed)
   window.alert("Club sent successfully!")
