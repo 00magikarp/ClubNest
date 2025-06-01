@@ -18,8 +18,8 @@ export default function DarkModeToggle() {
             <Image
                 height={50}
                 width={50}
-                src={theme ? "/images/sun.png" : "/images/moon.png" }
-                alt={theme ? 'Light mode' : 'Dark mode'}
+                src={theme === 'dark' ? "/images/sun.png" : "/images/moon.png" }
+                alt={theme === 'dark' ? 'Light mode' : 'Dark mode'}
                 className="w-6 h-6"
             />
         </button>
