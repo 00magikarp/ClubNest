@@ -27,13 +27,13 @@ type RosterTableButtonProps = {
 export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
   return (
     <ModalButton
-      buttonClass="p-2 flex items-center justify-stretch h-[7vh] text-lg !text-[var(--fssgold)] rounded-md select-text
+      buttonClass="p-2 flex items-center justify-center h-[7vh] w-full text-lg !text-[var(--fssgold)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer border border-1 border-[var(--fssgold)]
       "
       modalClass=""
       buttonTitle={
         <h3 style={{ fontFamily: 'var(--font-sans)' }}>
-          Club Student Data
+          Club Student
         </h3>
       }
       modalTitle={"Club Student Data"}

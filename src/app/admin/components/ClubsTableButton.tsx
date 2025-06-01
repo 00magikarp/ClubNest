@@ -20,9 +20,9 @@ function parseClub(o: UnparsedClub): Club {
     o.student_leads_contact = o.student_leads_contact.split(',');
   }
   if (typeof o.approved === "string") {
-    o.approved = o.approved === "true";
+    o.approved = +o.approved;
   }
-  return o as Club;
+  return o as unknown as Club;
 }
 
 type UnparsedClub = {
@@ -36,7 +36,7 @@ type UnparsedClub = {
   time?: string | undefined;
   location?: string | undefined;
   other?: string | undefined;
-  approved: boolean | string;
+  approved: number | string;
 }
 
 type ClubsTableButtonProps = {
@@ -46,13 +46,13 @@ type ClubsTableButtonProps = {
 export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
   return (
     <ModalButton
-      buttonClass="p-2 flex items-center justify-center h-[7vh] text-lg !text-[var(--fssgold)] rounded-md select-text
+      buttonClass="p-2 flex items-center justify-center h-[7vh] w-full text-lg !text-[var(--fssgold)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer border border-1 border-[var(--fssgold)]
       "
       modalClass=""
       buttonTitle={
         <h3>
-          Club Information Data
+          Club Information
         </h3>
       }
       modalTitle={"Club Information Data"}
@@ -88,11 +88,10 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                   return old;
                 }
                 if (typeof updated.approved === "string") {
-                  if (!["true", "false"].includes(updated.approved)) {
-                    window.alert("New approved field cannot be evaulated (must be \"true\" or \"false\"");
+                  if (!["0", "1", "2"].includes(updated.approved)) {
+                    window.alert("New approved field cannot be evaulated (must be \"0\" (unapproved), \"1\" (archived), or \"2\" (approved)).");
                     return old;
                   }
-                  updated.approved = updated.approved === "true";
                 }
                 if (!TYPES.includes(updated.type)) {
                   window.alert(`Illegal type of club "${updated.type}"`);

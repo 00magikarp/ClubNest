@@ -9,7 +9,7 @@ export type Club = {
   time?: string | undefined;
   location?: string | undefined;
   other?: string | undefined;
-  approved: boolean;
+  approved: number; // 0 = NOT, 1 = ARCHIVED, 2 = APPROVED
 };
 
 export type Roster = {

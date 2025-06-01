@@ -5,6 +5,7 @@ import ClubsTableButton from "@/app/admin/components/ClubsTableButton";
 import {Club, Roster} from "@/lib/objects";
 import {readRoster} from "@/lib/firebaseClient";
 import {getClubs} from "@/lib/localstorage";
+import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";
 
 const clubs: Club[] = await getClubs(true);
 const rosters: Roster[] = await readRoster();
@@ -27,14 +28,19 @@ export default function Home() {
       </header>
 
 
-      <div className="mb-auto h-[70vh] w-[85vw] max-w-[1200px] flex flex-col items-center space-x-2">
-        <div className="min-w-[40vw] h-full">
-          <ClubReviewer />
+      <div className="mb-auto w-[85vw] flex flex-row flex-1 justify-between">
+        <div className="mr-10 h-full flex-1">
+          <ClubReviewer/>
         </div>
 
-        <div className="w-full h-[10vh] mt-2 flex md:flex-row flex-col flex-wrap flex-1 justify-between items-center p-1">
-          <ClubsTableButton clubs={clubs}/>
-          <RosterTableButton rosters={rosters}/>
+        <div className="flex-col justify-start w-[275px]">
+          <AdminHelpButton/>
+
+          <div className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full h-[25vh] mt-2 flex flex-col flex-wrap flex-1 p-3 justify-around">
+            <h2 className="!text-gray-300 text-xl w-full text-center">Data Tables</h2>
+            <ClubsTableButton clubs={clubs}/>
+            <RosterTableButton rosters={rosters}/>
+          </div>
         </div>
       </div>
 
