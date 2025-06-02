@@ -15,28 +15,18 @@ const buttonStyling: SxProps<Theme> = {
   flex: 'true',
   margin: 2,
   color: 'var(--fssgold)',
-  borderColor: '#FF69B4'
+  borderColor: '#00b6ae'
 }
 
 const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme> }) => {
   const [sponsors, setSponsors] = useState([{ name: "", contact: "" }]);
 
-  const addSponsor = () => {
-    setSponsors([...sponsors, { name: "", contact: "" }]);
-  };
-
-  const removeSponsor = () => {
-    sponsors.length > 1 ? setSponsors([...sponsors.slice(0, -1)]) : true;
-  }
+  const addSponsor = () => setSponsors([...sponsors, { name: "", contact: "" }]);
+  const removeSponsor = () => sponsors.length > 1 && setSponsors([...sponsors.slice(0, -1)]);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Button onClick={addSponsor} variant="outlined" sx={buttonStyling}>
-        +
-      </Button>
-      <Button onClick={removeSponsor} variant="outlined" sx={buttonStyling}>
-        -
-      </Button>
+    <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
+      <h3 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Club Sponsors</h3>
       {sponsors.map((_, index) => (
         <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
           <TextFieldElement
@@ -53,48 +43,48 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
           />
         </Box>
       ))}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
+        <Button onClick={addSponsor} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>+ Add</Button>
+        <Button onClick={removeSponsor} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>- Remove</Button>
+      </Box>
     </Box>
   );
 };
 
-const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: any },) => {
+
+const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme> }) => {
   const [students, setStudents] = useState([{ name: "", contact: "" }]);
 
-  const addStudent = () => {
-    setStudents([...students, { name: "", contact: "" }]);
-  };
-
-  const removeStudent = () => {
-    students.length > 1 ? setStudents([...students.slice(0, -1)]) : true;
-  }
+  const addStudent = () => setStudents([...students, { name: "", contact: "" }]);
+  const removeStudent = () => students.length > 1 && setStudents([...students.slice(0, -1)]);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Button onClick={addStudent} variant="outlined" sx={buttonStyling}>
-        +
-      </Button>
-      <Button onClick={removeStudent} variant="outlined" sx={buttonStyling}>
-        -
-      </Button>
+    <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
+      <h3 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h3>
       {students.map((_, index) => (
         <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
           <TextFieldElement
             sx={textFieldStyling}
-            name={`sponsors[${index}].name`}
-            label="Sponsor Name"
+            name={`students[${index}].name`}
+            label="Student Name"
             required
           />
           <TextFieldElement
             sx={textFieldStyling}
-            name={`sponsors[${index}].contact`}
-            label="Sponsor Contact"
+            name={`students[${index}].contact`}
+            label="Student Contact"
             required
           />
         </Box>
       ))}
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
+        <Button onClick={addStudent} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>+ Add</Button>
+        <Button onClick={removeStudent} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>- Remove</Button>
+      </Box>
     </Box>
   );
 };
+
 
 async function sendClub(data: FormReturn): Promise<void> {
   const dataProcessed: Club = {
@@ -146,7 +136,7 @@ export function ClubWriter() {
     },
     "& .MuiOutlinedInput-root": {
       borderRadius: 3,
-      color: 'white',
+      color: 'var(--foreground)',
 
       '& fieldset': {
         borderColor: 'var(--fssgold)', // default border
@@ -208,27 +198,45 @@ export function ClubWriter() {
             }}
             onSuccess={data => sendClub(data)}
           >
-            <Box display="flex" flexDirection="row" gap="3"
-              className="w-[50vw] h-[70vh] flex-wrap h-full flex-shrink overflow-y-auto overflow-x-hidden">
-              <TextFieldElement sx={{ ...textFieldStyling, flexBasis: '100%' }} name="name" label="Club Name" required />
+            <Box display="flex" flexDirection="column" gap={4} className="w-full">
 
-              <DynamicSponsors textFieldStyling={textFieldStyling}></DynamicSponsors>
-              <Divider sx={{
-                color: 'white'
-              }}></Divider>
-              <DynamicStudents textFieldStyling={textFieldStyling} />
+              {/* Basic Info Section */}
+              <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
+                <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Basic Info</h2>
+                <TextFieldElement sx={textFieldStyling} name="name" label="Club Name" required />
+                <TextFieldElement sx={textFieldStyling} name="type" label="Type" required />
+                <TextFieldElement sx={textFieldStyling} name="description" label="Description" />
+              </Box>
 
-              <TextFieldElement sx={textFieldStyling} name="type" label="Type" required />
-              <TextFieldElement sx={textFieldStyling} name="description" label="Description" />
-              <TextFieldElement sx={textFieldStyling} name="time" label="Meeting times" />
-              <TextFieldElement sx={textFieldStyling} name="location" label="Location" />
-              <TextFieldElement sx={textFieldStyling} name="other" label="Other" />
+              {/* Sponsors Section */}
+              <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
+                <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Sponsors</h2>
+                <DynamicSponsors textFieldStyling={textFieldStyling} />
+              </Box>
 
-              <Button type={'submit'} color={'primary'} sx={buttonStyling}>
-                Submit
-              </Button>
+              {/* Student Leads Section */}
+              <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
+                <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h2>
+                <DynamicStudents textFieldStyling={textFieldStyling} />
+              </Box>
+
+              {/* Logistics Section */}
+              <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
+                <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Logistics</h2>
+                <TextFieldElement sx={textFieldStyling} name="time" label="Meeting Times" />
+                <TextFieldElement sx={textFieldStyling} name="location" label="Location" />
+                <TextFieldElement sx={textFieldStyling} name="other" label="Other Info" />
+              </Box>
+
+              {/* Submit Button */}
+              <Box display="flex" justifyContent="center" mt={2}>
+                <Button type="submit" color="primary" sx={{ ...buttonStyling, width: '200px' }}>
+                  Submit
+                </Button>
+              </Box>
             </Box>
           </FormContainer>
+
         </div>
       } />
 
