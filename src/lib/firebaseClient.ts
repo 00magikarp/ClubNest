@@ -34,11 +34,11 @@ export async function readRoster(): Promise<Roster[]> {
   }
 }
 
-export async function updateClub(data: Club): Promise<void> {
+export async function updateClub(newClub: Club, oldClub: Club): Promise<void> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/updateClub`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ newClub, oldClub }),
   });
   if (!res.ok) {
     const err = await res.json();

@@ -99,7 +99,7 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                 }
                 // TODO: add data validation to updateclub, user prompt, etc.
                 const club: Club = parseClub(updated);
-                await updateClub(club);
+                await updateClub(club, parseClub(old));
                 console.log(updated);
                 return updated;
               }}

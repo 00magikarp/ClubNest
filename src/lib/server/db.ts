@@ -17,7 +17,7 @@ export async function writeClub(data: Club): Promise<void> {
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
-    throw new DocumentWriteError(`Error adding club data to document: ${e} Club data:\r\n ${JSON.stringify(data, null, 2)}`)
+    throw new Error(`Error adding club data to document: ${e} Club data:\r\n ${JSON.stringify(data, null, 2)}`)
   }
 }
 
@@ -68,10 +68,10 @@ export async function readRoster(): Promise<Roster[]> {
   return roster;
 }
 
-export async function updateClub(c: Club): Promise<void> {
+export async function updateClub(c: Club, o: Club): Promise<void> {
   const q = query(
     collection(db, "clubs"),
-    where('name', '==', c.name)
+    where('name', '==', o.name)
   );
   const clubRef = await getDocs(q);
 
@@ -111,12 +111,4 @@ export async function removeStudent(r: Roster): Promise<void> {
     const d = doc(db, "rosters", data.id);
     deleteDoc(d);
   });
-}
-
-
-export class DocumentWriteError extends Error {
-  constructor(message: string = "Error writing to a document") {
-    super(message);
-    this.name = "DocumentWriteError";
-  }
 }
