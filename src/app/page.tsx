@@ -1,14 +1,15 @@
 'use client';
 
-import { getClubs } from "@/lib/localstorage";
+import {getClubs} from "@/lib/localstorage";
 import {useEffect, useState} from "react";
 import JoinForm from "./components/JoinForm";
-import { SelectionButtonRow } from "@/app/components/SelectionButtonRow";
+import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
 import {Club, TYPES} from "@/lib/objects";
-import { ClubBox } from "@/app/components/ClubBox";
-import { DropDown } from "@/app/components/DropDown";
-import { SearchBar } from "@/app/components/SearchBar"
+import {ClubBox} from "@/app/components/ClubBox";
+import {DropDown} from "@/app/components/DropDown";
+import {SearchBar} from "@/app/components/SearchBar"
 import Link from "next/link";
+import {ClubWriter} from "@/app/components/ClubWriter";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
 import {NoClubsFound} from "@/app/components/NoClubsFound";
@@ -39,10 +40,10 @@ export default function Home() {
 
   useEffect(() => {
     getClubs()
-        .then((data) => {
-          setClubs(data);
-        })
-        .catch(console.error);
+      .then((data) => {
+        setClubs(data);
+      })
+      .catch(console.error);
 
     const timer = setTimeout(() => {
       setLoading(false);
@@ -50,7 +51,6 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, []);
-
 
 
   const [selectedType, setSelectedType] = useState<string | null>('All');
@@ -72,7 +72,7 @@ export default function Home() {
   }
   if (searchQuery.trim() !== "") {
     clubsDisplayed = clubsDisplayed.filter((club: Club) =>
-        club.name.toLowerCase().includes(searchQuery.toLowerCase())
+      club.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
 
@@ -80,22 +80,25 @@ export default function Home() {
 
   return (
 
-    <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
+    <div
+      className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+      <header
+        className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
         <div>
           <Link href={'/admin'}>Admin</Link>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
         </div>
-        <div>
-          <a href="https://forms.gle/eiioHTM579rQt3Jq8" target="_blank">
-            <button className="font-bold text-xl tracking-wider p-2">Register a New Club</button>
-          </a>
+        <div className="absolute right-4">
+          <DarkModeToggle/>
         </div>
       </header>
+      <div className={"flex md:flex-row flex-col flex-wrap justify-center"}>
+        <JoinForm clubs={clubs}/>
+        <ClubWriter/>
+      </div>
 
-      <JoinForm clubs={clubs}/>
 
       <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
         <div className="w-[90vw] flex xl:hidden">
@@ -116,7 +119,6 @@ export default function Home() {
           </div>
         </div>
 
-
         <div className="w-[90vw] max-h-[60px] hidden xl:flex flex flex-row justify-center items-center">
           <div className="w-[20vw] max-w-[300px] mr-10">
             <SearchBar onSearchAction={setSearchQuery}/>
@@ -131,30 +133,22 @@ export default function Home() {
         className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
         {
           loading ? (
-              Array.from({ length: 8 }).map((_, idx) => (
-                  <div key={idx} className="m-4">
-                    <Skeleton variant="rectangular" width={210} height={118} />
-                  </div>
-              ))
+            Array.from({length: 8}).map((_, idx) => (
+              <div key={idx} className="m-4">
+                <Skeleton variant="rectangular" width={210} height={118}/>
+              </div>
+            ))
           ) : clubsDisplayed.length === 0 ? (
-                  <NoClubsFound/>
+            <NoClubsFound/>
           ) : (
-              clubsDisplayed.map((club: Club, idx: number) => (
-                  <ClubBox key={idx} club={club} />
-              ))
+            clubsDisplayed.map((club: Club, idx: number) => (
+              <ClubBox key={idx} club={club}/>
+            ))
           )
         }
-
-
-
-
-
       </div>
 
       <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
-        <div className="absolute left-4">
-          <DarkModeToggle />
-        </div>
         <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
           Have any problems? Shoot us an email at{' '}
           <a
