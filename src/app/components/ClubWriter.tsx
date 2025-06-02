@@ -1,7 +1,7 @@
 'use client';
 
 import { FormContainer, TextFieldElement } from 'react-hook-form-mui'
-import { Button, Box, SxProps, Theme, Divider } from "@mui/material";
+import { Button, Box, SxProps, Theme } from "@mui/material";
 import { writeClub } from "@/lib/firebaseClient";
 import { Club } from "@/lib/objects";
 import { ModalButton } from "@/app/components/ModalButton";
