@@ -133,7 +133,7 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                 { field: 'time', headerName: 'Meeting Dates and Times', flex: 1, editable: true },
                 { field: 'location', headerName: 'Meeting Locations', flex: 1, editable: true },
                 { field: 'other', headerName: 'Other Information', flex: 1, editable: true },
-                { field: 'approved', headerName: 'Approved?', flex: 1 },
+                { field: 'approved', headerName: 'Approved?', flex: 1, editable: true },
               ]}
               autosizeOnMount={true}
               sx={{
