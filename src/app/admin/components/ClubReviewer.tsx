@@ -14,11 +14,11 @@ import UnarchiveIcon from '@mui/icons-material/Unarchive';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 async function approve(c: Club): Promise<void> {
-    const newClub: Club = {
-        ...c,
-        approved: 2
-    }
-    await updateClub(newClub);
+  const newClub: Club = {
+    ...c,
+    approved: 2
+  }
+  await updateClub(newClub, c);
 }
 
 async function deny(c: Club): Promise<void> {
@@ -26,11 +26,11 @@ async function deny(c: Club): Promise<void> {
 }
 
 async function archive(c: Club): Promise<void> {
-    const newClub: Club = {
-        ...c,
-        approved: 1
-    };
-    await updateClub(newClub);
+  const newClub: Club = {
+    ...c,
+    approved: 1
+  };
+  await updateClub(newClub, c);
 }
 
 export function ClubReviewer() {
