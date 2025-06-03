@@ -96,7 +96,7 @@ export default function Home() {
       </header>
       <div className={"flex md:flex-row flex-col flex-wrap justify-center"}>
         <JoinForm clubs={clubs}/>
-        <ClubWriter/>
+        <ClubWriter clubs={clubs}/>
       </div>
 
 
