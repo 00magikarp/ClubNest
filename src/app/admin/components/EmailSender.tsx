@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
-import { readClubs, readRoster } from '@/lib/firebaseClient';
+import { readClubs } from '@/lib/firebaseClient';
 import { Button } from '@mui/material';
+import { Club } from '@/lib/objects';
 
 export default function SendEmailComponent() {
-    const [clubs, setClubs] = useState<any[]>([]);
+    const [clubs, setClubs] = useState<Club[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -18,8 +19,7 @@ export default function SendEmailComponent() {
         } else {
             console.error('EmailJS Public Key is missing!');
         }
-        
-        // Load clubs data
+
         const loadClubs = async () => {
             try {
                 const clubsData = await readClubs();
@@ -28,31 +28,30 @@ export default function SendEmailComponent() {
                 console.error('Error loading clubs:', error);
             }
         };
-        
+
         loadClubs();
     }, []);
 
     const sendEmail = async (studentLeadContact: string, studentLeadName: string) => {
         setLoading(true);
-        
-        // Debug: Check environment variables
+
         console.log('Service ID:', process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID);
         console.log('Template ID:', process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID);
         console.log('Public Key:', process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
-        
+
         // Validate required parameters
         if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID) {
             alert('EmailJS Service ID is missing!');
             setLoading(false);
             return;
         }
-        
+
         if (!process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID) {
             alert('EmailJS Template ID is missing!');
             setLoading(false);
             return;
         }
-        
+
         if (!process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY) {
             alert('EmailJS Public Key is missing!');
             setLoading(false);
@@ -60,7 +59,7 @@ export default function SendEmailComponent() {
         }
 
         const templateParams = {
-            // Common EmailJS template variables - try multiple variations
+
             to_email: studentLeadContact,
             to_name: studentLeadName,
             user_email: studentLeadContact,
@@ -83,13 +82,13 @@ export default function SendEmailComponent() {
                 templateParams,
                 process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY // Add public key here
             );
-            
+
             console.log('Email sent successfully!', response.status, response.text);
             alert('Email sent successfully!');
         } catch (error) {
             console.error('Failed to send email:', error);
             console.error('Error details:', JSON.stringify(error, null, 2));
-            
+
             // More specific error handling
             if (error instanceof Error) {
                 alert(`Failed to send email: ${error.message}`);
@@ -105,12 +104,12 @@ export default function SendEmailComponent() {
         // Test with minimal required parameters
         const testParams = {
             email: 'falconsoftwaresolutions27@gmail.com',           // Try this first
-            name: 'Big Papa Hriday',
-            message: 'This is a test message'
+            name: 'Test user',
+            club_name: 'Test club'
         };
-        
+
         console.log('Testing with params:', testParams);
-        
+
         emailjs.send(
             process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
             process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
@@ -123,16 +122,16 @@ export default function SendEmailComponent() {
             },
             (error) => {
                 console.error('Test email failed:', error);
-                
+
                 // If 'email' doesn't work, try 'to_email'
                 const testParams2 = {
                     to_email: 'falconsoftwaresolutions27@gmail.com',
                     to_name: 'Test User',
                     message: 'This is a test message'
                 };
-                
+
                 console.log('Trying with to_email params:', testParams2);
-                
+
                 return emailjs.send(
                     process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
                     process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
@@ -174,51 +173,43 @@ export default function SendEmailComponent() {
         try {
             for (let i = 0; i < clubs.length; i++) {
                 const club = clubs[i];
-                
-                if (!club.leaderEmail || !club.leaderName) {
+
+                if (!club.student_leads_contact || !club.student_leads_name) {
                     console.warn(`Skipping club ${club.name} - missing email or name`);
                     failCount++;
                     failedClubs.push(club.name || `Club ${i + 1}`);
                     continue;
                 }
+                for (let j = 0; j < clubs.length; j++) {
+                    try {
+                        const templateParams = {
+                            email: club.student_leads_contact[j],
+                            name: club.student_leads_name[j],
+                            club_name: club.name,
+                            reply_to: 'falconsoftwaresolutions27@gmail.com',
+                        };
 
-                try {
-                    console.log(`Sending email ${i + 1}/${clubs.length} to ${club.leaderName} (${club.leaderEmail})`);
-                    
-                    const templateParams = {
-                        email: club.leaderEmail,
-                        name: club.leaderName,
-                        to_email: club.leaderEmail,
-                        to_name: club.leaderName,
-                        user_email: club.leaderEmail,
-                        user_name: club.leaderName,
-                        recipient_email: club.leaderEmail,
-                        recipient_name: club.leaderName,
-                        club_name: club.name,
-                        from_name: 'Your Organization Name',
-                        message: `Hello ${club.leaderName}! This is an important message for ${club.name}.`,
-                        reply_to: 'your-reply-email@example.com'
-                    };
+                        await emailjs.send(
+                            process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+                            process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+                            templateParams,
+                            process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+                        );
 
-                    await emailjs.send(
-                        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-                        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-                        templateParams,
-                        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-                    );
+                        successCount++;
+                        console.log(`✅ Email sent successfully to ${club.student_leads_name[j]}`);
 
-                    successCount++;
-                    console.log(`✅ Email sent successfully to ${club.leaderName}`);
-                    
-                    // Add delay between emails to avoid rate limiting
-                    if (i < clubs.length - 1) {
-                        await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+                        // Add delay between emails to avoid rate limiting
+                        if (i < clubs.length - 1) {
+                            await new Promise(resolve => setTimeout(resolve, 500)); // 0.5 second delay
+                        }
+
+                    } catch (error) {
+                        console.error(`❌ Failed to send email to ${club.student_leads_name[j]}:`, error);
+                        failCount++;
+                        failedClubs.push(club.name || club.student_leads_name[j] || `Club ${i + 1}`);
                     }
-                    
-                } catch (error) {
-                    console.error(`❌ Failed to send email to ${club.leaderName}:`, error);
-                    failCount++;
-                    failedClubs.push(club.name || club.leaderName || `Club ${i + 1}`);
+
                 }
             }
 
@@ -226,11 +217,11 @@ export default function SendEmailComponent() {
             let message = `Email sending completed!\n\n`;
             message += `✅ Successfully sent: ${successCount}\n`;
             message += `❌ Failed: ${failCount}\n`;
-            
+
             if (failedClubs.length > 0) {
                 message += `\nFailed clubs:\n${failedClubs.join('\n')}`;
             }
-            
+
             alert(message);
             console.log('Bulk email summary:', { successCount, failCount, failedClubs });
 
@@ -242,26 +233,115 @@ export default function SendEmailComponent() {
         }
     };
 
+    const handleTestEmailMultipleClub = async () => {
+        const testEmails: string[] = [
+            "falconsoftwaresolutions27@gmail.com",
+            "carviz@carviz.lol",
+            "kirabopayne@gmail.com"
+        ];
+
+        if (testEmails.length === 0) {
+            alert('No test emails found!');
+            return;
+        }
+
+        const confirmed = window.confirm(
+            `Are you sure you want to send test emails to all ${testEmails.length} recipients? This action cannot be undone.`
+        );
+
+        if (!confirmed) return;
+
+        setLoading(true);
+        let successCount = 0;
+        let failCount = 0;
+        const failedRecipients: string[] = [];
+
+        try {
+            for (let i = 0; i < testEmails.length; i++) {
+                const email = testEmails[i];
+                const name = email.split('@')[0]; // mock name from email username
+                const mockClubName = `Test Club ${i + 1}`;
+
+                const templateParams = {
+                    email: email,
+                    name: name,
+                    club_name: mockClubName,
+                    reply_to: 'falconsoftwaresolutions27@gmail.com',
+                };
+
+                try {
+                    await emailjs.send(
+                        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+                        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+                        templateParams,
+                        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+                    );
+
+                    successCount++;
+                    console.log(`✅ Test email sent successfully to ${name} (${email})`);
+
+                    if (i < testEmails.length - 1) {
+                        await new Promise(resolve => setTimeout(resolve, 500)); // 0.5 sec delay
+                    }
+                } catch (error) {
+                    console.error(`❌ Failed to send test email to ${email}:`, error);
+                    failCount++;
+                    failedRecipients.push(email);
+                }
+            }
+
+            let message = `Test email sending completed!\n\n`;
+            message += `✅ Successfully sent: ${successCount}\n`;
+            message += `❌ Failed: ${failCount}\n`;
+
+            if (failedRecipients.length > 0) {
+                message += `\nFailed emails:\n${failedRecipients.join('\n')}`;
+            }
+
+            alert(message);
+            console.log('Test email summary:', { successCount, failCount, failedRecipients });
+        } catch (error) {
+            console.error('Error during test email sending:', error);
+            alert('An error occurred during test email sending. Check console for details.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
     return (
         <div>
             <h2>Send Email Component</h2>
-            
+
             <div style={{ marginBottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                <Button 
-                    variant="contained" 
-                    color="primary"
+
+                <Button
+                className="
+        mt-1 ml-2 mr-2 flex flex-col max-w-[380px] min-w-[200px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded-md
+        select-text items-center justify-start transform transition-transform duration-200 hover:scale-105 cursor-pointer
+        "
+                    variant="contained"
                     onClick={handleTestEmail}
                     disabled={loading}
                 >
                     {loading ? 'Sending...' : 'Send Test Email'}
                 </Button>
 
-                <Button 
-                    variant="contained" 
+                <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleTestEmailMultipleClub}
+                    disabled={loading}
+                >
+                    {loading ? 'Sending...' : 'Send Multiple Test Emails'}
+                </Button>
+
+                <Button
+                    variant="contained"
                     color="secondary"
                     onClick={sendEmailToAllClubs}
                     disabled={loading || clubs.length === 0}
-                    style={{ 
+                    style={{
                         backgroundColor: loading ? '#ccc' : '#ff4444',
                         color: 'white'
                     }}
@@ -272,9 +352,9 @@ export default function SendEmailComponent() {
 
             {/* Status indicator */}
             {clubs.length === 0 && (
-                <div style={{ 
-                    padding: '10px', 
-                    backgroundColor: '#fff3cd', 
+                <div style={{
+                    padding: '10px',
+                    backgroundColor: '#fff3cd',
                     border: '1px solid #ffeaa7',
                     borderRadius: '4px',
                     marginBottom: '20px'
