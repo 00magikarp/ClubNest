@@ -6,6 +6,7 @@ import { writeClub } from "@/lib/firebaseClient";
 import { Club } from "@/lib/objects";
 import { ModalButton } from "@/app/components/ModalButton";
 import { useState } from 'react';
+import CreateIcon from '@mui/icons-material/Create';
 
 const buttonStyling: SxProps<Theme> = {
   padding: 5,
@@ -162,13 +163,13 @@ export function ClubWriter() {
 
   return (
     <ModalButton
-      buttonClass=" p-2 flex items-center justify-center m-3 w-[40vw] h-[60px] text-xl !text-[var(--mid)] rounded-md select-text
+      buttonClass=" p-2 flex items-center justify-center m-3 w-[5vw] h-[45px] text-xl !text-[var(--mid)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer bg-[var(--fssgold)]
       "
       modalClass=""
       buttonTitle={
         <h3 className="!text-[var(--mid)]">
-          Create Clubs Here!
+          <CreateIcon/>
         </h3>
       }
       modalTitle={"Club Creation Form"}

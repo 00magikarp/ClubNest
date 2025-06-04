@@ -1,27 +1,18 @@
-import {ClubBox} from "@/app/components/ClubBox";
-import {Club} from "@/lib/objects";
+"use client"
 
-type ClubDisplayProps = {
-  style: string,
-  clubs: Club[] | null;
+import type { Club } from "@/lib/objects"
+import { ClubBox } from "./ClubBox"
+
+interface ClubGridProps {
+  clubs: Club[]
 }
 
-export function ClubDisplay({ style, clubs } : ClubDisplayProps) {
-  if (clubs === null) {
-    return (
-      <div>
-        <p>No clubs found...</p>
-      </div>
-    );
-  } else {
-    return (
-      <div className={style}>
-        {
-          clubs.map((club: Club, idx: number) => (
+export function ClubGrid({ clubs }: ClubGridProps) {
+  return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {clubs.map((club, idx) => (
             <ClubBox key={idx} club={club} />
-          ))
-        }
+        ))}
       </div>
-    );
-  }
+  )
 }

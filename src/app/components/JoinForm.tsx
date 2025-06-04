@@ -5,6 +5,7 @@ import {Autocomplete, Box, Button, SxProps, TextField, Theme} from '@mui/materia
 import {Club, Student} from '@/lib/objects'
 import {writeStudent} from "@/lib/firebaseClient";
 import {ModalButton} from "@/app/components/ModalButton";
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 type JoinFormProps = {
   clubs: Club[];
@@ -82,13 +83,13 @@ export default function JoinForm( { clubs } : JoinFormProps) {
   return (
     <ModalButton
       buttonClass="
-      p-2 flex items-center justify-center m-3 w-[40vw] h-[60px] text-xl !text-[var(--mid)] rounded-md select-text
+      p-2 flex items-center justify-center m-3 w-[5vw] h-[45px] text-xl !text-[var(--mid)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer bg-[var(--fssgold)]
       "
       modalClass=""
       buttonTitle={
         <h3 className="!text-[var(--mid)]">
-          Join Clubs Here!
+          <PersonAddIcon/>
         </h3>
       }
       modalTitle={"Club Joining Form"}

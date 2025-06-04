@@ -94,9 +94,11 @@ export default function Home() {
           <DarkModeToggle/>
         </div>
       </header>
+      <div className={"min-w-[910px] w-full"}>
+        <SelectionButtonRow passToPageAction={handleTypeChange}/>
+      </div>
       <div className={"flex md:flex-row flex-col flex-wrap justify-center"}>
-        <JoinForm clubs={clubs}/>
-        <ClubWriter/>
+
       </div>
 
 
@@ -104,7 +106,7 @@ export default function Home() {
         <div className="w-[90vw] flex xl:hidden">
           <div className={"flex flex-col"}>
             <div className="w-full mb-6">
-              <SearchBar onSearchAction={setSearchQuery}/>
+
             </div>
             <DropDown
               passToPageAction={handleTypeChange}
@@ -119,13 +121,15 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-[90vw] max-h-[60px] hidden xl:flex flex flex-row justify-center items-center">
-          <div className="w-[20vw] max-w-[300px] mr-10">
-            <SearchBar onSearchAction={setSearchQuery}/>
-          </div>
-          <div className={"min-w-[910px]"}>
-            <SelectionButtonRow passToPageAction={handleTypeChange}/>
-          </div>
+        <div className="w-[90vw] max-h-[60px] hidden xl:flex flex-3 flex-row justify-center items-center">
+            <div className= "max-w-[400px]">
+              <SearchBar onSearchAction={setSearchQuery}/>
+            </div>
+
+            <JoinForm clubs={clubs}/>
+            <ClubWriter/>
+
+
         </div>
       </div>
 
