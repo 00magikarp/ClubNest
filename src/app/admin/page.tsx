@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
 import RosterTable from "./components/RosterTable";
-import {DarkModeToggle} from "@/app/components/DarkModeToggle";
+import DarkModeToggle from "@/app/components/DarkModeToggle";
+import SendEmailComponent from "./components/EmailSender";
+
 
 
 export default function Home() {
