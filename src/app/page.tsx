@@ -1,14 +1,18 @@
 'use client';
 
-import { getClubs } from "@/lib/localstorage";
-import { SelectionButtonRow } from "@/app/components/SelectionButtonRow";
+import {getClubs} from "@/lib/localstorage";
 import {useEffect, useState} from "react";
+import JoinForm from "./components/JoinForm";
+import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
 import {Club, TYPES} from "@/lib/objects";
-import { ClubBox } from "@/app/components/ClubBox";
-import { DropDown } from "@/app/components/DropDown";
-import { SearchBar } from "@/app/components/SearchBar"
+import {ClubBox} from "@/app/components/ClubBox";
+import {DropDown} from "@/app/components/DropDown";
+import {SearchBar} from "@/app/components/SearchBar"
 import Link from "next/link";
-
+import {ClubWriter} from "@/app/components/ClubWriter";
+import DarkModeToggle from "@/app/components/DarkModeToggle";
+import Skeleton from '@mui/material/Skeleton';
+import {NoClubsFound} from "@/app/components/NoClubsFound";
 
 // const clubs: Club[] = [
 //   { name: "Club 1", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
@@ -28,12 +32,24 @@ import Link from "next/link";
 //   { name: "Club E", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
 // ];
 
+
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getClubs().then(setClubs).catch(console.error);
+    getClubs()
+      .then((data) => {
+        setClubs(data);
+      })
+      .catch(console.error);
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 10000); // 10 seconds
+
+    return () => clearTimeout(timer);
   }, []);
 
 
@@ -56,7 +72,7 @@ export default function Home() {
   }
   if (searchQuery.trim() !== "") {
     clubsDisplayed = clubsDisplayed.filter((club: Club) =>
-        club.name.toLowerCase().includes(searchQuery.toLowerCase())
+      club.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }
 
@@ -64,21 +80,24 @@ export default function Home() {
 
   return (
 
-    <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
-        <div className="justify-start">
+    <div
+      className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+      <header
+        className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
+        <div>
           <Link href={'/admin'}>Admin</Link>
         </div>
-        <div className="justify-center">
+        <div className="absolute left-1/2 transform -translate-x-1/2">
           <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
         </div>
-        <div className="justify-end">
-          <a href="https://forms.gle/eiioHTM579rQt3Jq8" target="_blank">
-            <button className="font-bold text-xl tracking-wider p-2">Register a New Club</button>
-          </a>
+        <div className="absolute right-4">
+          <DarkModeToggle/>
         </div>
       </header>
-
+      <div className={"flex md:flex-row flex-col flex-wrap justify-center"}>
+        <JoinForm clubs={clubs}/>
+        <ClubWriter clubs={clubs}/>
+      </div>
 
 
       <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
@@ -100,7 +119,6 @@ export default function Home() {
           </div>
         </div>
 
-
         <div className="w-[90vw] max-h-[60px] hidden xl:flex flex flex-row justify-center items-center">
           <div className="w-[20vw] max-w-[300px] mr-10">
             <SearchBar onSearchAction={setSearchQuery}/>
@@ -114,11 +132,20 @@ export default function Home() {
       <div
         className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
         {
-          clubsDisplayed.map((club: Club, idx: number) => (
-            <ClubBox key={idx} club={club} />
-          ))
+          loading ? (
+            Array.from({length: 8}).map((_, idx) => (
+              <div key={idx} className="m-4">
+                <Skeleton variant="rectangular" width={210} height={118}/>
+              </div>
+            ))
+          ) : clubsDisplayed.length === 0 ? (
+            <NoClubsFound/>
+          ) : (
+            clubsDisplayed.map((club: Club, idx: number) => (
+              <ClubBox key={idx} club={club}/>
+            ))
+          )
         }
-
       </div>
 
       <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">

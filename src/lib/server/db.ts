@@ -1,6 +1,6 @@
 import { db, signInAdmin } from "./firebase";
 import {collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc} from "firebase/firestore";
-import { Club, Roster } from "@/lib/objects";
+import { Club, Roster, Student } from "@/lib/objects";
 
 await signInAdmin();
 
@@ -46,7 +46,7 @@ export async function readClubs(): Promise<Club[]> {
       approved: data.approved
     })
   });
-  cl.sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
+  cl.sort((c1, c2) => (c1.name.toLowerCase() > c2.name.toLowerCase() ? 1 : -1));
   return cl;
 }
 
@@ -111,4 +111,26 @@ export async function removeStudent(r: Roster): Promise<void> {
     const d = doc(db, "rosters", data.id);
     deleteDoc(d);
   });
+}
+
+/**
+ * Write a new document for a student to join a Club to the rosters collection. Fails if the student is already
+ * registered in the club.
+ *
+ * @return If adding the student was successful.
+ */
+export async function addStudent(student: Student): Promise<boolean> {
+  const q = query(
+    collection(db, "rosters"),
+    where('club', '==', student.club),
+    where('id', '==', student.id)
+  );
+  const rosterRef = await getDocs(q);
+  if (rosterRef.empty) {
+    const docRef = await addDoc(collection(db, "rosters"), student);
+    console.log("Document written with ID: ", docRef.id);
+  } else {
+    return false;
+  }
+  return true;
 }
