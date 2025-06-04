@@ -35,7 +35,9 @@ export function ClubBox({ club }: ClubBoxProps) {
             <ul className="list-disc list-inside">
               {
                 club.student_leads_name.map((student: string, idx: number) => (
-                  <li key={idx}>{ club.student_leads_name[idx] } (<a className="underline underline-offset-4" href={"mailto:" + club.student_leads_contact[idx]}>{ club.student_leads_contact[idx] }</a>)</li>
+                  <li key={idx}>{club.student_leads_name[idx]} (<a className="underline underline-offset-4"
+                                                                   href={"mailto:" + club.student_leads_contact[idx]}>{club.student_leads_contact[idx]}</a>)
+                  </li>
                 ))
               }
             </ul>
@@ -44,20 +46,24 @@ export function ClubBox({ club }: ClubBoxProps) {
             <ul className="list-disc list-inside">
               {
                 club.sponsors_name.map((student: string, idx: number) => (
-                  <li key={idx}>{ club.sponsors_name[idx]} (<a className="underline underline-offset-4" href={"mailto:" + club.sponsors_contact[idx]}>{ club.sponsors_contact[idx] }</a>)</li>
+                  <li key={idx}>{club.sponsors_name[idx]} (<a className="underline underline-offset-4"
+                                                              href={"mailto:" + club.sponsors_contact[idx]}>{club.sponsors_contact[idx]}</a>)
+                  </li>
                 ))
               }
             </ul>
             <br/>
             {club.time && club.location && (
-              <p>Meets @ <b>{club.time}</b> in <b>{club.location}</b></p>
+              <p>Meets <AccessTimeIcon className="text-sm"/> <b>{club.time}</b> in <LocationOnIcon className="text-sm"/>
+                <b>{club.location}</b></p>
             )}
             {club.time && !club.location && (
-              <p>Meets @ <b>{club.time}</b></p>
+              <p>Meets <AccessTimeIcon className="text-sm"/> <b>{club.time}</b></p>
             )}
             {!club.time && club.location && (
-              <p>Meets in <b>{club.location}</b></p>
+              <p>Meets in <LocationOnIcon className="text-sm"/> <b>{club.location}</b></p>
             )}
+            <br/>
             {club.other && (
               <p>Additional information: club.other</p>
             )}
