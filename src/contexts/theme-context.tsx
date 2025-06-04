@@ -20,7 +20,7 @@ export default function ThemeContextProvider({children}: ThemeContextProviderPro
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') as Theme;
-        setTheme(savedTheme ?? 'light');
+        setTheme(savedTheme ?? 'dark');
     }, []);
 
     useEffect(() => {
