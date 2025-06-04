@@ -10,10 +10,33 @@ import {getClubs} from "@/lib/localstorage";
 import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";
 import {useEffect, useState} from "react";
 import { ClubRemoverModal } from "@/app/admin/components/ClubRemover";
+import { useRouter } from "next/navigation";
+
 
 export default function Home() {
+  const router = useRouter();
   const [clubs, setClubs] = useState<Club[]>([]);
   const [rosters, setRosters] = useState<Roster[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await fetch("/api/checkAuth");
+        const data = await res.json();
+        if (data.loggedIn) {
+          setIsLoggedIn(true);
+        } else {
+          router.push("/");
+        }
+      } catch (err) {
+        console.error("Auth check failed", err);
+        router.push("/");
+      }
+    };
+    checkLogin();
+  }, [router]);
 
   useEffect(() => {
     getClubs(true).then(setClubs).catch(console.error);
@@ -23,6 +46,13 @@ export default function Home() {
     readRoster().then(setRosters).catch(console.error);
   }, []);
 
+  if (!isLoggedIn) {
+    return (
+        <div className={"w-[100dvw] h-[100dvh] justify-center items-center text-center"}>
+          <p className="text-gray-500">Loading authentication...</p>
+        </div>
+    );
+  }
 
   return (
     <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">

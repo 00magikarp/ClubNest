@@ -8,7 +8,7 @@ import { ClubBox } from "@/app/components/ClubBox";
 import { DropDown } from "@/app/components/DropDown";
 import { SearchBar } from "@/app/components/SearchBar"
 import Link from "next/link";
-
+import { LoginPage } from "@/app/components/LoginPage";
 
 // const clubs: Club[] = [
 //   { name: "Club 1", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
@@ -67,15 +67,13 @@ export default function Home() {
     <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
         <div className="justify-start">
-          <Link href={'/admin'}>Admin</Link>
+          <LoginPage/>
         </div>
         <div className="justify-center">
           <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
         </div>
         <div className="justify-end">
-          <a href="https://forms.gle/eiioHTM579rQt3Jq8" target="_blank">
-            <button className="font-bold text-xl tracking-wider p-2">Register a New Club</button>
-          </a>
+
         </div>
       </header>
 
