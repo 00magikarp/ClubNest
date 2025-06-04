@@ -33,7 +33,7 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
       modalClass=""
       buttonTitle={
         <h3 style={{ fontFamily: 'var(--font-sans)' }}>
-          Club Student
+          View Club Rosters
         </h3>
       }
       modalTitle={"Club Student Data"}

@@ -52,7 +52,7 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
       modalClass=""
       buttonTitle={
         <h3>
-          Club Information
+          View Club Information
         </h3>
       }
       modalTitle={"Club Information Data"}

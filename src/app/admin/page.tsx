@@ -9,7 +9,7 @@ import {readRoster} from "@/lib/firebaseClient";
 import {getClubs} from "@/lib/localstorage";
 import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";
 import {useEffect, useState} from "react";
-import { ClubRemover, ClubRemoverModal} from "@/app/admin/components/ClubRemover";
+import { ClubRemoverModal } from "@/app/admin/components/ClubRemover";
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
@@ -48,10 +48,11 @@ export default function Home() {
 
         <div className="flex-col justify-start w-[275px]">
           <AdminHelpButton/>
-          <ClubRemoverModal/>
 
-          <div className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full h-[25vh] flex flex-col flex-wrap flex-1 p-3 justify-around">
-            <h2 className="!text-gray-300 text-xl w-full text-center">Data Tables</h2>
+          <div className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
+            <h2 className="!text-gray-300 text-xl w-full text-center mt-1 mb-2">Admin Panel</h2>
+            <ClubRemoverModal/>
+            <br className="w-0 h-20px"/>
             <ClubsTableButton clubs={clubs}/>
             <RosterTableButton rosters={rosters}/>
           </div>

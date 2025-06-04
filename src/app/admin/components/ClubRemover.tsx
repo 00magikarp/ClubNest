@@ -34,7 +34,7 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
                     approved: 1
                 };
                 await updateClub(newClub, club);
-                onDelete(club); // remove from list after archiving
+                onDelete(club);
             } catch (error) {
                 console.error("Error archiving club:", error);
                 alert("Failed to archive club. Please try again.");
@@ -95,15 +95,15 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
                     }
                 />
             </div>
-            <div className="flex flex-row w-full justify-center items-center mb-2 mt-0.5">
-                <Tooltip title="Delete">
-                    <Button variant={"outlined"} color={"error"} onClick={handleDelete}>
-                        <DeleteForeverIcon className="text-red-600" />
-                    </Button>
-                </Tooltip>
+            <div className="flex flex-row w-full justify-center items-center mb-2 mt-0.5 gap-2">
                 <Tooltip title="Archive">
                     <Button variant={"outlined"} color={"warning"} onClick={handleArchive}>
                         <ArchiveIcon className="text-yellow-600" />
+                    </Button>
+                </Tooltip>
+                <Tooltip title="Delete">
+                    <Button variant={"outlined"} color={"error"} onClick={handleDelete}>
+                        <DeleteForeverIcon className="text-red-600" />
                     </Button>
                 </Tooltip>
             </div>
@@ -156,14 +156,14 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
         return (
             <div className="flex flex-col justify-start items-center w-full max-w-[1200px] mx-auto">
                 {/* Search Bar */}
-                <div className="w-full max-w-[400px] mb-6">
+                <div className="w-full max-w-[400px] mt-4 mb-4">
                     <SearchBar onSearchAction={setSearchQuery}/>
                 </div>
 
                 {/* Clubs Display Area - mirrors main page without filter bar */}
                 <div className="w-full max-w-[1200px] flex flex-col space-y-2 justify-start">
                     <div
-                        className=" justify-around w-full min-h-[337px] bg-[var(--container)] rounded-md border-[var(--mid)] border-2 flex flex-row flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll gap-x-1">
+                        className=" justify-around w-full min-h-[337px] flex flex-row flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll gap-x-1">
                         {
                             clubsDisplayed.length !== 0 ? (
                                 clubsDisplayed.map((club: Club, idx: number) => (
