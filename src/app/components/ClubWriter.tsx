@@ -1,9 +1,9 @@
 'use client';
 
-import { FormContainer, TextFieldElement } from 'react-hook-form-mui'
-import { Button, Box, SxProps, Theme, Divider } from "@mui/material";
+import {Controller, FormContainer, TextFieldElement} from 'react-hook-form-mui'
+import {Button, Box, SxProps, Theme, Autocomplete, TextField} from "@mui/material";
 import { writeClub } from "@/lib/firebaseClient";
-import { Club } from "@/lib/objects";
+import {Club, TYPES} from "@/lib/objects";
 import { ModalButton } from "@/app/components/ModalButton";
 import { useState } from 'react';
 
@@ -86,13 +86,17 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
 };
 
 
-async function sendClub(data: FormReturn): Promise<void> {
+async function sendClub(data: FormReturn, clubs: Club[]): Promise<void> {
+  if (clubs.map((c: Club) => c.name).includes(data.name)) {
+    window.alert("Error:\nClub name already exists.")
+    return;
+  }
   const dataProcessed: Club = {
     name: data.name,
-    sponsors_name: data.sponsors_name.split("|"),
-    sponsors_contact: data.sponsors_contact.split("|"),
-    student_leads_name: data.student_leads_name.split("|"),
-    student_leads_contact: data.student_leads_contact.split("|"),
+    sponsors_name: data.sponsors?.map((s: Lead) => s.name) ?? [],
+    sponsors_contact: data.sponsors?.map((s: Lead) => s.contact) ?? [],
+    student_leads_name: data.students?.map((s: Lead) => s.name) ?? [],
+    student_leads_contact: data.students?.map((s: Lead) => s.contact) ?? [],
     type: data.type,
     ...(data.description !== '' && { description: data.description }),
     ...(data.time !== '' && { time: data.time }),
@@ -104,12 +108,15 @@ async function sendClub(data: FormReturn): Promise<void> {
   window.alert("Club sent successfully!")
 }
 
+type Lead = {
+  name: string;
+  contact: string;
+}
+
 type FormReturn = {
   name: string;
-  sponsors_name: string;
-  sponsors_contact: string;
-  student_leads_name: string;
-  student_leads_contact: string;
+  students: Lead[];
+  sponsors: Lead[];
   type: string;
   description: string | undefined;
   time: string | undefined;
@@ -117,8 +124,11 @@ type FormReturn = {
   other: string | undefined;
 }
 
+type ClubWriterProps = {
+  clubs: Club[];
+}
 
-export function ClubWriter() {
+export function ClubWriter( { clubs } : ClubWriterProps) {
   const textFieldStyling: SxProps<Theme> = {
     width: '100%',
     minWidth: '200px',
@@ -186,41 +196,64 @@ export function ClubWriter() {
           <FormContainer<FormReturn>
             defaultValues={{
               name: '',
-              sponsors_name: '',
-              sponsors_contact: '',
-              student_leads_name: '',
-              student_leads_contact: '',
+              sponsors: [{}],
+              students: [{}],
               type: '',
               description: '',
               time: '',
               location: '',
               other: '',
             }}
-            onSuccess={data => sendClub(data)}
+            onSuccess={data => sendClub(data, clubs)}
           >
             <Box display="flex" flexDirection="column" gap={4} className="w-full">
 
-              {/* Basic Info Section */}
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Basic Info</h2>
-                <TextFieldElement sx={textFieldStyling} name="name" label="Club Name" required />
-                <TextFieldElement sx={textFieldStyling} name="type" label="Type" required />
+                <TextFieldElement sx={textFieldStyling} name="name" label="Club Name" required/>
+                <Controller
+                  name="type"
+                  rules={{ required: 'This field is required' }}
+                  render={({field: {onChange, value}, fieldState: {error}}) => (
+                    <Autocomplete
+                      sx={{
+                        color: 'white',
+                        '& .MuiSvgIcon-root': {
+                          color: 'var(--foreground)',
+                        },
+                        ...textFieldStyling
+                      }}
+                      options={TYPES.filter((s: string) => s !== "Other")}
+                      getOptionLabel={(option: string) => option}
+                      value={value || null}
+                      onChange={(_, newValue) => onChange(newValue)}
+                      renderInput={(params) => (
+                        <TextField
+                          label="Type *"
+                          name="autoCompleteEntry"
+                          sx={{
+                            textFieldStyling
+                          }}
+                          {...params}
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )}
+                    />
+                )}/>
                 <TextFieldElement sx={textFieldStyling} name="description" label="Description" />
               </Box>
 
-              {/* Sponsors Section */}
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Sponsors</h2>
                 <DynamicSponsors textFieldStyling={textFieldStyling} />
               </Box>
 
-              {/* Student Leads Section */}
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h2>
                 <DynamicStudents textFieldStyling={textFieldStyling} />
               </Box>
 
-              {/* Logistics Section */}
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Logistics</h2>
                 <TextFieldElement sx={textFieldStyling} name="time" label="Meeting Times" />
@@ -228,7 +261,6 @@ export function ClubWriter() {
                 <TextFieldElement sx={textFieldStyling} name="other" label="Other Info" />
               </Box>
 
-              {/* Submit Button */}
               <Box display="flex" justifyContent="center" mt={2}>
                 <Button type="submit" color="primary" sx={{ ...buttonStyling, width: '200px' }}>
                   Submit

@@ -5,6 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 
+
 interface SearchBarProps {
     onSearchAction: (query: string) => void;
 }
