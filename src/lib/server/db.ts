@@ -1,6 +1,6 @@
 import { db, signInAdmin } from "./firebase";
-import {Club, Student, Roster} from "@/lib/objects";
-import {collection, addDoc, getDocs, query, where, QuerySnapshot, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import { Club, Roster, Student } from "@/lib/objects";
 
 await signInAdmin();
 
@@ -17,7 +17,7 @@ export async function writeClub(data: Club): Promise<void> {
     console.log("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
-    throw new DocumentWriteError(`Error adding club data to document: ${e} Club data:\r\n ${JSON.stringify(data, null, 2)}`)
+    throw new Error(`Error adding club data to document: ${e} Club data:\r\n ${JSON.stringify(data, null, 2)}`)
   }
 }
 
@@ -58,7 +58,7 @@ export async function readRoster(): Promise<Roster[]> {
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     roster.push({
-      id: data.id,
+      student_id: data.id,
       firstName: data.firstName,
       lastName: data.lastName,
       club: data.club
@@ -68,10 +68,10 @@ export async function readRoster(): Promise<Roster[]> {
   return roster;
 }
 
-export async function updateClub(c: Club): Promise<void> {
+export async function updateClub(c: Club, o: Club): Promise<void> {
   const q = query(
     collection(db, "clubs"),
-    where('name', '==', c.name)
+    where('name', '==', o.name)
   );
   const clubRef = await getDocs(q);
 
@@ -98,12 +98,19 @@ export async function deleteClub(c: Club): Promise<void> {
   });
 }
 
+export async function removeStudent(r: Roster): Promise<void> {
+  const q = query(
+    collection(db, "rosters"),
+    where('id', '==', r.student_id),
+    where('club', '==', r.club)
+  );
+  const rosterRef = await getDocs(q);
 
-export class DocumentWriteError extends Error {
-  constructor(message: string = "Error writing to a document") {
-    super(message);
-    this.name = "DocumentWriteError";
-  }
+  // should be only one doc in the snapshot
+  rosterRef.forEach((data) => {
+    const d = doc(db, "rosters", data.id);
+    deleteDoc(d);
+  });
 }
 
 /**
@@ -118,7 +125,7 @@ export async function addStudent(student: Student): Promise<boolean> {
     where('club', '==', student.club),
     where('id', '==', student.id)
   );
-  const rosterRef: QuerySnapshot = await getDocs(q);
+  const rosterRef = await getDocs(q);
   if (rosterRef.empty) {
     const docRef = await addDoc(collection(db, "rosters"), student);
     console.log("Document written with ID: ", docRef.id);
