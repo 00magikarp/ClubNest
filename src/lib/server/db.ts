@@ -46,7 +46,7 @@ export async function readClubs(): Promise<Club[]> {
       approved: data.approved
     })
   });
-  cl.sort((c1, c2) => (c1.name > c2.name ? 1 : -1));
+  cl.sort((c1, c2) => (c1.name.toLowerCase() > c2.name.toLowerCase() ? 1 : -1));
   return cl;
 }
 

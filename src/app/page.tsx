@@ -87,7 +87,7 @@ export default function Home() {
 
           <div className="flex flex-row">
             <JoinForm clubs={clubs}/>
-            <ClubWriter/>
+            <ClubWriter clubs={clubs}/>
           </div>
         </div>
       </div>

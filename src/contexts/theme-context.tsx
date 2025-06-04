@@ -29,7 +29,7 @@ export default function ThemeContextProvider({children}: ThemeContextProviderPro
             if (savedTheme) {
                 setTheme(savedTheme as Theme);
             } else {
-                setTheme('light' as Theme);
+                setTheme('dark' as Theme);
             }
         } else {
             localStorage.setItem('theme', theme);
