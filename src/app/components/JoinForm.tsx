@@ -83,7 +83,7 @@ export default function JoinForm( { clubs } : JoinFormProps) {
   return (
     <ModalButton
       buttonClass="
-      p-2 flex items-center justify-center m-3 w-[5vw] h-[45px] text-xl !text-[var(--mid)] rounded-md select-text
+      p-2 flex items-center justify-center m-3 w-[5vw] min-w-[55px] h-[50px] text-xl !text-[var(--mid)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer bg-[var(--fssgold)]
       "
       modalClass=""
@@ -128,7 +128,7 @@ export default function JoinForm( { clubs } : JoinFormProps) {
                       onChange={(_, newValue) => onChange(newValue)}
                       renderInput={(params) => (
                         <TextField
-                          label="Select a Club:"
+                          label="Select a Club: *"
                           name="autoCompleteEntry"
                           placeholder="Club Name"
                           sx={{

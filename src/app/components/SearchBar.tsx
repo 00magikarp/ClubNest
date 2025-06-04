@@ -5,7 +5,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 
-
 interface SearchBarProps {
     onSearchAction: (query: string) => void;
 }
@@ -18,8 +17,9 @@ const GoldOutlinedTextField = styled(TextField)({
         color: 'var(--fssgold)',
     },
     '& .MuiOutlinedInput-root': {
+        height: '50px',
         color: 'var(--foreground)',
-        backgroundColor: 'var(--bars)',
+        backgroundColor: 'var(--background)',
         '& fieldset': {
             borderColor: 'var(--fssgold)',
         },

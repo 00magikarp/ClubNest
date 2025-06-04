@@ -17,7 +17,7 @@ export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps
   }
 
   return (
-      <div className="flex flex-wrap justify-center gap-3 w-full mx-auto p-2">
+      <div className="flex flex-wrap justify-center gap-3 w-full mx-auto pb-2">
         {TYPES.map((type: string, idx: number) => (
             <button
                 key={idx}
@@ -28,8 +28,8 @@ export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps
                     "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500/50",
                     "shadow-sm hover:shadow-md",
                     selectedType === type
-                        ? "bg-gradient-to-r from-amber-400 to-amber-500 text-white border-amber-400 shadow-amber-500/25"
-                        : "bg-white/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/80 hover:border-gray-300 dark:hover:border-gray-600",
+                        ? "bg-gradient-to-r from-amber-500 to-[var(--fssgold)] text-white border-amber-400 shadow-amber-500/25"
+                        : "bg-gray-100 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/80 hover:border-gray-300 dark:hover:border-gray-600",
                 )}
             >
               <span className="relative z-10">{type}</span>

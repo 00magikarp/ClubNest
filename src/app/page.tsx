@@ -94,42 +94,21 @@ export default function Home() {
           <DarkModeToggle/>
         </div>
       </header>
-      <div className={"min-w-[910px] w-full"}>
+      <div className={"max-w-[100dvw] ml-2 mr-2"}>
         <SelectionButtonRow passToPageAction={handleTypeChange}/>
-      </div>
-      <div className={"flex md:flex-row flex-col flex-wrap justify-center"}>
-
       </div>
 
 
       <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
-        <div className="w-[90vw] flex xl:hidden">
-          <div className={"flex flex-col"}>
-            <div className="w-full mb-6">
-
-            </div>
-            <DropDown
-              passToPageAction={handleTypeChange}
-              formControlClass={"w-[90vw]"}
-              inputLabelStyle={{
-                color: 'var(--fssgold)',
-                fontWeight: 'bold',
-                fontSize: '1.3em',
-              }}
-              dropDownTextClass={"w-full text-center text-[var(--fssgold)]"}
-            />
+        <div className="w-[90vw] max-w-[1056px] max-h-[50px] flex flex-3 flex-row justify-between items-center">
+          <div className= "w-[300px] h-[50px]">
+            <SearchBar onSearchAction={setSearchQuery}/>
           </div>
-        </div>
 
-        <div className="w-[90vw] max-h-[60px] hidden xl:flex flex-3 flex-row justify-center items-center">
-            <div className= "max-w-[400px]">
-              <SearchBar onSearchAction={setSearchQuery}/>
-            </div>
-
+          <div className="flex flex-row">
             <JoinForm clubs={clubs}/>
             <ClubWriter/>
-
-
+          </div>
         </div>
       </div>
 

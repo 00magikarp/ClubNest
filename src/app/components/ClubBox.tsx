@@ -45,8 +45,18 @@ export function ClubBox({ club }: ClubBoxProps) {
               }
             </ul>
             <br/>
-            <p>Meets @ <b>{club.time || "unstructured times"}</b> in <b>{club.location || "different places"}</b></p>
-            <p>Additional information: { club.other || "None" }</p>
+            {club.time && club.location && (
+              <p>Meets @ <b>{club.time}</b> in <b>{club.location}</b></p>
+            )}
+            {club.time && !club.location && (
+              <p>Meets @ <b>{club.time}</b></p>
+            )}
+            {!club.time && club.location && (
+              <p>Meets in <b>{club.location}</b></p>
+            )}
+            {club.other && (
+              <p>Additional information: club.other</p>
+            )}
           </div>
         }
       />

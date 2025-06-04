@@ -163,7 +163,7 @@ export function ClubWriter() {
 
   return (
     <ModalButton
-      buttonClass=" p-2 flex items-center justify-center m-3 w-[5vw] h-[45px] text-xl !text-[var(--mid)] rounded-md select-text
+      buttonClass=" p-2 flex items-center justify-center m-3 mr-0 w-[5vw] min-w-[55px] h-[50px] text-xl !text-[var(--mid)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer bg-[var(--fssgold)]
       "
       modalClass=""
@@ -231,7 +231,7 @@ export function ClubWriter() {
 
               {/* Submit Button */}
               <Box display="flex" justifyContent="center" mt={2}>
-                <Button type="submit" color="primary" sx={{ ...buttonStyling, width: '200px' }}>
+                <Button type="submit" color="primary" sx={{ ...buttonStyling, width: '200px', margin: 0 }}>
                   Submit
                 </Button>
               </Box>
