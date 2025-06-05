@@ -56,7 +56,7 @@ export default function Home() {
     );
   }
 
-  clubsDisplayed = clubsDisplayed.filter((c: Club) => c.approved)
+  clubsDisplayed = clubsDisplayed.filter((c: Club) => c.approved === 2)
 
   return (
 
