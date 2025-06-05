@@ -22,15 +22,18 @@ export default function Home() {
     getClubs()
       .then((data) => {
         setClubs(data);
+        setLoading(false);
       })
       .catch(console.error);
+  }, []);
 
+  useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 10000); // 10 seconds
+    }, 10 * 1_000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [])
 
 
   const [selectedType, setSelectedType] = useState<string | null>('All');

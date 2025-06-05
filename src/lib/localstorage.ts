@@ -1,4 +1,4 @@
-// import expiryLocalStorage from "expiry-localstorage";
+import expiryLocalStorage from "expiry-localstorage";
 import {Club} from "@/lib/objects";
 import {readClubs} from "@/lib/firebaseClient";
 
@@ -12,27 +12,13 @@ export function getItem<T>(key: string): T | null {
 }
 
 export async function getClubs(forceNew: boolean = false): Promise<Club[]> {
-  // const [clubsValue, setClubsValue] = useState(null);
-  
-  // useEffect(() => {
-  //   const data = expiryLocalStorage.getItem("club-list");
-  //   setClubsValue(JSON.parse(data));
-  // }, []);
-  
-  // // let clubs: Club[] | null;
-  // // // if (typeof window !== "undefined") {
-  // //   clubs =
-  // //   if (clubs === null) {
-  // //   }
-  // // // } else { // we're running on the server-side so we HAVE to load from database
-  // // //   console.log('fetching clubs, no storing')
-  // // //   clubs = await readClubs();
-  // // // }
-  // return clubs;
-
   if (forceNew) return await readClubs();
-  else {
-    // TODO add local storage logic here
-    return await readClubs();
-  }
+
+  const localClubs: Club[] = expiryLocalStorage.getItem("club-list") as Club[];
+  console.log(localClubs);
+  if (localClubs) return localClubs;
+
+  const clubs = await readClubs();
+  expiryLocalStorage.setItem("club-list", clubs, 60 * 60 * 1_000);
+  return clubs;
 }
