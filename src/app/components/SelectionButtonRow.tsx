@@ -37,7 +37,6 @@ export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps
             className={`${baseClasses.join(" ")} ${isSelected ? selectedClasses : unselectedClasses}`}
           >
             <p>{type}</p>
-            <span className="relative z-10">{type}</span>
             {isSelected && (
               <div
                 className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-500 rounded-xl opacity-10 animate-pulse"/>

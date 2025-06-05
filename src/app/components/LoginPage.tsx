@@ -24,8 +24,6 @@ export function LoginPage() {
         checkLogin();
     }, [router]);
 
-    console.log(isLoggedIn);
-
     const handleLogin = async () => {
         const password = window.prompt("Please enter your password:");
         if (!password) return;
