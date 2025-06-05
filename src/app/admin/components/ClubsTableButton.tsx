@@ -97,10 +97,8 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                   window.alert(`Illegal type of club "${updated.type}"`);
                   return old;
                 }
-                // TODO: add data validation to updateclub, user prompt, etc.
                 const club: Club = parseClub(updated);
                 await updateClub(club, parseClub(old));
-                console.log(updated);
                 return updated;
               }}
               onProcessRowUpdateError={() => {

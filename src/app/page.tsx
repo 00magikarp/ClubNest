@@ -12,6 +12,7 @@ import {ClubWriter} from "@/app/components/ClubWriter";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
 import {NoClubsFound} from "@/app/components/NoClubsFound";
+import {SlideInText, SlideInNode} from "@/app/components/SlideIn";
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
@@ -36,9 +37,10 @@ export default function Home() {
   }, [])
 
 
-  const [selectedType, setSelectedType] = useState<string | null>('All');
-  const handleTypeChange = (data: string) => {
-    setSelectedType(data);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const handleTypeChange = (data: string | null) => {
+    if (data === null) setSelectedType("All");
+    else setSelectedType(data);
   }
 
   let clubsDisplayed: Club[] = [];
@@ -62,51 +64,86 @@ export default function Home() {
   clubsDisplayed = clubsDisplayed.filter((c: Club) => c.approved === 2)
 
   return (
-
     <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
         <div className="justify-start">
           <LoginPage/>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
-          <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
+          <h1 className="font-bold text-2xl tracking-wider p-3 cursor-pointer" onClick={() => setSelectedType(null)}>ClubNest</h1>
         </div>
         <div className="absolute right-4">
           <DarkModeToggle/>
         </div>
       </header>
-      <div className={"max-w-[100dvw] ml-2 mr-2"}>
-        <SelectionButtonRow passToPageAction={handleTypeChange}/>
-      </div>
 
-
-      <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
-        <div className="w-[90vw] max-w-[1056px] max-h-[50px] flex flex-3 flex-row justify-between items-center">
-          <div className="w-[300px] h-[50px]">
-            <SearchBar onSearchAction={setSearchQuery}/>
-          </div>
-          <div className="flex flex-row">
-            <JoinForm clubs={clubs}/>
-            <ClubWriter clubs={clubs}/>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
-      {
-          loading ? (
-            Array.from({length: 8}).map((_, idx) => (
-              <div key={idx} className="m-4">
-                <Skeleton variant="rectangular" width={210} height={118}/>
+      <div className="flex flex-col flex-grow w-full items-center">
+        {
+          !selectedType ? (
+            <div className="flex flex-col justify-center mb-auto">
+              <SlideInText text="Welcome to ClubNest" className="text-3xl text-center mb-6 text-shadow-lg/30" duration={1}/>
+              <div className="w-[80dvw] max-w-[1300px] h-full flex flex-row flex-wrap gap-10 justify-center">
+                {
+                  TYPES.map((type: string) => (
+                    <button
+                      key={type}
+                      className="w-[clamp(200px,16vw,300px)] h-[125px] transform transition-transform duration-200 hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--fssgold)] rounded-2xl shadow-xl/30"
+                      onClick={() => setSelectedType(type)}>
+                      <p className="text-xl font-bold text-[var(--fssgold)]">{type}</p>
+                    </button>
+                  ))
+                }
               </div>
-            ))
-          ) : clubsDisplayed.length === 0 ? (
-            <NoClubsFound/>
+            </div>
           ) : (
-            clubsDisplayed.map((club: Club, idx: number) => (
-              <ClubBox key={idx} club={club}/>
-            ))
+            <div>
+              <SlideInNode
+                node={
+                  <div className={"max-w-[90dvw] ml-2 mr-2"}>
+                    <SelectionButtonRow passToPageAction={handleTypeChange}/>
+                  </div>
+                }
+                duration={0.4}
+              />
+
+              <SlideInNode
+                node={
+                  <div className={"flex mb-auto h-[100%] max-w-[90dvw] pt-5 pb-5 pl-2 pr-2 justify-center items-center"}>
+                    <div
+                      className="w-full max-h-[50px] flex flex-3 flex-row justify-between items-center">
+                      <div className="w-[300px] h-[50px]">
+                        <SearchBar onSearchAction={setSearchQuery}/>
+                      </div>
+                      <div className="flex flex-row">
+                        <JoinForm clubs={clubs}/>
+                        <ClubWriter clubs={clubs}/>
+                      </div>
+                    </div>
+                  </div>
+                }
+                duration={0.6}
+              />
+
+
+              <div
+                className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
+                {
+                  loading ? (
+                    Array.from({length: 8}).map((_, idx) => (
+                      <div key={idx} className="m-4">
+                        <Skeleton variant="rectangular" width={210} height={118}/>
+                      </div>
+                    ))
+                  ) : clubsDisplayed.length === 0 ? (
+                    <NoClubsFound/>
+                  ) : (
+                    clubsDisplayed.map((club: Club, idx: number) => (
+                      <ClubBox key={idx} club={club}/>
+                    ))
+                  )
+                }
+              </div>
+            </div>
           )
         }
       </div>

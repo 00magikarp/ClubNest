@@ -15,7 +15,6 @@ export async function getClubs(forceNew: boolean = false): Promise<Club[]> {
   if (forceNew) return await readClubs();
 
   const localClubs: Club[] = expiryLocalStorage.getItem("club-list") as Club[];
-  console.log(localClubs);
   if (localClubs) return localClubs;
 
   const clubs = await readClubs();

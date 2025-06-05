@@ -65,7 +65,6 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
                   return old;
                 }
                 const r = parseRoster(updated);
-                console.log(r);
                 return r;
               }}
               onProcessRowUpdateError={() => {

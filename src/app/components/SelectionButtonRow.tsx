@@ -4,20 +4,26 @@ import {useState} from "react";
 import {TYPES} from "@/lib/objects";
 
 type SelectionButtonRowProps = {
-  passToPageAction: (data: string) => void;
+  passToPageAction: (data: string | null) => void;
 }
 
 export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps) {
-  const [selectedType, setSelectedType] = useState<string>("All")
+  const [selectedType, setSelectedType] = useState<string | null>(null)
 
   const handleSelection = (newSelection: string) => {
-    setSelectedType(newSelection)
-    passToPageAction(newSelection)
+    if (newSelection === selectedType) {
+      setSelectedType(null);
+      passToPageAction(null);
+      return;
+    }
+    setSelectedType(newSelection);
+    passToPageAction(newSelection);
   }
 
   return (
     <div className="flex flex-wrap justify-center gap-3 w-full mx-auto pb-2">
       {TYPES.map((type: string, idx: number) => {
+        if (type === "All") return;
         const isSelected = selectedType === type
 
         const baseClasses = [
