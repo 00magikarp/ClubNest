@@ -28,6 +28,7 @@ export type Student = {
 
 // Alphabetical
 export const TYPES: string[] = [
+  "All",
   "Activism",
   "Arts",
   "Business",

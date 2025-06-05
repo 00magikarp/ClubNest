@@ -1,6 +1,6 @@
 import { db, signInAdmin } from "./firebase";
-import {Club, Student, Roster} from "@/lib/objects";
-import {collection, addDoc, getDocs, query, where, QuerySnapshot, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import { Club, Roster, Student } from "@/lib/objects";
 
 await signInAdmin();
 
@@ -125,7 +125,7 @@ export async function addStudent(student: Student): Promise<boolean> {
     where('club', '==', student.club),
     where('id', '==', student.id)
   );
-  const rosterRef: QuerySnapshot = await getDocs(q);
+  const rosterRef = await getDocs(q);
   if (rosterRef.empty) {
     const docRef = await addDoc(collection(db, "rosters"), student);
     console.log("Document written with ID: ", docRef.id);

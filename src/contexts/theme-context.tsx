@@ -20,17 +20,13 @@ export default function ThemeContextProvider({children}: ThemeContextProviderPro
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') as Theme;
-        setTheme(savedTheme ?? 'light');
+        setTheme(savedTheme ?? 'dark');
     }, []);
 
     useEffect(() => {
         if (!theme) {
             const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                setTheme(savedTheme as Theme);
-            } else {
-                setTheme('light' as Theme);
-            }
+            setTheme((savedTheme ?? 'dark') as Theme);
         } else {
             localStorage.setItem('theme', theme);
             document.documentElement.classList.toggle('dark', theme === 'dark');

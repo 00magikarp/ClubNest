@@ -49,13 +49,20 @@ export function ClubBox({ club }: ClubBoxProps) {
               }
             </ul>
             <br/>
-            <p className="flex items-center gap-1">
-              <AccessTimeIcon className="text-sm" />
-              <b>{club.time || "unstructured times"}</b>
-              <LocationOnIcon className= "text-sm"/>
-              <b>{club.location || "different places"}</b>
-            </p>
-            <p>Additional information: { club.other || "None" }</p>
+            {club.time && club.location && (
+              <p>Meets <AccessTimeIcon className="text-sm"/> <b>{club.time}</b> in <LocationOnIcon className="text-sm"/>
+                <b>{club.location}</b></p>
+            )}
+            {club.time && !club.location && (
+              <p>Meets <AccessTimeIcon className="text-sm"/> <b>{club.time}</b></p>
+            )}
+            {!club.time && club.location && (
+              <p>Meets in <LocationOnIcon className="text-sm"/> <b>{club.location}</b></p>
+            )}
+            <br/>
+            {club.other && (
+              <p>Additional information: club.other</p>
+            )}
           </div>
         }
       />
