@@ -7,7 +7,7 @@ import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
 import {Club, TYPES} from "@/lib/objects";
 import {ClubBox} from "@/app/components/ClubBox";
 import {SearchBar} from "@/app/components/SearchBar"
-import Link from "next/link";
+import { LoginPage } from "@/app/components/LoginPage";
 import {ClubWriter} from "@/app/components/ClubWriter";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
@@ -60,12 +60,10 @@ export default function Home() {
 
   return (
 
-    <div
-      className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <header
-        className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
-        <div>
-          <Link href={'/admin'}>Admin</Link>
+    <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+      <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
+        <div className="justify-start">
+          <LoginPage/>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
