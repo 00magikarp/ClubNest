@@ -11,7 +11,7 @@ import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";
 import {useEffect, useState} from "react";
 import { ClubRemoverModal } from "@/app/admin/components/ClubRemover";
 import { useRouter } from "next/navigation";
-
+import DarkModeToggle from "@/app/components/DarkModeToggle";
 
 export default function Home() {
   const router = useRouter();
@@ -91,6 +91,9 @@ export default function Home() {
 
 
       <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
+        <div className="absolute left-4">
+          <DarkModeToggle/>
+        </div>
         <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
           Have any problems? Shoot us an email at{' '}
           <a

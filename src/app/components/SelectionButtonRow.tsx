@@ -40,14 +40,14 @@ export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps
             sx={{
               color: 'var(--fssgold)',
               '&.Mui-selected': {
+                color: 'var(--foreground)',
                 backgroundColor: 'var(--fssgold)',
-                color: 'black'
               },
               '&.Mui-selected:hover': {
-                backgroundColor: 'gold',
+                backgroundColor: 'GoldenRod',
               },
               '&:hover': {
-                backgroundColor: '#1a1111'
+                backgroundColor: 'var(--mid)'
               }
             }}
           >
