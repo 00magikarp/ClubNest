@@ -88,9 +88,8 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="w-[40vw] h-[70vh]">
-          <h2 className="text-xl font-semibold mb-2">Club Email Sending</h2>
-          <SendEmailComponent/>
+        <div>
+          <SendEmailComponent />
         </div>
       </div>
 

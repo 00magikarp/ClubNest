@@ -310,58 +310,41 @@ export default function SendEmailComponent() {
 
 
     return (
-        <div>
-            <h2>Send Email Component</h2>
+        <div className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full flex flex-col flex-wrap p-4 justify-around gap-4">
+            <h2 className="!text-gray-300 text-xl w-full text-center">Email Tools</h2>
 
-            <div style={{ marginBottom: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-
-                <Button
-                className="
-        mt-1 ml-2 mr-2 flex flex-col max-w-[380px] min-w-[200px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded-md
-        select-text items-center justify-start transform transition-transform duration-200 hover:scale-105 cursor-pointer
-        "
-                    variant="contained"
-                    onClick={handleTestEmail}
-                    disabled={loading}
-                >
-                    {loading ? 'Sending...' : 'Send Test Email'}
-                </Button>
-
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleTestEmailMultipleClub}
-                    disabled={loading}
-                >
-                    {loading ? 'Sending...' : 'Send Multiple Test Emails'}
-                </Button>
-
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={sendEmailToAllClubs}
-                    disabled={loading || clubs.length === 0}
-                    style={{
-                        backgroundColor: loading ? '#ccc' : '#ff4444',
-                        color: 'white'
-                    }}
-                >
-                    {loading ? 'Sending...' : `Send Email to All Clubs (${clubs.length})`}
-                </Button>
-            </div>
-
-            {/* Status indicator */}
             {clubs.length === 0 && (
-                <div style={{
-                    padding: '10px',
-                    backgroundColor: '#fff3cd',
-                    border: '1px solid #ffeaa7',
-                    borderRadius: '4px',
-                    marginBottom: '20px'
-                }}>
+                <div className="p-3 bg-yellow-100 border border-yellow-300 rounded text-yellow-800 text-center">
                     Loading clubs data...
                 </div>
             )}
+
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center items-center">
+                <button
+                    onClick={handleTestEmail}
+                    disabled={loading}
+                    className="bg-[var(--mid)] text-white rounded-xl p-4 w-[260px] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                >
+                    {loading ? 'Sending...' : 'Send Test Email'}
+                </button>
+
+                <button
+                    onClick={handleTestEmailMultipleClub}
+                    disabled={loading}
+                    className="bg-blue-600 text-white rounded-xl p-4 w-[260px] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                >
+                    {loading ? 'Sending...' : 'Send Multiple Test Emails'}
+                </button>
+
+                <button
+                    onClick={sendEmailToAllClubs}
+                    disabled={loading || clubs.length === 0}
+                    className="bg-red-600 text-white rounded-xl p-4 w-[260px] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                >
+                    {loading ? 'Sending...' : `Send Email to All Clubs (${clubs.length})`}
+                </button>
+            </div>
         </div>
     );
+
 }
