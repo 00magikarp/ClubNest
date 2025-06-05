@@ -1,5 +1,7 @@
 import { ModalButton } from "@/app/components/ModalButton";
 import { Club } from "@/lib/objects";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 type ClubBoxProps = {
   club: Club;
@@ -47,8 +49,20 @@ export function ClubBox({ club }: ClubBoxProps) {
               }
             </ul>
             <br/>
-            <p>Meets @ <b>{club.time || "unstructured times"}</b> in <b>{club.location || "different places"}</b></p>
-            <p>Additional information: { club.other || "None" }</p>
+            {club.time && club.location && (
+              <p>Meets <AccessTimeIcon className="text-sm"/> <b>{club.time}</b> in <LocationOnIcon className="text-sm"/>
+                <b>{club.location}</b></p>
+            )}
+            {club.time && !club.location && (
+              <p>Meets <AccessTimeIcon className="text-sm"/> <b>{club.time}</b></p>
+            )}
+            {!club.time && club.location && (
+              <p>Meets in <LocationOnIcon className="text-sm"/> <b>{club.location}</b></p>
+            )}
+            <br/>
+            {club.other && (
+              <p>Additional information: club.other</p>
+            )}
           </div>
         }
       />

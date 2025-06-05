@@ -3,61 +3,162 @@
 import {useEffect, useState} from "react";
 import {Club} from "@/lib/objects";
 import {getClubs} from "@/lib/localstorage";
-import {Button} from "@mui/material";
+import {Accordion, AccordionDetails, AccordionSummary, Button, Tooltip} from "@mui/material";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {ClubReviewBox} from "@/app/admin/components/ClubReviewBox";
 import {deleteClub, updateClub} from "@/lib/firebaseClient";
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ArchiveIcon from '@mui/icons-material/Archive';
+import UnarchiveIcon from '@mui/icons-material/Unarchive';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 async function approve(c: Club): Promise<void> {
   const newClub: Club = {
     ...c,
-    approved: true
+    approved: 2
   }
-  await updateClub(newClub);
+  await updateClub(newClub, c);
 }
 
 async function deny(c: Club): Promise<void> {
-  await deleteClub(c);
+    await deleteClub(c);
+}
+
+async function archive(c: Club): Promise<void> {
+  const newClub: Club = {
+    ...c,
+    approved: 1
+  };
+  await updateClub(newClub, c);
 }
 
 export function ClubReviewer() {
-  const [clubs, setClubs] = useState<Club[]>([]);
+    const [clubs, setClubs] = useState<Club[]>([]);
 
-  useEffect(() => {
-    getClubs(true).then(setClubs).catch(console.error);
-  }, []);
+    useEffect(() => {
+        getClubs(true).then(setClubs).catch(console.error);
+    }, []);
 
 
-  async function handleApprove(club: Club) {
-    await approve(club);
-    setClubs(prev => prev.filter(c => c.name != club.name));
-  }
+    async function handleApprove(club: Club) {
+        await approve(club);
+        setClubs(prev => prev.filter(c => c.name != club.name));
+    }
 
-  async function handleDeny(club: Club) {
-    await deny(club);
-    setClubs(prev => prev.filter(c => c.name != club.name));
-  }
+    async function handleDeny(club: Club) {
+        await deny(club);
+        setClubs(prev => prev.filter(c => c.name != club.name));
+    }
 
-  const clubsForReview = clubs.filter(c => !c.approved);
+    async function handleArchive(club: Club) {
+        await archive(club);
+        setClubs(prev => prev.filter(c => c.name != club.name));
+    }
 
-  return (
-    <div
-      className="w-[40vw] h-full bg-[var(--mid)] rounded-md border-[var(--fssgold)] border-2 flex flex-col justify-center items-center content-evenly p-4">
+    const clubsforApproval = clubs.filter(c => c.approved === 0);
+    const clubsforRenewal = clubs.filter(c => c.approved === 1);
 
-      <div
-        className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
-        {
-          clubsForReview.map((club: Club, idx: number) => (
-            <div key={idx} className="border-2 border-[var(--fssgold)] rounded-md shadow-xl/60">
-              <ClubReviewBox key={idx} club={club}/>
-              <div className="flex flex-row w-full justify-evenly items-center mb-3">
-                <Button onClick={() => {handleApprove(clubsForReview[idx]);}} variant="outlined">Approve</Button>
-                <Button onClick={() => {handleDeny(clubsForReview[idx]);}} variant="outlined">Deny</Button>
-              </div>
+    return (
+        <div
+            className="w-full max-w-[1200px] flex flex-col space-y-2 justify-start">
+            <div
+                className="w-full h-[337px] bg-[var(--container)] rounded-md border-[var(--mid)] border-2 flex flex-col flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll gap-x-1">
+                {
+                    clubsforApproval.length !== 0 ? (
+                        clubsforApproval.map((club: Club, idx: number) => (
+                            <div key={idx}
+                                 className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-md flex-none m-2 w-[220px] shadow-xl/30">
+                                <ClubReviewBox key={idx} club={club}/>
+                                <div className="flex flex-row w-full justify-evenly items-center mb-2 mt-0.5">
+                                    <Tooltip title="Approve">
+                                        <Button
+                                            onClick={() => handleApprove(clubsforApproval[idx])}
+                                            variant="outlined"
+                                            color={"success"}>
+                                            <CheckBoxIcon
+                                                className="text-green-600  transition-colors duration-200"/>
+                                        </Button>
+                                    </Tooltip>
+
+                                    <Tooltip title="Archive">
+                                        <Button
+                                            onClick={() => handleArchive(clubsforApproval[idx])}
+                                            variant="outlined"
+                                            color={"warning"}>
+                                            <ArchiveIcon
+                                                className="text-yellow-600  transition-colors duration-200"/>
+                                        </Button>
+                                    </Tooltip>
+
+                                    <Tooltip title="Deny">
+                                        <Button
+                                            onClick={() => handleDeny(clubsforApproval[idx])}
+                                            variant="outlined"
+                                            color={"error"}>
+                                            <ThumbDownIcon
+                                                className="text-red-600  transition-colors duration-200"/>
+                                        </Button>
+                                    </Tooltip>
+
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <span className="text-gray-400 text-md w-full text-center">No clubs to be approved!</span>
+                    )
+                }
             </div>
-          ))
-        }
 
-      </div>
-    </div>
-  )
+            <Accordion sx={{
+                backgroundColor: 'var(--container)',
+                border: '2px solid var(--mid)',
+                borderRadius: '0.375rem',
+                maxWidth: '1200px',
+                width: '100%',
+                marginTop: 4,
+                marginBottom: 4
+            }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon/>} sx={{color: 'white', padding: '1rem'}}>
+                    <span className="text-gray-300 text-lg">See archived clubs...</span>
+                </AccordionSummary>
+
+                <AccordionDetails sx={{padding: 0, maxHeight: 349, overflowY: 'auto'}}>
+                    <div
+                        className="w-full h-full max-h-[337px] rounded-md flex flex-col flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll">
+                        {
+                            clubsforRenewal.length !== 0 ? (
+                                clubsforRenewal.map((club: Club, idx: number) => (
+                                    <div key={idx}
+                                         className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-md flex-none m-2 shadow-xl/30">
+                                        <ClubReviewBox club={club}/>
+                                        <div className="flex flex-row w-full justify-evenly items-center mb-2 mt-0.5">
+                                            <Tooltip title="Restore">
+                                              <Button
+                                                  variant={"outlined"}
+                                                  color={"success"}
+                                                  onClick={() => handleApprove(club)}>
+                                                <UnarchiveIcon/>
+                                              </Button>
+                                            </Tooltip>
+                                            <Tooltip title="Delete">
+                                              <Button
+                                                  variant={"outlined"}
+                                                  color={"error"}
+                                                  onClick={() => handleDeny(club)}>
+                                                <DeleteForeverIcon className="text-red-600"/>
+                                              </Button>
+                                            </Tooltip>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <span className="text-gray-400 text-md w-full text-center">No clubs archived!</span>
+                            )
+                        }
+                    </div>
+                </AccordionDetails>
+            </Accordion>
+        </div>
+    )
 }

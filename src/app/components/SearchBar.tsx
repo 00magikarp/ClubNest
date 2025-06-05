@@ -18,8 +18,9 @@ const GoldOutlinedTextField = styled(TextField)({
         color: 'var(--fssgold)',
     },
     '& .MuiOutlinedInput-root': {
+        height: '50px',
         color: 'var(--foreground)',
-        backgroundColor: 'var(--bars)',
+        backgroundColor: 'var(--background)',
         '& fieldset': {
             borderColor: 'var(--fssgold)',
         },

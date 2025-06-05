@@ -6,32 +6,12 @@ import JoinForm from "./components/JoinForm";
 import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
 import {Club, TYPES} from "@/lib/objects";
 import {ClubBox} from "@/app/components/ClubBox";
-import {DropDown} from "@/app/components/DropDown";
 import {SearchBar} from "@/app/components/SearchBar"
-import Link from "next/link";
+import { LoginPage } from "@/app/components/LoginPage";
 import {ClubWriter} from "@/app/components/ClubWriter";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
 import {NoClubsFound} from "@/app/components/NoClubsFound";
-
-// const clubs: Club[] = [
-//   { name: "Club 1", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 2", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 3", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 4", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 5", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 6", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 7", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 8", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 9", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club 0", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club A", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club B", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club C", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club D", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-//   { name: "Club E", sponsors_name: ["Sponsor 1", "Sponsor 2"], sponsors_contact: ["sponsor1@gmail.com", "sponsor2@gmail.com"], student_leads_name: ["Student Lead 1", "Student Lead 2"], student_leads_contact: ["student1@mcpsmd.net", "student2@mcpsmd.net"], type: "Type", description: "Description", location: "Location", time: "Time", other: "Other Info" },
-// ];
-
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
@@ -42,15 +22,18 @@ export default function Home() {
     getClubs()
       .then((data) => {
         setClubs(data);
+        setLoading(false);
       })
       .catch(console.error);
+  }, []);
 
+  useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 10000); // 10 seconds
+    }, 10 * 1_000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [])
 
 
   const [selectedType, setSelectedType] = useState<string | null>('All');
@@ -76,16 +59,14 @@ export default function Home() {
     );
   }
 
-  clubsDisplayed = clubsDisplayed.filter((c: Club) => c.approved)
+  clubsDisplayed = clubsDisplayed.filter((c: Club) => c.approved === 2)
 
   return (
 
-    <div
-      className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <header
-        className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
-        <div>
-          <Link href={'/admin'}>Admin</Link>
+    <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
+      <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
+        <div className="justify-start">
+          <LoginPage/>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
@@ -94,44 +75,26 @@ export default function Home() {
           <DarkModeToggle/>
         </div>
       </header>
-      <div className={"flex md:flex-row flex-col flex-wrap justify-center"}>
-        <JoinForm clubs={clubs}/>
-        <ClubWriter clubs={clubs}/>
+      <div className={"max-w-[100dvw] ml-2 mr-2"}>
+        <SelectionButtonRow passToPageAction={handleTypeChange}/>
       </div>
 
 
       <div className={"flex mb-auto h-[100%] p-5 justify-center items-center"}>
-        <div className="w-[90vw] flex xl:hidden">
-          <div className={"flex flex-col"}>
-            <div className="w-full mb-6">
-              <SearchBar onSearchAction={setSearchQuery}/>
-            </div>
-            <DropDown
-              passToPageAction={handleTypeChange}
-              formControlClass={"w-[90vw]"}
-              inputLabelStyle={{
-                color: 'var(--fssgold)',
-                fontWeight: 'bold',
-                fontSize: '1.3em',
-              }}
-              dropDownTextClass={"w-full text-center text-[var(--fssgold)]"}
-            />
-          </div>
-        </div>
-
-        <div className="w-[90vw] max-h-[60px] hidden xl:flex flex flex-row justify-center items-center">
-          <div className="w-[20vw] max-w-[300px] mr-10">
+        <div className="w-[90vw] max-w-[1056px] max-h-[50px] flex flex-3 flex-row justify-between items-center">
+          <div className="w-[300px] h-[50px]">
             <SearchBar onSearchAction={setSearchQuery}/>
           </div>
-          <div className={"min-w-[910px]"}>
-            <SelectionButtonRow passToPageAction={handleTypeChange}/>
+          <div className="flex flex-row">
+            <JoinForm clubs={clubs}/>
+            <ClubWriter clubs={clubs}/>
           </div>
         </div>
       </div>
 
       <div
         className={"mb-auto h-[100%] w-[85vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
-        {
+      {
           loading ? (
             Array.from({length: 8}).map((_, idx) => (
               <div key={idx} className="m-4">

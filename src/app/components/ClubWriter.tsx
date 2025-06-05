@@ -6,6 +6,7 @@ import { writeClub } from "@/lib/firebaseClient";
 import {Club, TYPES} from "@/lib/objects";
 import { ModalButton } from "@/app/components/ModalButton";
 import { useState } from 'react';
+import CreateIcon from '@mui/icons-material/Create';
 
 const buttonStyling: SxProps<Theme> = {
   padding: 5,
@@ -102,7 +103,7 @@ async function sendClub(data: FormReturn, clubs: Club[]): Promise<void> {
     ...(data.time !== '' && { time: data.time }),
     ...(data.location !== '' && { location: data.location }),
     ...(data.other !== '' && { other: data.other }),
-    approved: false
+    approved: 0
   }
   await writeClub(dataProcessed)
   window.alert("Club sent successfully!")
@@ -172,13 +173,13 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
 
   return (
     <ModalButton
-      buttonClass=" p-2 flex items-center justify-center m-3 w-[40vw] h-[60px] text-xl !text-[var(--mid)] rounded-md select-text
+      buttonClass="p-2 flex items-center justify-center m-3 mr-0 w-[5vw] min-w-[55px] h-[50px] text-xl !text-[var(--mid)] rounded-md select-text
       transform transition-transform duration-200 hover:scale-102 cursor-pointer bg-[var(--fssgold)]
       "
       modalClass=""
       buttonTitle={
         <h3 className="!text-[var(--mid)]">
-          Create Clubs Here!
+          <CreateIcon/>
         </h3>
       }
       modalTitle={"Club Creation Form"}
@@ -262,7 +263,7 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
               </Box>
 
               <Box display="flex" justifyContent="center" mt={2}>
-                <Button type="submit" color="primary" sx={{ ...buttonStyling, width: '200px' }}>
+                <Button type="submit" color="primary" sx={{ ...buttonStyling, width: '200px', margin: 0 }}>
                   Submit
                 </Button>
               </Box>

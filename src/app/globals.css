@@ -21,13 +21,13 @@
   --mid: #222222;
   --foreground: oklch(87.2% .01 258.338); /* gray-300 */
   --bars: #111111;
-  --fssgold: #be965c;
+  --fssgold: #D59D48;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
 h1, h2, h3, header, footer {
