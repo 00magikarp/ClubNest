@@ -22,8 +22,8 @@ export function ClubBox({ club }: ClubBoxProps) {
           <p className="text-lg">{club.type || ""}</p>
         </div>
         }
-        modalContainerClass="w-[650px] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
-        -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+        modalContainerClass="w-[650px] max-w-[80dvw] max-h-[80dvh] overflow-y-auto rounded-xl absolute top-1/2 left-1/2
+        -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray text-sm sm:text-base"
         modalTitle={ club.name }
         modalBody={
           <div className="rounded">

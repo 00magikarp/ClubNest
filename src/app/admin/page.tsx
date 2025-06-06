@@ -68,7 +68,7 @@ export default function Home() {
           </h1>
         </div>
         <div className="absolute right-4">
-          {/*<DarkModeToggle/>*/}
+          <DarkModeToggle/>
         </div>
       </header>
 

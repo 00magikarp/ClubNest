@@ -74,7 +74,7 @@ export default function Home() {
               onClick={() => setSelectedType(null)}>ClubNest</h1>
         </div>
         <div className="absolute right-4">
-          {/*<DarkModeToggle/>*/}
+          <DarkModeToggle/>
         </div>
       </header>
 
