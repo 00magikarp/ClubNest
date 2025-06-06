@@ -12,6 +12,7 @@ import {useEffect, useState} from "react";
 import { ClubRemoverModal } from "@/app/admin/components/ClubRemover";
 import { useRouter } from "next/navigation";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
+import {LoginPage} from "@/app/components/LoginPage";
 
 export default function Home() {
   const router = useRouter();
@@ -57,12 +58,14 @@ export default function Home() {
   return (
     <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
       <header
-        className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
-        <div>
-          <Link href={'/admin'}>Admin</Link>
-        </div>
+        className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4 z-1">
         <div className="absolute left-1/2 transform -translate-x-1/2">
-          <h1 className="font-bold text-2xl tracking-wider p-3">ClubNest</h1>
+          <h1
+            className="font-bold text-2xl tracking-wider p-3 cursor-pointer"
+            onClick={() => router.push("/")}
+          >
+            ClubNest
+          </h1>
         </div>
         <div className="absolute right-4">
           <DarkModeToggle/>
@@ -77,7 +80,8 @@ export default function Home() {
         <div className="flex-col justify-start w-[275px]">
           <AdminHelpButton/>
 
-          <div className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
+          <div
+            className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
             <h2 className="!text-gray-300 text-xl w-full text-center mt-1 mb-2">Admin Panel</h2>
             <ClubRemoverModal/>
             <br className="w-0 h-20px"/>

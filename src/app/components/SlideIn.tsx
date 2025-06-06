@@ -38,3 +38,20 @@ export function SlideInNode({ node, duration }: SlideInNodeProps) {
     </motion.div>
   )
 }
+
+type FadeInNodeProps = {
+  node: ReactNode;
+  duration: number;
+}
+
+export function FadeInNode({ node, duration }: FadeInNodeProps) {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: duration }}
+    >
+      {node}
+    </motion.div>
+  )
+}

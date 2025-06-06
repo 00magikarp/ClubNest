@@ -18,10 +18,10 @@
 
 .dark {
   --background: #333;
-  --mid: #222222;
+  --mid: #242424;
   --foreground: oklch(87.2% .01 258.338); /* gray-300 */
   --bars: #111111;
-  --fssgold: #D59D48;
+  --fssgold: #c48c3b;
 }
 
 body {

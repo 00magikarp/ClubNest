@@ -12,7 +12,7 @@ export function ClubBox({ club }: ClubBoxProps) {
     <div>
       <ModalButton
         buttonClass="shadow-xl/30
-        p-3 flex flex-col m-3 w-[275px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
+        p-3 flex flex-col m-3 w-[clamp(200px,20vw,275px)] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
         transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
         modalClass="leading-relaxed"
@@ -61,7 +61,7 @@ export function ClubBox({ club }: ClubBoxProps) {
             )}
             <br/>
             {club.other && (
-              <p>Additional information: club.other</p>
+              <p>Additional information: {club.other}</p>
             )}
           </div>
         }

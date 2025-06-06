@@ -4,11 +4,12 @@ import {useState} from "react";
 import {TYPES} from "@/lib/objects";
 
 type SelectionButtonRowProps = {
+  initialState: string;
   passToPageAction: (data: string | null) => void;
 }
 
-export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps) {
-  const [selectedType, setSelectedType] = useState<string | null>(null)
+export function SelectionButtonRow({ initialState, passToPageAction }: SelectionButtonRowProps) {
+  const [selectedType, setSelectedType] = useState<string | null>(initialState)
 
   const handleSelection = (newSelection: string) => {
     if (newSelection === selectedType) {
@@ -21,7 +22,7 @@ export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-3 w-full mx-auto pb-2">
+    <div className="flex flex-wrap justify-center gap-2 w-full mx-auto pb-2">
       {TYPES.map((type: string, idx: number) => {
         if (type === "All") return;
         const isSelected = selectedType === type
