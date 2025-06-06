@@ -1,6 +1,5 @@
 'use client';
 
-import Link from "next/link";
 import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
 import RosterTableButton from "./components/RosterTableButton";
 import ClubsTableButton from "@/app/admin/components/ClubsTableButton";
@@ -12,7 +11,6 @@ import {useEffect, useState} from "react";
 import { ClubRemoverModal } from "@/app/admin/components/ClubRemover";
 import { useRouter } from "next/navigation";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
-import {LoginPage} from "@/app/components/LoginPage";
 
 export default function Home() {
   const router = useRouter();
