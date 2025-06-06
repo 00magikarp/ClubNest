@@ -12,6 +12,7 @@ import {ClubWriter} from "@/app/components/ClubWriter";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
 import {NoClubsFound} from "@/app/components/NoClubsFound";
+import RobonautsImage from "./components/RobonautsEasterEgg";
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
