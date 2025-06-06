@@ -17,7 +17,7 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
   return (
     <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3, flexWrap: 'wrap' }}>
       {sponsors.map((_, index) => (
-        <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", md: "row"}, gap: 2, mb: 2 }}>
           <TextFieldElement
             sx={textFieldStyling}
             name={`sponsors[${index}].name`}
