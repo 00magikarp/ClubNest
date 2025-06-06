@@ -74,7 +74,7 @@ export default function Home() {
               onClick={() => setSelectedType(null)}>ClubNest</h1>
         </div>
         <div className="absolute right-4">
-          <DarkModeToggle/>
+          {/*<DarkModeToggle/>*/}
         </div>
       </header>
 
@@ -135,7 +135,7 @@ export default function Home() {
 
 
               <div
-                className={"mt-2 mb-auto h-[100%] w-[90vw] max-w-[1200px] flex flex-row flex-grow flex-wrap justify-center content-start"}>
+                className={"mt-2 mb-auto h-[100%] w-[90vw] flex flex-row flex-grow flex-wrap justify-center content-start"}>
                 {
                   loading ? (
                     Array.from({length: 8}).map((_, idx) => (

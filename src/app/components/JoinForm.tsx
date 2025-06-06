@@ -122,7 +122,7 @@ export default function JoinForm( { clubs } : JoinFormProps) {
                         },
                         ...textFieldStyling
                       }}
-                      options={clubs}
+                      options={clubs.filter((c: Club) => c.approved === 2)}
                       getOptionLabel={(option: Club) => option.name}
                       value={value || null}
                       onChange={(_, newValue) => onChange(newValue)}

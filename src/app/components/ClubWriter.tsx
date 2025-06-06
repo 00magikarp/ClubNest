@@ -27,7 +27,6 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
 
   return (
     <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
-      <h3 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Club Sponsors</h3>
       {sponsors.map((_, index) => (
         <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
           <TextFieldElement
@@ -61,7 +60,6 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
 
   return (
     <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
-      <h3 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h3>
       {students.map((_, index) => (
         <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
           <TextFieldElement
