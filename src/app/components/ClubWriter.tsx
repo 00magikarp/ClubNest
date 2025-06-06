@@ -222,7 +222,7 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
                         },
                         ...textFieldStyling
                       }}
-                      options={TYPES.filter((s: string) => s !== "Other")}
+                      options={TYPES.filter((s: string) => s !== "All")}
                       getOptionLabel={(option: string) => option}
                       value={value || null}
                       onChange={(_, newValue) => onChange(newValue)}

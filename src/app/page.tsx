@@ -94,7 +94,7 @@ export default function Home() {
                           key={type}
                           className="w-[clamp(200px,16vw,275px)] h-[125px] transform transition-transform duration-200 hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--fssgold)] rounded-2xl shadow-xl/30"
                           onClick={() => setSelectedType(type)}>
-                          <p className="text-xl font-bold text-[var(--fssgold)]">{type}</p>
+                          <h3 className="text-xl font-bold text-[var(--fssgold)]">{type}</h3>
                         </button>
                       }
                       duration={(idx + 1) * 0.2}

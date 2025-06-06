@@ -19,7 +19,7 @@
 .dark {
   --background: #333;
   --mid: #242424;
-  --foreground: oklch(87.2% .01 258.338); /* gray-300 */
+  --foreground: oklch(0.707 0.022 261.325); /* gray-400 */
   --bars: #111111;
   --fssgold: #c48c3b;
 }
@@ -33,6 +33,10 @@ body {
 h1, h2, h3, header, footer {
   color: var(--fssgold);
   border-color: var(--fssgold);
+}
+
+p, li {
+  color: oklch(87.2% .01 258.338); /* gray-300 */
 }
 
 .custom-button {

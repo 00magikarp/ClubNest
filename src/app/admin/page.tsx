@@ -72,12 +72,12 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="mb-auto w-[85vw] flex flex-row flex-1 justify-between">
-        <div className="mr-10 h-full flex-1">
+      <div className="mb-auto w-[85vw] flex flex-col md:flex-row flex-1 justify-between">
+        <div className="mr-10 h-full flex-1 w-full md:w-auto">
           <ClubReviewer/>
         </div>
 
-        <div className="flex-col justify-start w-[275px]">
+        <div className="flex-col justify-start w-full md:w-[275px]">
           <AdminHelpButton/>
 
           <div
