@@ -183,7 +183,7 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
       modalTitle={"Club Creation Form"}
       modalContainerClass="
   w-[55vw] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
-  -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)]
+  -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)]
   shadow-2xl p-4 text-gray
   max-h-[90vh] overflow-y-auto
 "

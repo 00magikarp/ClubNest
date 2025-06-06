@@ -95,7 +95,7 @@ export default function JoinForm( { clubs } : JoinFormProps) {
       modalTitle={"Club Joining Form"}
       modalContainerClass="
       w-[55vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
       modalBody={
         <div className="flex flex-col flex-1 mt-8">
           <FormContainer<FormReturn>

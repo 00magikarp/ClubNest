@@ -22,13 +22,13 @@ export function SelectionButtonRow({ initialState, passToPageAction }: Selection
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-2 w-full mx-auto pb-2">
+    <div className="flex flex-wrap justify-between gap-2 w-full mx-auto pb-2">
       {TYPES.map((type: string, idx: number) => {
         if (type === "All") return;
         const isSelected = selectedType === type
 
         const baseClasses = [
-          "relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out",
+          "relative px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out",
           "border backdrop-blur-sm transform hover:scale-105 active:scale-95",
           "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500/50",
           "shadow-sm hover:shadow-md"
@@ -43,7 +43,7 @@ export function SelectionButtonRow({ initialState, passToPageAction }: Selection
             onClick={() => handleSelection(type)}
             className={`${baseClasses.join(" ")} ${isSelected ? selectedClasses : unselectedClasses}`}
           >
-            <p>{type}</p>
+            <p className="text-white">{type}</p>
             {isSelected && (
               <div
                 className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-500 rounded-xl opacity-10 animate-pulse"/>

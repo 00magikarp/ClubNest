@@ -7,20 +7,22 @@
 }
 
 :root {
-  --background: #FDFDFD;
-  --mid: #EEE09B;
+  --background: #f8f8f8;
+  --mid: #f0f0f0;
   --foreground: #1a1a1a;
-  --bars: #FDFDFD;
-  --fssgold: #835f1f;
+  --bars: var(--background);
+  --fssgold: #d4a127;
   --text-color: #0a0a0a;
+  --border: #d5d5d5;
 }
 
 .dark {
-  --background: #333;
-  --mid: #242424;
-  --foreground: oklch(0.707 0.022 261.325); /* gray-400 */
-  --bars: #111111;
-  --fssgold: #c48c3b;
+  --background: #1a1a1a;
+  --mid: #252525;
+  --foreground: #e5e5e5;
+  --bars: var(--background);
+  --border: #333333;
+  --fssgold: #d4a127;
 }
 
 body {
@@ -35,6 +37,10 @@ h1, h2, h3, header, footer {
 }
 
 p, li {
+  color: #6b7280;
+}
+
+.dark p, .dark li {
   color: oklch(87.2% .01 258.338); /* gray-300 */
 }
 

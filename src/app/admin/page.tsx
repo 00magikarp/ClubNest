@@ -79,7 +79,7 @@ export default function Home() {
           <AdminHelpButton/>
 
           <div
-            className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
+            className="mt-6 bg-[var(--container)] rounded-md border-[var(--border)] border-1 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
             <h2 className="!text-gray-300 text-xl w-full text-center mt-1 mb-2">Admin Panel</h2>
             <ClubRemoverModal/>
             <br className="w-0 h-20px"/>

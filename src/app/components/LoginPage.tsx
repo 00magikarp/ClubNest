@@ -101,7 +101,7 @@ export function LoginPage() {
             <Box>
               <button
                 onClick={() => router.push("/admin")}
-                className="px-6 py-2 border-2 border-[var(--fssgold)] rounded-lg transform transition-transform duration-200 hover:scale-105 cursor-pointer "
+                className="px-6 py-2 border-1 border-[var(--fssgold)] rounded-lg transform transition-transform duration-200 hover:scale-105 cursor-pointer "
               >
                 Go To Admin Page
               </button>
@@ -121,7 +121,7 @@ export function LoginPage() {
             <Box>
               <button
                 onClick={handleLogout}
-                className="px-6 py-2 border-2 border-red-700 rounded-lg transform transition-transform duration-200 hover:scale-105 cursor-pointer"
+                className="px-6 py-2 border-1 border-red-700 rounded-lg transform transition-transform duration-200 hover:scale-105 cursor-pointer"
               >
                 Logout
               </button>

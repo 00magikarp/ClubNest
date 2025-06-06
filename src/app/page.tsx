@@ -12,7 +12,7 @@ import {ClubWriter} from "@/app/components/ClubWriter";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
 import {NoClubsFound} from "@/app/components/NoClubsFound";
-import {SlideInText, SlideInNode, FadeInNode} from "@/app/components/SlideIn";
+import {SlideInNode, FadeInNode} from "@/app/components/Animations";
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
@@ -82,8 +82,12 @@ export default function Home() {
         {
           !selectedType ? (
             <div className="flex flex-col justify-center mb-auto">
-              <SlideInText text="Welcome to ClubNest" className="text-3xl text-center mt-4 mb-5 text-shadow-lg/30"
-                           duration={0.5}/>
+              <SlideInNode
+                node={
+                  <h1 className="font-bold text-3xl !text-[var(--foreground)] text-center tracking-wide mt-4 mb-5 text-shadow-white-500/50">Welcome to ClubNest</h1>
+                }
+                duration={0.5}
+              />
               <div className="w-[80dvw] max-w-[1300px] h-full flex flex-row flex-wrap gap-10 justify-center mt-10">
                 {
                   TYPES.map((type: string, idx: number) => (
@@ -92,9 +96,9 @@ export default function Home() {
                       node={
                         <button
                           key={type}
-                          className="w-[clamp(200px,16vw,275px)] h-[125px] transform transition-transform duration-200 hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--fssgold)] rounded-2xl shadow-xl/30"
+                          className="w-[clamp(200px,16vw,275px)] h-[125px] transform transition-transform duration-200 hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--border)] rounded-2xl shadow-xl/30 text-[var(--fssgold)]"
                           onClick={() => setSelectedType(type)}>
-                          <h3 className="text-xl font-bold text-[var(--fssgold)]">{type}</h3>
+                          <h3 className="text-xl font-bold">{type}</h3>
                         </button>
                       }
                       duration={(idx + 1) * 0.2}

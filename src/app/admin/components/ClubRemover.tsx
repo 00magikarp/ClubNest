@@ -44,7 +44,7 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
     };
 
     return (
-        <div className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-md flex-none m-2 w-full sm:w-[clamp(200px,20vw,250px)]">
+        <div className="bg-[var(--mid)] border-1 border-[var(--bars)] rounded-md flex-none m-2 w-full sm:w-[clamp(200px,20vw,250px)]">
             <div>
                 <ClubReviewBox club={club}/>
             </div>
@@ -154,7 +154,7 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
                 buttonTitle="Remove Clubs"
                 modalTitle="Club Removal Management"
                 modalBody={<ClubRemover/>}
-                modalContainerClass="w-[90vw] max-w-[1300px] max-h-[90vh] overflow-y-auto rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-6 text-gray"
+                modalContainerClass="w-[90vw] max-w-[1300px] max-h-[90vh] overflow-y-auto rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)] shadow-2xl p-6 text-gray"
             />
         );
     }

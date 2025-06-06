@@ -12,7 +12,7 @@ export function ClubBox({ club }: ClubBoxProps) {
     <div>
       <ModalButton
         buttonClass="shadow-xl/30
-        p-3 flex flex-col m-3 w-[clamp(200px,20vw,275px)] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
+        p-3 flex flex-col m-3 w-[clamp(200px,20vw,275px)] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-2xl select-text items-center justify-start
         transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
         modalClass="leading-relaxed"
@@ -23,7 +23,7 @@ export function ClubBox({ club }: ClubBoxProps) {
         </div>
         }
         modalContainerClass="w-[650px] max-w-[80dvw] max-h-[80dvh] overflow-y-auto rounded-xl absolute top-1/2 left-1/2
-        -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray text-sm sm:text-base"
+        -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray text-sm sm:text-base"
         modalTitle={ club.name }
         modalBody={
           <div className="rounded">

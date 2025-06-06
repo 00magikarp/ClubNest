@@ -29,6 +29,7 @@ export type Student = {
 // Alphabetical
 export const TYPES: string[] = [
   "All",
+  "Academics",
   "Activism",
   "Arts",
   "Business",
@@ -37,7 +38,6 @@ export const TYPES: string[] = [
   "Media",
   "STEM",
   "Culture",
-  "Service",
   "Hobbies",
   "Other"
 ];

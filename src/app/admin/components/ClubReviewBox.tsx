@@ -10,7 +10,7 @@ export function ClubReviewBox({ club }: ClubReviewBoxProps) {
     <div>
       <ModalButton
         buttonClass="
-        p-3 flex flex-col m-3 w-[92%] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
+        p-3 flex flex-col m-3 w-[92%] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-2xl select-text items-center justify-start
         transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
         modalClass="text-gray-300"
