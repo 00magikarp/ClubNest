@@ -75,6 +75,9 @@ export default function Home() {
           <DarkModeToggle/>
         </div>
       </header>
+      <div>
+          <a href={'/email-form'}>Link</a>
+        </div>
       <div className={"max-w-[100dvw] ml-2 mr-2"}>
         <SelectionButtonRow passToPageAction={handleTypeChange}/>
       </div>
