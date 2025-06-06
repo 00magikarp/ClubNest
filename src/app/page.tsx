@@ -101,7 +101,7 @@ export default function Home() {
                           <h3 className="text-xl font-bold">{type}</h3>
                         </button>
                       }
-                      duration={(idx + 1) * 0.2}
+                      duration={(idx + 1) * 0.1}
                     />
                   ))
                 }
@@ -109,7 +109,7 @@ export default function Home() {
             </div>
           ) : (
             <div>
-              <SlideInNode
+              <FadeInNode
                 node={
                   <div className={"max-w-[90dvw] ml-2 mr-2"}>
                     <SelectionButtonRow passToPageAction={handleTypeChange} initialState={selectedType}/>
@@ -118,7 +118,7 @@ export default function Home() {
                 duration={0.2}
               />
 
-              <SlideInNode
+              <FadeInNode
                 node={
                   <div
                     className={"flex mb-auto h-[100%] max-w-[90dvw] pt-5 pb-5 pl-2 pr-2 justify-center items-center"}>
@@ -154,7 +154,7 @@ export default function Home() {
                       <FadeInNode
                         key={idx}
                         node={<ClubBox key={idx} club={club}/>}
-                        duration={(idx + 1) * 0.05 < 2 ? (idx + 1) * 0.05 : 2}
+                        duration={(idx + 1) * 0.05 < 1 ? (idx + 1) * 0.05 : 1}
                       />
                     ))
                   )

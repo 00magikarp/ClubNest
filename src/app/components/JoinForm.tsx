@@ -143,7 +143,11 @@ export default function JoinForm( { clubs } : JoinFormProps) {
                   )}
                 />
               </div>
-              <Button type="submit" variant="contained" className="rounded-3">Submit</Button>
+              <Box display="flex" justifyContent="center" mt={2}>
+                <button type="submit" className="px-6 py-3 rounded-lg font-medium text-lg min-w-[120px] hover:scale-105 transform transition-all duration-200 border-2 border-[var(--fssgold)] bg-[var(--background)] text-[var(--fssgold)] hover:bg-[var(--fssgold)] hover:text-[var(--background)]">
+                  Submit
+                </button>
+              </Box>
             </Box>
           </FormContainer>
         </div>
