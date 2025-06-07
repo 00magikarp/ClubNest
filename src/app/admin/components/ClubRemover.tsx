@@ -44,7 +44,7 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
     };
 
     return (
-        <div className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-2xl flex-none m-2 w-full sm:w-[clamp(200px,20vw,250px)] shadow-xl/30">
+        <div className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-2xl flex flex-col justify-center m-2 w-[80%] md:w-[25vw] max-w-[280px] shadow-xl/30">
             <div>
                 <ClubReviewBox club={club}/>
             </div>

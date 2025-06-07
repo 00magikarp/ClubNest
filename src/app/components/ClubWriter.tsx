@@ -17,7 +17,7 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
   return (
     <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3, flexWrap: 'wrap' }}>
       {sponsors.map((_, index) => (
-        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", md: "row"}, gap: 2, mb: 2 }}>
+        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", lg: "row"}, gap: 2, mb: 2 }}>
           <TextFieldElement
             sx={textFieldStyling}
             name={`sponsors[${index}].name`}
@@ -50,7 +50,7 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
   return (
     <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
       {students.map((_, index) => (
-        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", md: "row"}, gap: 2, mb: 2 }}>
+        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", lg: "row"}, gap: 2, mb: 2 }}>
           <TextFieldElement
             sx={textFieldStyling}
             name={`students[${index}].name`}
@@ -172,14 +172,14 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
       }
       modalTitle={"Club Creation Form"}
       modalContainerClass="
-  w-[clamp(360px,55vw,600px)] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
-  -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)]
-  shadow-2xl p-4 text-gray
-  max-h-[90vh] overflow-y-auto
+      min-w-[360px] w-[55vw] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
+      -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)]
+      shadow-2xl p-4 text-gray
+      max-h-[90vh] overflow-y-auto
 "
       modalBody={
         <div
-          className="w-full mt-[2vh] rounded-md flex flex-col justify-start overflow-auto items-center content-evenly p-2"
+          className="w-full mt-[4vh] rounded-md flex flex-col justify-start overflow-auto items-center content-evenly p-2"
         >
 
           <FormContainer<FormReturn>
@@ -195,7 +195,7 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
             }}
             onSuccess={data => sendClub(data, clubs)}
           >
-            <Box display="flex" flexDirection="column" gap={4} className="w-full max-w-full overflow-hidden">
+            <Box display="flex" flexDirection="column" gap={4} className="w-full overflow-hidden">
 
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Basic Info</h2>
@@ -257,9 +257,7 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
               </Box>
             </Box>
           </FormContainer>
-
         </div>
       } />
-
   )
 }

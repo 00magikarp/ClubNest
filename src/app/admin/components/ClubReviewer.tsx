@@ -113,14 +113,14 @@ export function ClubReviewer() {
 
             <Accordion sx={{
                 backgroundColor: 'var(--container)',
-                border: '2px solid var(--mid)',
+                border: '1px solid var(--border)',
                 borderRadius: '0.375rem',
                 maxWidth: '1200px',
                 width: '100%',
                 marginTop: 4,
                 marginBottom: 4
             }}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>} sx={{ padding: '1rem'}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon/>} sx={{ color: 'var(--foreground)', padding: '1rem'}}>
                     <p className="text-lg">See archived clubs...</p>
                 </AccordionSummary>
 
@@ -131,7 +131,7 @@ export function ClubReviewer() {
                             clubsforRenewal.length !== 0 ? (
                                 clubsforRenewal.map((club: Club, idx: number) => (
                                     <div key={idx}
-                                         className="bg-[var(--mid)] border-1 border-[var(--border)] rounded-md flex-none m-2 shadow-xl/30">
+                                         className="bg-[var(--mid)] border-1 border-[var(--border)] rounded-md flex-none m-2 shadow-xl/30 w-[clamp(200px,20vw,250px)]">
                                         <ClubReviewBox club={club}/>
                                         <div className="flex flex-row w-full justify-evenly items-center mb-2 mt-0.5">
                                             <Tooltip title="Restore">

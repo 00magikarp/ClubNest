@@ -91,7 +91,9 @@ export default function Home() {
                       node={
                         <button
                           key={type}
-                          className="w-[clamp(200px,16vw,275px)] h-[125px] transform transition-transform duration-200 hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--border)] rounded-2xl shadow-xl/30 text-[var(--fssgold)]"
+                          className="w-[clamp(200px,16vw,275px)] h-[125px] transform transition-transform duration-200
+                          hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--border)] rounded-2xl
+                          shadow-xl/30 text-[var(--fssgold)]"
                           onClick={() => setSelectedType(type)}>
                           <h3 className="text-xl font-bold">{type}</h3>
                         </button>
@@ -130,7 +132,7 @@ export default function Home() {
                 duration={0.4}
               />
 
-              <div className="w-[90dvw] mt-2 flex flex-row flex-grow flex-wrap justify-between gap-6 border-1 border-[var(--border)] rounded-2xl py-2">
+              <div className="w-[90dvw] mt-2 flex flex-row flex-grow flex-wrap justify-between gap-6 py-1">
                 {
                   loading ? (
                     Array.from({length: 8}).map((_, idx) => (

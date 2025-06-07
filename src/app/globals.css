@@ -13,6 +13,7 @@
   --bars: var(--background);
   --fssgold: #e6941a;
   --border: #d5d5d5;
+  --shadow-color: rgba(230, 148, 26, 0.15);
 }
 
 .dark {
@@ -24,14 +25,14 @@
   --fssgold: #e6941a;
 }
 
-/** {*/
-/*  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;*/
-/*}*/
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
 
 body {
-  background: var(--background);
+  /*background: var(--background);*/
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
 
 h1, h2, header, footer {
@@ -41,10 +42,4 @@ h1, h2, header, footer {
 
 header, footer {
   z-index: 1;
-}
-
-.custom-button {
-  border: 2px solid var(--fssgold);
-  transition: all 150ms ease-in-out;
-  outline: none;
 }
