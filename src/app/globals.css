@@ -12,14 +12,13 @@
   --foreground: #1a1a1a;
   --bars: var(--background);
   --fssgold: #e6941a;
-  --text-color: #0a0a0a;
   --border: #d5d5d5;
 }
 
 .dark {
   --background: #1a1a1a;
   --mid: #252525;
-  --foreground: #e5e5e5;
+  --foreground: oklch(92.9% 0.013 255.508);
   --bars: var(--background);
   --border: #333333;
   --fssgold: #e6941a;
@@ -40,12 +39,8 @@ h1, h2, header, footer {
   border-color: var(--fssgold);
 }
 
-p, li {
-  color: #6b7280;
-}
-
-.dark p, .dark li {
-  color: oklch(87.2% .01 258.338); /* gray-300 */
+header, footer {
+  z-index: 1;
 }
 
 .custom-button {

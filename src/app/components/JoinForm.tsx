@@ -1,7 +1,7 @@
 'use client';
 
 import {FormContainer, Controller, TextFieldElement} from 'react-hook-form-mui'
-import {Autocomplete, Box, Button, SxProps, TextField, Theme} from '@mui/material'
+import {Autocomplete, Box, SxProps, TextField, Theme} from '@mui/material'
 import {Club, Student} from '@/lib/objects'
 import {writeStudent} from "@/lib/firebaseClient";
 import {ModalButton} from "@/app/components/ModalButton";
@@ -56,7 +56,7 @@ export default function JoinForm( { clubs } : JoinFormProps) {
     },
     "& .MuiOutlinedInput-root": {
       borderRadius: 3,
-      color: 'white',
+      color: 'var(--foreground)',
 
       '& fieldset': {
         borderColor: 'var(--fssgold)', // default border

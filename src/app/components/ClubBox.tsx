@@ -18,7 +18,7 @@ export function ClubBox({ club }: ClubBoxProps) {
         modalClass="leading-relaxed"
         buttonTitle={
         <div className="h-full w-full flex flex-col justify-start justify-center-safe mt-2 mt-1">
-          <h3 className="h-[50%] font-semibold text-xl overflow-ellipsis truncate ">{club.name}</h3>
+          <h3 className="h-[50%] font-semibold text-xl overflow-ellipsis truncate text-[var(--fssgold)]">{club.name}</h3>
           <p className="text-lg">{club.type || ""}</p>
         </div>
         }
@@ -27,7 +27,7 @@ export function ClubBox({ club }: ClubBoxProps) {
         modalTitle={ club.name }
         modalBody={
           <div className="rounded">
-            <p className="text-gray-500 text-lg text-center">{club.type || "Other"}</p>
+            <p className="text-lg text-center">{club.type || "Other"}</p>
             <br/>
             <p>{club.description || "No description found"}</p>
             <br/>

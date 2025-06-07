@@ -16,14 +16,14 @@ export function ClubReviewBox({ club }: ClubReviewBoxProps) {
         modalClass="text-gray-300"
         buttonTitle={
           <div className="h-full w-full flex flex-col justify-start justify-center-safe mt-2 mt-1">
-            <h3 className="h-[50%] font-semibold text-xl overflow-ellipsis truncate">{club.name}</h3>
+            <h3 className="h-[50%] font-semibold text-xl overflow-ellipsis truncate text-[var(--fssgold)]">{club.name}</h3>
             <p className="text-gray-400 text-lg">{club.type || ""}</p>
           </div>
         }
         modalTitle={ club.name }
         modalBody={
           <div className="rounded">
-            <p className="text-gray-400 text-lg text-center">Type: {club.type || "Other"}</p>
+            <p className="!text-gray-800 text-lg text-center">Type: {club.type || "Other"}</p>
             <br/>
             <p>Description: {club.description || "No description found"}</p>
             <br/>

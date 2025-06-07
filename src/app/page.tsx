@@ -65,7 +65,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col justify-start items-center min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4 z-1">
+      <header className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4">
         <div className="justify-start">
           <LoginPage/>
         </div>
@@ -78,10 +78,10 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex flex-col flex-grow w-full items-center">
+      <div className="flex flex-col flex-grow w-full items-center justify-center">
         {
           !selectedType ? (
-            <div className="flex flex-col justify-center mb-auto">
+            <div className="flex flex-col justify-center mb-auto pb-8">
               <SlideInNode
                 node={
                   <h1 className="font-bold text-3xl !text-[var(--foreground)] text-center tracking-wide mt-4 mb-5 text-shadow-white-500/50">Welcome to ClubNest</h1>
@@ -111,7 +111,7 @@ export default function Home() {
             <div>
               <FadeInNode
                 node={
-                  <div className={"max-w-[90dvw] ml-2 mr-2"}>
+                  <div className="w-[90dvw]">
                     <SelectionButtonRow passToPageAction={handleTypeChange} initialState={selectedType}/>
                   </div>
                 }
@@ -120,10 +120,8 @@ export default function Home() {
 
               <FadeInNode
                 node={
-                  <div
-                    className={"flex mb-auto h-[100%] max-w-[90dvw] pt-5 pb-5 pl-2 pr-2 justify-center items-center"}>
-                    <div
-                      className="w-full max-h-[50px] flex flex-3 flex-row justify-between items-center">
+                  <div className="w-[90dvw] pt-5 pb-5 px-2 flex justify-center items-center">
+                    <div className="w-full max-h-[50px] flex flex-row justify-between items-center">
                       <div className="w-[300px] h-[50px]">
                         <SearchBar onSearchAction={setSearchQuery}/>
                       </div>
@@ -137,9 +135,7 @@ export default function Home() {
                 duration={0.4}
               />
 
-
-              <div
-                className={"mt-2 mb-auto h-[100%] w-[90vw] flex flex-row flex-grow flex-wrap justify-center content-start"}>
+              <div className="w-[90dvw] mt-2 flex flex-row flex-grow flex-wrap justify-center content-start">
                 {
                   loading ? (
                     Array.from({length: 8}).map((_, idx) => (
@@ -165,7 +161,7 @@ export default function Home() {
         }
       </div>
 
-      <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6 z-1">
+      <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
         <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
           Have any problems? Shoot us an email at{' '}
           <a
