@@ -13,6 +13,7 @@ import DarkModeToggle from "@/app/components/DarkModeToggle";
 import Skeleton from '@mui/material/Skeleton';
 import {NoClubsFound} from "@/app/components/NoClubsFound";
 import {SlideInNode, FadeInNode} from "@/app/components/Animations";
+import Footer from "@/app/components/Footer";
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
@@ -36,18 +37,17 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [])
 
-  const [selectedTypes, setSelectedTypes] = useState<string[] | null>([]);
-  const handleTypeChange = (data: string[]) => {
-    setSelectedTypes(data);
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const handleTypeChange = (data: string | null) => {
+    setSelectedType(data ?? "All");
   }
 
   let clubsDisplayed: Club[] = [];
-  if (selectedTypes && selectedTypes[0] === "All") clubsDisplayed = clubs;
-  else {
+  if (selectedType === "All") {
+    clubsDisplayed = clubs;
+  } else {
     clubs.forEach((c: Club) => {
-      if (selectedTypes?.includes(c.type)) {
-        clubsDisplayed.push(c);
-      }
+      if (c.type === selectedType) clubsDisplayed.push(c);
     })
   }
   if (searchQuery.trim() !== "") {
@@ -66,7 +66,7 @@ export default function Home() {
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <h1 className="font-bold text-2xl tracking-wider p-3 cursor-pointer"
-              onClick={() => setSelectedTypes(null)}>ClubNest</h1>
+              onClick={() => setSelectedType(null)}>ClubNest</h1>
         </div>
         <div className="absolute right-4">
           <DarkModeToggle/>
@@ -75,7 +75,7 @@ export default function Home() {
 
       <div className="flex flex-col flex-grow w-full items-center">
         {
-          !selectedTypes ? (
+          !selectedType ? (
             <div className="flex flex-col justify-center mb-auto pb-8">
               <SlideInNode
                 node={
@@ -92,7 +92,7 @@ export default function Home() {
                         <button
                           key={type}
                           className="w-[clamp(200px,16vw,275px)] h-[125px] transform transition-transform duration-200 hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--border)] rounded-2xl shadow-xl/30 text-[var(--fssgold)]"
-                          onClick={() => setSelectedTypes([type])}>
+                          onClick={() => setSelectedType(type)}>
                           <h3 className="text-xl font-bold">{type}</h3>
                         </button>
                       }
@@ -106,8 +106,8 @@ export default function Home() {
             <div>
               <FadeInNode
                 node={
-                  <div className="w-[90dvw]">
-                    <SelectionButtonRow passToPageAction={handleTypeChange} initialState={selectedTypes}/>
+                  <div className="w-full justify-center items-center">
+                    <SelectionButtonRow passToPageAction={handleTypeChange} initialState={selectedType}/>
                   </div>
                 }
                 duration={0.2}
@@ -115,7 +115,7 @@ export default function Home() {
 
               <FadeInNode
                 node={
-                  <div className="w-[90dvw] pt-5 pb-5 px-2 flex justify-center items-center">
+                  <div className="w-full pt-5 pb-5 px-2 flex justify-center items-center">
                     <div className="w-full max-h-[50px] flex flex-row justify-between items-center">
                       <div className="w-[300px] h-[50px]">
                         <SearchBar onSearchAction={setSearchQuery}/>
@@ -130,7 +130,7 @@ export default function Home() {
                 duration={0.4}
               />
 
-              <div className="w-[90dvw] mt-2 flex flex-row flex-grow flex-wrap justify-center content-start">
+              <div className="w-[90dvw] mt-2 flex flex-row flex-grow flex-wrap justify-between gap-6 border-1 border-[var(--border)] rounded-2xl py-2">
                 {
                   loading ? (
                     Array.from({length: 8}).map((_, idx) => (
@@ -142,11 +142,13 @@ export default function Home() {
                     <NoClubsFound/>
                   ) : (
                     clubsDisplayed.map((club: Club, idx: number) => (
-                      <FadeInNode
-                        key={idx}
-                        node={<ClubBox key={idx} club={club}/>}
-                        duration={(idx + 1) * 0.05 < 1 ? (idx + 1) * 0.05 : 1}
-                      />
+                      <div key={idx} className="mx-auto">
+                        <FadeInNode
+                          key={idx}
+                          node={<ClubBox key={idx} club={club}/>}
+                          duration={(idx + 1) * 0.05 < 1 ? (idx + 1) * 0.05 : 1}
+                        />
+                      </div>
                     ))
                   )
                 }
@@ -156,17 +158,7 @@ export default function Home() {
         }
       </div>
 
-      <footer className="flex items-center justify-center border-t w-[100vw] h-[8vh] bg-[var(--bars)] mt-6">
-        <h3 className="text-center justify-center items-center text-[var(--fssgold)]">
-          Have any problems? Shoot us an email at{' '}
-          <a
-            href="mailto:falconsoftwaresolutions27@gmail.com"
-            className="underline hover:text-gray-500 transition-colors duration-200"
-          >
-            falconsoftwaresolutions27@gmail.com
-          </a>
-        </h3>
-      </footer>
+      <Footer/>
     </div>
   );
 }

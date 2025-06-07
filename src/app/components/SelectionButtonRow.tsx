@@ -4,33 +4,28 @@ import {useState} from "react";
 import {TYPES} from "@/lib/objects";
 
 type SelectionButtonRowProps = {
-  initialState: string[];
-  passToPageAction: (data: string[]) => void;
+  initialState: string;
+  passToPageAction: (data: string | null) => void;
 }
 
 export function SelectionButtonRow({ initialState, passToPageAction }: SelectionButtonRowProps) {
-  const [selectedTypes, setSelectedTypes] = useState<string[]>(initialState)
+  const [selectedType, setSelectedType] = useState<string | null>(initialState)
 
   const handleSelection = (newSelection: string) => {
-    let newSelectedTypes: string[];
-
-    if (selectedTypes.includes(newSelection)) {
-      newSelectedTypes = selectedTypes.filter(type => type !== newSelection);
-      if (newSelectedTypes.length === 0) newSelectedTypes = ["All"];
-    } else {
-      if (selectedTypes.includes("All")) newSelectedTypes = [newSelection];
-      else newSelectedTypes = [...selectedTypes, newSelection];
+    if (newSelection === selectedType) {
+      setSelectedType(null);
+      passToPageAction(null);
+      return;
     }
-
-    setSelectedTypes(newSelectedTypes);
-    passToPageAction(newSelectedTypes);
+    setSelectedType(newSelection);
+    passToPageAction(newSelection);
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-3 w-[90dvw] mx-auto pb-2">
+    <div className="flex flex-wrap justify-center gap-3 mx-auto pb-2">
       {TYPES.map((type: string, idx: number) => {
-        if (type === "All") return null;
-        const isSelected = selectedTypes.includes(type);
+        if (type === "All") return;
+        const isSelected = selectedType === type
 
         const baseClasses = [
           "relative px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out",

@@ -11,8 +11,8 @@ export function ClubBox({ club }: ClubBoxProps) {
   return (
     <div>
       <ModalButton
-        buttonClass="shadow-xl/30
-        p-3 flex flex-col m-3 w-[clamp(200px,20vw,275px)] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-2xl select-text items-center justify-start
+        buttonClass="shadow-xl/30 basis-auto
+        p-3 flex flex-col my-3 w-[clamp(200px,20vw,250px)] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-2xl select-text items-center justify-start
         transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
         modalClass="leading-relaxed"

@@ -64,7 +64,7 @@ export function ClubReviewer() {
             className="w-full max-w-[1200px] flex flex-col space-y-2 justify-start">
             <div
                 className="w-full h-[550px] bg-[var(--container)] rounded-md border-[var(--border)] border-1 flex flex-col flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll gap-2">
-                <h2 className="text-2xl !text-gray-400 text-shadow-amber-500 w-full text-center mt-2 mb-3">Club Approval Panel</h2>
+                <p className="text-2xl w-full text-center mt-2 mb-3">Club Approval Panel</p>
                 {
                     clubsforApproval.length !== 0 ? (
                         clubsforApproval.map((club: Club, idx: number) => (
@@ -106,7 +106,7 @@ export function ClubReviewer() {
                             </div>
                         ))
                     ) : (
-                        <span className="text-gray-400 text-md w-full text-center">No clubs to be approved!</span>
+                        <p className="text-gray-400 text-md w-full text-center">No clubs to be approved!</p>
                     )
                 }
             </div>
@@ -120,8 +120,8 @@ export function ClubReviewer() {
                 marginTop: 4,
                 marginBottom: 4
             }}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>} sx={{color: 'white', padding: '1rem'}}>
-                    <span className="text-gray-300 text-lg">See archived clubs...</span>
+                <AccordionSummary expandIcon={<ExpandMoreIcon/>} sx={{ padding: '1rem'}}>
+                    <p className="text-lg">See archived clubs...</p>
                 </AccordionSummary>
 
                 <AccordionDetails sx={{padding: 0, maxHeight: 550, overflowY: 'auto'}}>

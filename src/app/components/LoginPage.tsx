@@ -1,83 +1,89 @@
-'use client';
+"use client"
 
-import {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
-import {ModalButton} from "@/app/components/ModalButton";
-import {Box, CircularProgress} from "@mui/material";
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { ModalButton } from "@/app/components/ModalButton"
+import { Box, CircularProgress, Link } from "@mui/material"
 
 export function LoginPage() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const router = useRouter()
 
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await fetch("/api/checkAuth");
-        const data = await res.json();
+        const res = await fetch("/api/checkAuth")
+        const data = await res.json()
         if (data.loggedIn) {
-          setIsLoggedIn(true);
+          setIsLoggedIn(true)
         }
       } catch (err) {
-        console.error("Auth check failed", err);
+        console.error("Auth check failed", err)
       }
-    };
-    checkLogin();
-  }, [router]);
+    }
+    checkLogin()
+  }, [router])
 
   const handleLogin = async () => {
-    if (loading) return;
-    setLoading(true);
-    const password = window.prompt("Please enter your password:");
-    if (!password) return;
+    if (loading) return
+    setLoading(true)
+    const password = window.prompt("Please enter your password:")
+    if (!password) {
+      setLoading(false)
+      return
+    }
 
     try {
       const res = await fetch("/api/login", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({password}),
-      });
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      })
 
       if (res.ok) {
-        setIsLoggedIn(true);
-        setError(null);
-        router.push("/admin");
+        setIsLoggedIn(true)
+        setError(null)
+        router.push("/admin")
       } else {
-        setError("Invalid password. Please try again.");
+        setError("Invalid password. Please try again.")
       }
     } catch (err) {
-      console.error("Login error:", err);
-      setError("An unexpected error occurred. Please try again later.");
+      console.error("Login error:", err)
+      setError("An unexpected error occurred. Please try again later.")
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   const handleLogout = async () => {
-    if (loading) return;
-    setLoading(true);
+    if (loading) return
+    setLoading(true)
     try {
-      await fetch("/api/logout", {method: "POST"});
-      setIsLoggedIn(false);
-      setError(null);
-      router.push("/");
+      await fetch("/api/logout", { method: "POST" })
+      setIsLoggedIn(false)
+      setError(null)
+      router.push("/")
     } catch (err) {
-      console.error("Logout error:", err);
-      setError("Logout failed. Please try again.");
+      console.error("Logout error:", err)
+      setError("Logout failed. Please try again.")
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   const loginContent = (
     <div className="flex flex-col items-center space-y-4 mt-4">
       {error && <span className="text-red-500 text-sm mb-2">{error}</span>}
       {!isLoggedIn ? (
-        <Box>
+        <Box position="relative">
           <button
             onClick={handleLogin}
-            className="h-[50px] px-6 py-2 mt-5 rounded-lg transition-colors font-medium bg-gray-100
-                    dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700
-                    hover:bg-gray-50 dark:hover:bg-gray-700/80 hover:border-gray-300 dark:hover:border-gray-600"
+            className="h-[50px] px-6 py-2 mt-5 rounded-xl text-sm font-semibold transition-all duration-300 ease-out
+                    border transform hover:scale-105 active:scale-95 shadow-sm hover:shadow-md
+                    bg-[var(--mid)] text-[var(--foreground)] border-[var(--border)]
+                    hover:bg-[var(--background)] hover:border-[var(--fssgold)]/50
+                    focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--fssgold)]/50"
+            disabled={loading}
           >
             Enter Password
           </button>
@@ -85,11 +91,12 @@ export function LoginPage() {
             <CircularProgress
               size={24}
               sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                marginTop: '-12px',
-                marginLeft: '-12px',
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                marginTop: "-12px",
+                marginLeft: "-12px",
+                color: "var(--fssgold)",
               }}
             />
           )}
@@ -98,30 +105,40 @@ export function LoginPage() {
         <div className="text-center">
           <div className="text-green-600 mb-4 font-medium">✓ Successfully logged in!</div>
           <div className="flex flex-row gap-4 mt-6">
-            <Box>
-              <button
-                onClick={() => router.push("/admin")}
-                className="px-6 py-2 border-1 border-[var(--fssgold)] rounded-lg transform transition-transform duration-200 hover:scale-105 cursor-pointer "
-              >
-                Go To Admin Page
-              </button>
+            <Box position="relative">
+              <Link href="/admin" underline="none">
+                <button
+                  className="px-6 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ease-out
+                          border transform hover:scale-105 active:scale-95 shadow-sm hover:shadow-md
+                          bg-[var(--fssgold)] text-[var(--background)] border-[var(--fssgold)]"
+                  disabled={loading}
+                >
+
+                  Go To Admin Page
+                </button>
+              </Link>
               {loading && (
                 <CircularProgress
                   size={24}
                   sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    marginTop: '-12px',
-                    marginLeft: '-12px',
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                    color: "var(--background)",
                   }}
                 />
               )}
             </Box>
-            <Box>
+            <Box position="relative">
               <button
                 onClick={handleLogout}
-                className="px-6 py-2 border-1 border-red-700 rounded-lg transform transition-transform duration-200 hover:scale-105 cursor-pointer"
+                className="px-6 py-2 rounded-xl text-sm font-semibold transition-all duration-300 ease-out
+                        border transform hover:scale-105 active:scale-95 shadow-sm hover:shadow-md
+                        bg-[var(--mid)] text-[var(--foreground)] border-red-500
+                        hover:bg-red-500 hover:text-white"
+                disabled={loading}
               >
                 Logout
               </button>
@@ -129,11 +146,12 @@ export function LoginPage() {
                 <CircularProgress
                   size={24}
                   sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    marginTop: '-12px',
-                    marginLeft: '-12px',
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    marginTop: "-12px",
+                    marginLeft: "-12px",
+                    color: "var(--foreground)",
                   }}
                 />
               )}
@@ -142,17 +160,18 @@ export function LoginPage() {
         </div>
       )}
     </div>
-  );
+  )
 
   return (
     <ModalButton
       buttonTitle={isLoggedIn ? "Admin ✓" : "Admin"}
-      buttonClass="px-6 py-3  rounded-lg transition-colors font-medium bg-gray-100 dark:bg-gray-800/80
-            text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-50
-            transform transition-transform duration-200 hover:scale-105 cursor-pointer
-            dark:hover:bg-gray-700/80 hover:border-gray-300 dark:hover:border-gray-600"
+      buttonClass="px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out
+                border transform hover:scale-105 active:scale-95 shadow-sm hover:shadow-md
+                bg-[var(--mid)] text-[var(--foreground)] border-[var(--border)]
+                hover:bg-[var(--background)] hover:border-[var(--fssgold)]/50
+                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--fssgold)]/50"
       modalTitle="Admin Authentication"
       modalBody={loginContent}
     />
-  );
+  )
 }
