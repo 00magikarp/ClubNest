@@ -36,24 +36,19 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [])
 
-
-  const [selectedType, setSelectedType] = useState<string | null>(null);
-  const handleTypeChange = (data: string | null) => {
-    if (data === null) setSelectedType("All");
-    else setSelectedType(data);
+  const [selectedTypes, setSelectedTypes] = useState<string[] | null>([]);
+  const handleTypeChange = (data: string[]) => {
+    setSelectedTypes(data);
   }
 
   let clubsDisplayed: Club[] = [];
-  if (selectedType == "All") {
-    clubsDisplayed = clubs;
-  } else if (selectedType == "Other") {
+  if (selectedTypes && selectedTypes[0] === "All") clubsDisplayed = clubs;
+  else {
     clubs.forEach((c: Club) => {
-      if (!TYPES.includes(c.type)) clubsDisplayed.push(c);
-    });
-  } else {
-    clubs.forEach((c: Club) => {
-      if (selectedType == c.type) clubsDisplayed.push(c);
-    });
+      if (selectedTypes?.includes(c.type)) {
+        clubsDisplayed.push(c);
+      }
+    })
   }
   if (searchQuery.trim() !== "") {
     clubsDisplayed = clubsDisplayed.filter((club: Club) =>
@@ -71,16 +66,16 @@ export default function Home() {
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <h1 className="font-bold text-2xl tracking-wider p-3 cursor-pointer"
-              onClick={() => setSelectedType(null)}>ClubNest</h1>
+              onClick={() => setSelectedTypes(null)}>ClubNest</h1>
         </div>
         <div className="absolute right-4">
           <DarkModeToggle/>
         </div>
       </header>
 
-      <div className="flex flex-col flex-grow w-full items-center justify-center">
+      <div className="flex flex-col flex-grow w-full items-center">
         {
-          !selectedType ? (
+          !selectedTypes ? (
             <div className="flex flex-col justify-center mb-auto pb-8">
               <SlideInNode
                 node={
@@ -97,7 +92,7 @@ export default function Home() {
                         <button
                           key={type}
                           className="w-[clamp(200px,16vw,275px)] h-[125px] transform transition-transform duration-200 hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--border)] rounded-2xl shadow-xl/30 text-[var(--fssgold)]"
-                          onClick={() => setSelectedType(type)}>
+                          onClick={() => setSelectedTypes([type])}>
                           <h3 className="text-xl font-bold">{type}</h3>
                         </button>
                       }
@@ -112,7 +107,7 @@ export default function Home() {
               <FadeInNode
                 node={
                   <div className="w-[90dvw]">
-                    <SelectionButtonRow passToPageAction={handleTypeChange} initialState={selectedType}/>
+                    <SelectionButtonRow passToPageAction={handleTypeChange} initialState={selectedTypes}/>
                   </div>
                 }
                 duration={0.2}

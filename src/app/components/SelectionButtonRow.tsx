@@ -4,28 +4,33 @@ import {useState} from "react";
 import {TYPES} from "@/lib/objects";
 
 type SelectionButtonRowProps = {
-  initialState: string;
-  passToPageAction: (data: string | null) => void;
+  initialState: string[];
+  passToPageAction: (data: string[]) => void;
 }
 
 export function SelectionButtonRow({ initialState, passToPageAction }: SelectionButtonRowProps) {
-  const [selectedType, setSelectedType] = useState<string | null>(initialState)
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(initialState)
 
   const handleSelection = (newSelection: string) => {
-    if (newSelection === selectedType) {
-      setSelectedType(null);
-      passToPageAction(null);
-      return;
+    let newSelectedTypes: string[];
+
+    if (selectedTypes.includes(newSelection)) {
+      newSelectedTypes = selectedTypes.filter(type => type !== newSelection);
+      if (newSelectedTypes.length === 0) newSelectedTypes = ["All"];
+    } else {
+      if (selectedTypes.includes("All")) newSelectedTypes = [newSelection];
+      else newSelectedTypes = [...selectedTypes, newSelection];
     }
-    setSelectedType(newSelection);
-    passToPageAction(newSelection);
+
+    setSelectedTypes(newSelectedTypes);
+    passToPageAction(newSelectedTypes);
   }
 
   return (
     <div className="flex flex-wrap justify-center gap-3 w-[90dvw] mx-auto pb-2">
       {TYPES.map((type: string, idx: number) => {
-        if (type === "All") return;
-        const isSelected = selectedType === type
+        if (type === "All") return null;
+        const isSelected = selectedTypes.includes(type);
 
         const baseClasses = [
           "relative px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out",
@@ -45,11 +50,7 @@ export function SelectionButtonRow({ initialState, passToPageAction }: Selection
             onClick={() => handleSelection(type)}
             className={`${baseClasses.join(" ")} ${isSelected ? selectedClasses : unselectedClasses}`}
           >
-            <p className="!text-gray-300">{type}</p>
-            {isSelected && (
-              <div
-                className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-500 rounded-xl opacity-10 animate-pulse"/>
-            )}
+            <span className={isSelected ? "text-[var(--background)]" : "text-[var(--foreground)]"}>{type}</span>
           </button>
         )
       })}
