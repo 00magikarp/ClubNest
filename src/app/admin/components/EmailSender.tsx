@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { readClubs } from '@/lib/firebaseClient';
-import { Button } from '@mui/material';
-import { Club } from '@/lib/objects';
+import { Club } from '@/lib/definitions';
 
 export default function SendEmailComponent() {
     const [clubs, setClubs] = useState<Club[]>([]);
@@ -32,6 +31,7 @@ export default function SendEmailComponent() {
         loadClubs();
     }, []);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const sendEmail = async (studentLeadContact: string, studentLeadName: string) => {
         setLoading(true);
 

@@ -2,7 +2,7 @@
 
 import {FormContainer, Controller, TextFieldElement} from 'react-hook-form-mui'
 import {Autocomplete, Box, TextField} from '@mui/material'
-import {Club, Student, TEXT_FIELD_STYLING} from '@/lib/definitions'
+import {Club, Roster, TEXT_FIELD_STYLING} from '@/lib/definitions'
 import {writeStudent} from "@/lib/firebaseClient";
 import {ModalButton} from "@/app/components/ModalButton";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -48,9 +48,9 @@ export default function JoinForm( { clubs } : JoinFormProps) {
             return;
           }
 
-          const s: Student = {
+          const s: Roster = {
             club: data.club.name,
-            id: Number(data.id),
+            student_id: Number(data.id),
             firstName: data.firstName,
             lastName: data.lastName
           }
