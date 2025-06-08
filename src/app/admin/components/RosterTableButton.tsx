@@ -39,7 +39,7 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
       modalTitle={"Club Student Data"}
       modalContainerClass="
       w-[65vw] h-[70vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
       modalBody={
         <>
           <p className="w-0 h-5"></p>
@@ -65,7 +65,6 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
                   return old;
                 }
                 const r = parseRoster(updated);
-                console.log(r);
                 return r;
               }}
               onProcessRowUpdateError={() => {

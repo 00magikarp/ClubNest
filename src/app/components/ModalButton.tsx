@@ -24,7 +24,7 @@ export function ModalButton({ buttonClass, modalClass, buttonTitle, modalTitle, 
       </button>
       <Modal className={ modalClass || "" } open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
         <div
-          className={modalContainerClass || "w-[400px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"}
+          className={modalContainerClass || "w-[400px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray"}
         >
           <h1 className="font-bold text-2xl text-center mt-2">{ modalTitle }</h1>
           <span className="whitespace-pre-wrap">{ modalBody }</span>

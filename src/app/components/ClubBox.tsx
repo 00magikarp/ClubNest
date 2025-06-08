@@ -12,22 +12,22 @@ export function ClubBox({ club }: ClubBoxProps) {
     <div>
       <ModalButton
         buttonClass="shadow-xl/30
-        p-3 flex flex-col m-3 w-[275px] h-[120px] text-xl bg-[var(--mid)] text-gray rounded-md select-text items-center justify-start
+        p-3 flex flex-col m-3 w-[clamp(200px,20vw,275px)] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-2xl select-text items-center justify-start
         transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
         modalClass="leading-relaxed"
         buttonTitle={
         <div className="h-full w-full flex flex-col justify-start justify-center-safe mt-2 mt-1">
-          <h3 className="h-[50%] font-semibold text-xl overflow-ellipsis truncate ">{club.name}</h3>
+          <h3 className="h-[50%] font-semibold text-xl overflow-ellipsis truncate text-[var(--fssgold)]">{club.name}</h3>
           <p className="text-lg">{club.type || ""}</p>
         </div>
         }
-        modalContainerClass="w-[650px] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
-        -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+        modalContainerClass="w-[650px] max-w-[80dvw] max-h-[80dvh] overflow-y-auto rounded-xl absolute top-1/2 left-1/2
+        -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray text-sm sm:text-base"
         modalTitle={ club.name }
         modalBody={
           <div className="rounded">
-            <p className="text-gray-500 text-lg text-center">{club.type || "Other"}</p>
+            <p className="text-lg text-center">{club.type || "Other"}</p>
             <br/>
             <p>{club.description || "No description found"}</p>
             <br/>
@@ -61,7 +61,7 @@ export function ClubBox({ club }: ClubBoxProps) {
             )}
             <br/>
             {club.other && (
-              <p>Additional information: club.other</p>
+              <p>Additional information: {club.other}</p>
             )}
           </div>
         }

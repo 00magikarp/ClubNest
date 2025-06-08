@@ -63,12 +63,13 @@ export function ClubReviewer() {
         <div
             className="w-full max-w-[1200px] flex flex-col space-y-2 justify-start">
             <div
-                className="w-full h-[337px] bg-[var(--container)] rounded-md border-[var(--mid)] border-2 flex flex-col flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll gap-x-1">
+                className="w-full h-[550px] bg-[var(--container)] rounded-md border-[var(--border)] border-1 flex flex-col flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll gap-2">
+                <h2 className="text-2xl !text-gray-400 text-shadow-amber-500 w-full text-center mt-2 mb-3">Club Approval Panel</h2>
                 {
                     clubsforApproval.length !== 0 ? (
                         clubsforApproval.map((club: Club, idx: number) => (
                             <div key={idx}
-                                 className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-md flex-none m-2 w-[220px] shadow-xl/30">
+                                 className="bg-[var(--mid)] border-1 border-[var(--border)] rounded-md flex-none m-2 shadow-xl/30 w-[clamp(200px,20vw,250px)]">
                                 <ClubReviewBox key={idx} club={club}/>
                                 <div className="flex flex-row w-full justify-evenly items-center mb-2 mt-0.5">
                                     <Tooltip title="Approve">
@@ -123,14 +124,14 @@ export function ClubReviewer() {
                     <span className="text-gray-300 text-lg">See archived clubs...</span>
                 </AccordionSummary>
 
-                <AccordionDetails sx={{padding: 0, maxHeight: 349, overflowY: 'auto'}}>
+                <AccordionDetails sx={{padding: 0, maxHeight: 550, overflowY: 'auto'}}>
                     <div
-                        className="w-full h-full max-h-[337px] rounded-md flex flex-col flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll">
+                        className="w-full h-full max-h-[550px] rounded-md flex flex-col flex-wrap items-start justify-start p-4 mb-3 gap-2 overflow-x-scroll overflow-y-none">
                         {
                             clubsforRenewal.length !== 0 ? (
                                 clubsforRenewal.map((club: Club, idx: number) => (
                                     <div key={idx}
-                                         className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-md flex-none m-2 shadow-xl/30">
+                                         className="bg-[var(--mid)] border-1 border-[var(--border)] rounded-md flex-none m-2 shadow-xl/30">
                                         <ClubReviewBox club={club}/>
                                         <div className="flex flex-row w-full justify-evenly items-center mb-2 mt-0.5">
                                             <Tooltip title="Restore">

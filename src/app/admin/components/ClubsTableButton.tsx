@@ -58,7 +58,7 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
       modalTitle={"Club Information Data"}
       modalContainerClass="
       w-[80vw] h-[70vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
+      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
       modalBody={
         <>
           <p className="w-0 h-5"></p>
@@ -97,10 +97,8 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                   window.alert(`Illegal type of club "${updated.type}"`);
                   return old;
                 }
-                // TODO: add data validation to updateclub, user prompt, etc.
                 const club: Club = parseClub(updated);
                 await updateClub(club, parseClub(old));
-                console.log(updated);
                 return updated;
               }}
               onProcessRowUpdateError={() => {

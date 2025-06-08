@@ -8,17 +8,6 @@ import { ModalButton } from "@/app/components/ModalButton";
 import { useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 
-const buttonStyling: SxProps<Theme> = {
-  padding: 5,
-  borderRadius: 3,
-  width: '40%',
-  height: '40px',
-  flex: 'true',
-  margin: 2,
-  color: 'var(--fssgold)',
-  borderColor: '#00b6ae'
-}
-
 const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme> }) => {
   const [sponsors, setSponsors] = useState([{ name: "", contact: "" }]);
 
@@ -26,10 +15,9 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
   const removeSponsor = () => sponsors.length > 1 && setSponsors([...sponsors.slice(0, -1)]);
 
   return (
-    <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
-      <h3 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Club Sponsors</h3>
+    <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3, flexWrap: 'wrap' }}>
       {sponsors.map((_, index) => (
-        <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", md: "row"}, gap: 2, mb: 2 }}>
           <TextFieldElement
             sx={textFieldStyling}
             name={`sponsors[${index}].name`}
@@ -61,9 +49,8 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
 
   return (
     <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
-      <h3 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h3>
       {students.map((_, index) => (
-        <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", md: "row"}, gap: 2, mb: 2 }}>
           <TextFieldElement
             sx={textFieldStyling}
             name={`students[${index}].name`}
@@ -132,7 +119,8 @@ type ClubWriterProps = {
 export function ClubWriter( { clubs } : ClubWriterProps) {
   const textFieldStyling: SxProps<Theme> = {
     width: '100%',
-    minWidth: '200px',
+    minWidth: "0",
+    maxWidth: "100%",
     flex: 1,
     marginTop: 2,
     marginBottom: 3,
@@ -184,8 +172,8 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
       }
       modalTitle={"Club Creation Form"}
       modalContainerClass="
-  w-[55vw] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
-  -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)]
+  w-[clamp(360px,55vw,600px)] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
+  -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)]
   shadow-2xl p-4 text-gray
   max-h-[90vh] overflow-y-auto
 "
@@ -207,7 +195,7 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
             }}
             onSuccess={data => sendClub(data, clubs)}
           >
-            <Box display="flex" flexDirection="column" gap={4} className="w-full">
+            <Box display="flex" flexDirection="column" gap={4} className="w-full max-w-full overflow-hidden">
 
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Basic Info</h2>
@@ -224,7 +212,7 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
                         },
                         ...textFieldStyling
                       }}
-                      options={TYPES.filter((s: string) => s !== "Other")}
+                      options={TYPES.filter((s: string) => s !== "All")}
                       getOptionLabel={(option: string) => option}
                       value={value || null}
                       onChange={(_, newValue) => onChange(newValue)}
@@ -263,9 +251,9 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
               </Box>
 
               <Box display="flex" justifyContent="center" mt={2}>
-                <Button type="submit" color="primary" sx={{ ...buttonStyling, width: '200px', margin: 0 }}>
+                <button type="submit" className="px-6 py-3 rounded-lg font-medium text-lg min-w-[120px] hover:scale-105 transform transition-all duration-200 border-2 border-[var(--fssgold)] bg-[var(--background)] text-[var(--fssgold)] hover:bg-[var(--fssgold)] hover:text-[var(--background)]">
                   Submit
-                </Button>
+                </button>
               </Box>
             </Box>
           </FormContainer>

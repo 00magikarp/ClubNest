@@ -1,7 +1,7 @@
 'use client';
 
 import {FormContainer, Controller, TextFieldElement} from 'react-hook-form-mui'
-import {Autocomplete, Box, Button, SxProps, TextField, Theme} from '@mui/material'
+import {Autocomplete, Box, SxProps, TextField, Theme} from '@mui/material'
 import {Club, Student} from '@/lib/objects'
 import {writeStudent} from "@/lib/firebaseClient";
 import {ModalButton} from "@/app/components/ModalButton";
@@ -56,7 +56,7 @@ export default function JoinForm( { clubs } : JoinFormProps) {
     },
     "& .MuiOutlinedInput-root": {
       borderRadius: 3,
-      color: 'white',
+      color: 'var(--foreground)',
 
       '& fieldset': {
         borderColor: 'var(--fssgold)', // default border
@@ -95,7 +95,7 @@ export default function JoinForm( { clubs } : JoinFormProps) {
       modalTitle={"Club Joining Form"}
       modalContainerClass="
       w-[55vw] h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
       modalBody={
         <div className="flex flex-col flex-1 mt-8">
           <FormContainer<FormReturn>
@@ -122,7 +122,7 @@ export default function JoinForm( { clubs } : JoinFormProps) {
                         },
                         ...textFieldStyling
                       }}
-                      options={clubs}
+                      options={clubs.filter((c: Club) => c.approved === 2)}
                       getOptionLabel={(option: Club) => option.name}
                       value={value || null}
                       onChange={(_, newValue) => onChange(newValue)}
@@ -143,7 +143,11 @@ export default function JoinForm( { clubs } : JoinFormProps) {
                   )}
                 />
               </div>
-              <Button type="submit" variant="contained" className="rounded-3">Submit</Button>
+              <Box display="flex" justifyContent="center" mt={2}>
+                <button type="submit" className="px-6 py-3 rounded-lg font-medium text-lg min-w-[120px] hover:scale-105 transform transition-all duration-200 border-2 border-[var(--fssgold)] bg-[var(--background)] text-[var(--fssgold)] hover:bg-[var(--fssgold)] hover:text-[var(--background)]">
+                  Submit
+                </button>
+              </Box>
             </Box>
           </FormContainer>
         </div>

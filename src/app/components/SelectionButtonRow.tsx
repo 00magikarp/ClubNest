@@ -4,31 +4,45 @@ import {useState} from "react";
 import {TYPES} from "@/lib/objects";
 
 type SelectionButtonRowProps = {
-  passToPageAction: (data: string) => void;
+  initialState: string[];
+  passToPageAction: (data: string[]) => void;
 }
 
-export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps) {
-  const [selectedType, setSelectedType] = useState<string>("All")
+export function SelectionButtonRow({ initialState, passToPageAction }: SelectionButtonRowProps) {
+  const [selectedTypes, setSelectedTypes] = useState<string[]>(initialState)
 
   const handleSelection = (newSelection: string) => {
-    setSelectedType(newSelection)
-    passToPageAction(newSelection)
+    let newSelectedTypes: string[];
+
+    if (selectedTypes.includes(newSelection)) {
+      newSelectedTypes = selectedTypes.filter(type => type !== newSelection);
+      if (newSelectedTypes.length === 0) newSelectedTypes = ["All"];
+    } else {
+      if (selectedTypes.includes("All")) newSelectedTypes = [newSelection];
+      else newSelectedTypes = [...selectedTypes, newSelection];
+    }
+
+    setSelectedTypes(newSelectedTypes);
+    passToPageAction(newSelectedTypes);
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-3 w-full mx-auto pb-2">
+    <div className="flex flex-wrap justify-center gap-3 w-[90dvw] mx-auto pb-2">
       {TYPES.map((type: string, idx: number) => {
-        const isSelected = selectedType === type
+        if (type === "All") return null;
+        const isSelected = selectedTypes.includes(type);
 
         const baseClasses = [
-          "relative px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out",
-          "border backdrop-blur-sm transform hover:scale-105 active:scale-95",
-          "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500/50",
-          "shadow-sm hover:shadow-md"
+          "relative px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out",
+          "border transform hover:scale-105 active:scale-95",
+          "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--fssgold)]/50",
+          "shadow-sm hover:shadow-md",
         ]
 
-        const selectedClasses = "bg-gradient-to-r from-amber-500 to-[var(--fssgold)] text-white border-amber-400 shadow-amber-500/25"
-        const unselectedClasses = "bg-gray-100 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/80 hover:border-gray-300 dark:hover:border-gray-600"
+        const selectedClasses =
+          "bg-[var(--fssgold)] text-[var(--background)] border-[var(--fssgold)] shadow-[var(--fssgold)]/25"
+        const unselectedClasses =
+          "bg-[var(--mid)] text-[var(--foreground)] border-[var(--border)] hover:bg-[var(--background)] hover:border-[var(--fssgold)]/50"
 
         return (
           <button
@@ -36,11 +50,7 @@ export function SelectionButtonRow({ passToPageAction }: SelectionButtonRowProps
             onClick={() => handleSelection(type)}
             className={`${baseClasses.join(" ")} ${isSelected ? selectedClasses : unselectedClasses}`}
           >
-            <p>{type}</p>
-            {isSelected && (
-              <div
-                className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-500 rounded-xl opacity-10 animate-pulse"/>
-            )}
+            <span className={isSelected ? "text-[var(--background)]" : "text-[var(--foreground)]"}>{type}</span>
           </button>
         )
       })}

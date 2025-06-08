@@ -32,7 +32,7 @@ export async function writeStudent(data: Student): Promise<boolean> {
   
   if (!res.ok) {
     const err = await res.json()
-    console.log(err);
+    console.error(err);
     return false;
   }
   return res.status != 400;
