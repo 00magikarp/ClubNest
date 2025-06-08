@@ -61,8 +61,8 @@ export default function Home() {
         className="flex items-center justify-between border-b w-[100vw] h-[10vh] bg-[var(--bars)] mb-6 pl-4 pr-4 z-1">
         <div className="absolute left-1/2 transform -translate-x-1/2">
           <Link href="/" underline="none">
-            <h1 className="font-bold text-2xl tracking-wider p-3 cursor-pointer">
-              ClubNest
+            <h1 className="font-black text-3xl tracking-wider p-3 cursor-pointer">
+              <span className="text-[var(--foreground)]">Club</span>Nest
             </h1>
           </Link>
         </div>

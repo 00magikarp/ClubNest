@@ -65,8 +65,8 @@ export default function Home() {
           <LoginPage/>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2">
-          <h1 className="font-bold text-2xl tracking-wider p-3 cursor-pointer"
-              onClick={() => setSelectedType(null)}>ClubNest</h1>
+          <h1 className="font-black text-3xl tracking-wider p-3 cursor-pointer"
+              onClick={() => setSelectedType(null)}><span className="text-[var(--foreground)]">Club</span>Nest</h1>
         </div>
         <div className="absolute right-4">
           <DarkModeToggle/>
@@ -79,7 +79,7 @@ export default function Home() {
             <div className="flex flex-col justify-center mb-auto pb-8">
               <SlideInNode
                 node={
-                  <h1 className="font-bold text-3xl !text-[var(--foreground)] text-center tracking-wide mt-4 mb-5 text-shadow-white-500/50">Welcome to ClubNest</h1>
+                  <h1 className="font-bold text-3xl !text-[var(--foreground)] text-center tracking-wide mt-4 mb-5 text-shadow-white-500/50">Welcome to Club<span className="text-[var(--fssgold)]">Nest</span></h1>
                 }
                 duration={0.5}
               />
