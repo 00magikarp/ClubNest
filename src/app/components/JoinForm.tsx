@@ -96,7 +96,7 @@ export default function JoinForm({ clubs }: JoinFormProps) {
                                       placeholder="John"
                                       sx={{ ...TEXT_FIELD_STYLING, marginBottom: 0 }}
                                       required
-                                      validation={{
+                                      rules={{
                                         required: "First name is required",
                                         maxLength: {
                                           value: 50,
@@ -111,7 +111,7 @@ export default function JoinForm({ clubs }: JoinFormProps) {
                       placeholder="Doe"
                       sx={TEXT_FIELD_STYLING}
                       required
-                      validation={{
+                      rules={{
                         required: "Last name is required",
                         maxLength: {
                           value: 50,
@@ -127,7 +127,7 @@ export default function JoinForm({ clubs }: JoinFormProps) {
                     placeholder="123456"
                     sx={TEXT_FIELD_STYLING}
                     required
-                    validation={{
+                    rules={{
                       required: "Student ID is required",
                       validate: (value: string) => isValidId(value) || "Student ID must be exactly 6 or 8 digits",
                     }}
