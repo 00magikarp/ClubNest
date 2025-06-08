@@ -1,17 +1,20 @@
 'use client';
 
 import {useState} from "react";
-import {TYPES} from "@/lib/definitions";
 
 type SelectionButtonRowProps = {
-  initialState: string;
+  initialState: string | null;
   passToPageAction: (data: string | null) => void;
+  options: string[];
 }
 
-export function SelectionButtonRow({ initialState, passToPageAction }: SelectionButtonRowProps) {
+export function SelectionButtonRow({ initialState, passToPageAction, options }: SelectionButtonRowProps) {
   const [selectedType, setSelectedType] = useState<string | null>(initialState)
 
-  const handleSelection = (newSelection: string) => {
+  const handleSelection = (newSelection: string, e: React.MouseEvent) => {
+    // Prevent the button click from submitting the form
+    e.preventDefault();
+
     if (newSelection === selectedType) {
       setSelectedType(null);
       passToPageAction(null);
@@ -23,9 +26,8 @@ export function SelectionButtonRow({ initialState, passToPageAction }: Selection
 
   return (
     <div className="flex flex-wrap justify-center gap-3 mx-auto pb-2">
-      {TYPES.map((type: string, idx: number) => {
-        if (type === "All") return;
-        const isSelected = selectedType === type
+      {options.map((option: string, idx: number) => {
+        const isSelected = selectedType === option
 
         const baseClasses = [
           "relative px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out",
@@ -42,10 +44,11 @@ export function SelectionButtonRow({ initialState, passToPageAction }: Selection
         return (
           <button
             key={idx}
-            onClick={() => handleSelection(type)}
+            type="button" // Explicitly set type to button to prevent form submission
+            onClick={(e) => handleSelection(option, e)}
             className={`${baseClasses.join(" ")} ${isSelected ? selectedClasses : unselectedClasses}`}
           >
-            <span className={isSelected ? "text-[var(--background)]" : "text-[var(--foreground)]"}>{type}</span>
+            <span className={isSelected ? "text-[var(--background)]" : "text-[var(--foreground)]"}>{option}</span>
           </button>
         )
       })}

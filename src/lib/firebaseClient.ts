@@ -1,4 +1,4 @@
-import { Club, Student, Roster } from "@/lib/definitions";
+import { Club, Roster } from "@/lib/definitions";
 
 export async function writeClub(data: Club): Promise<void> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/writeClub`, {
@@ -23,7 +23,7 @@ export async function readClubs(): Promise<Club[]> {
   }
 }
 
-export async function writeStudent(data: Student): Promise<boolean> {
+export async function writeStudent(data: Roster): Promise<boolean> {
   const res = await fetch("/api/writeStudent", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
