@@ -62,7 +62,7 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
       modalBody={
         <>
           <p className="w-0 h-5"></p>
-          <div className="w-full h-[74vh]">
+          <div className="w-full h-[70vh]">
             <DataGrid
               slotProps={{
                 toolbar: {

@@ -57,7 +57,7 @@ export async function readRoster(): Promise<Roster[]> {
   querySnapshot.forEach((doc) => {
     const data = doc.data();
     roster.push({
-      student_id: data.id,
+      student_id: data.student_id,
       firstName: data.firstName,
       lastName: data.lastName,
       club: data.club

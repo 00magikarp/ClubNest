@@ -25,6 +25,7 @@ type RosterTableButtonProps = {
 }
 
 export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
+  console.log(rosters);
   return (
     <ModalButton
       buttonClass="p-2 flex items-center justify-center h-[7vh] w-full text-lg !text-[var(--fssgold)] rounded-md select-text
@@ -38,12 +39,12 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
       }
       modalTitle={"Club Student Data"}
       modalContainerClass="
-      w-[50vw] h-[85vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
+      w-[80vw] h-[85vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
+      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-none"
       modalBody={
         <>
           <p className="w-0 h-5"></p>
-          <div className="w-full h-[74vh]">
+          <div className="w-full h-[70vh]">
             <DataGrid
               slotProps={{
                 toolbar: {
