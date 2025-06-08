@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import {deleteClub, updateClub} from '@/lib/firebaseClient';
-import {Club, TYPES} from '@/lib/definitions';
+import {Club, DATA_GRID_STYLING, TYPES} from '@/lib/definitions';
 import { ModalButton } from '@/app/components/ModalButton';
 import {DataGrid} from "@mui/x-data-grid";
 
@@ -132,14 +132,7 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                 { field: 'approved', headerName: 'Approved?', flex: 1, editable: true },
               ]}
               autosizeOnMount={true}
-              sx={{
-                boxShadow: 2,
-                border: 2,
-                borderColor: 'var(--fssgold)',
-                '& .MuiDataGrid-cell:hover': {
-                  color: 'var(--fssgold)',
-                },
-              }}
+              sx={DATA_GRID_STYLING}
             />
           </div>
         </>

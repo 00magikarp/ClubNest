@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react';
-import { Roster } from '@/lib/definitions';
+import {DATA_GRID_STYLING, Roster} from '@/lib/definitions';
 import { ModalButton } from '@/app/components/ModalButton';
 import { DataGrid } from '@mui/x-data-grid';
 import {removeStudent} from "@/lib/firebaseClient";
@@ -77,14 +77,7 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
                 { field: 'firstName', headerName: 'Student Name (First)', flex: 1, editable: true  },
                 { field: 'club', headerName: 'Name of Club', flex: 1, editable: true },
               ]}
-              sx={{
-                boxShadow: 2,
-                border: 2,
-                borderColor: 'var(--fssgold)',
-                '& .MuiDataGrid-cell:hover': {
-                  color: 'var(--fssgold)',
-                },
-              }}
+              sx={DATA_GRID_STYLING}
             />
           </div>
         </>
