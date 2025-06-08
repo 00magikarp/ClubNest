@@ -91,7 +91,7 @@ export default function Home() {
                       node={
                         <button
                           key={type}
-                          className="w-[clamp(200px,16vw,275px)] h-[125px] transform transition-transform duration-200
+                          className="w-[clamp(225px,22vw,337px)] h-[140px] transform transition-transform duration-200
                           hover:scale-105 cursor-pointer bg-[var(--mid)] border-1 border-[var(--border)] rounded-2xl
                           shadow-xl/30 text-[var(--fssgold)]"
                           onClick={() => setSelectedType(type)}>
@@ -132,28 +132,30 @@ export default function Home() {
                 duration={0.4}
               />
 
-              <div className="w-[90dvw] mt-2 flex flex-row flex-grow flex-wrap justify-between gap-6 py-1">
-                {
-                  loading ? (
-                    Array.from({length: 8}).map((_, idx) => (
-                      <div key={idx} className="m-4">
-                        <Skeleton variant="rectangular" width={210} height={118}/>
-                      </div>
-                    ))
-                  ) : clubsDisplayed.length === 0 ? (
-                    <NoClubsFound/>
-                  ) : (
-                    clubsDisplayed.map((club: Club, idx: number) => (
-                      <div key={idx} className="mx-auto">
-                        <FadeInNode
-                          key={idx}
-                          node={<ClubBox key={idx} club={club}/>}
-                          duration={(idx + 1) * 0.05 < 1 ? (idx + 1) * 0.05 : 1}
-                        />
-                      </div>
-                    ))
-                  )
-                }
+              <div className="w-full flex flex-row justify-center">
+                <div className="w-[90dvw] mt-2 flex flex-row flex-grow flex-wrap justify-between gap-6 py-1">
+                  {
+                    loading ? (
+                      Array.from({length: 8}).map((_, idx) => (
+                        <div key={idx} className="m-4">
+                          <Skeleton variant="rectangular" width={210} height={118}/>
+                        </div>
+                      ))
+                    ) : clubsDisplayed.length === 0 ? (
+                      <NoClubsFound/>
+                    ) : (
+                      clubsDisplayed.map((club: Club, idx: number) => (
+                        <div key={idx} className="mx-auto">
+                          <FadeInNode
+                            key={idx}
+                            node={<ClubBox key={idx} club={club}/>}
+                            duration={(idx + 1) * 0.05 < 1 ? (idx + 1) * 0.05 : 1}
+                          />
+                        </div>
+                      ))
+                    )
+                  }
+                </div>
               </div>
             </div>
           )

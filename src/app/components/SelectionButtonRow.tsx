@@ -29,7 +29,7 @@ export function SelectionButtonRow({ initialState, passToPageAction }: Selection
 
         const baseClasses = [
           "relative px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ease-out",
-          "border transform hover:scale-105 active:scale-95",
+          "w-[200px] border transform hover:scale-105 active:scale-95",
           "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--fssgold)]/50",
           "shadow-sm hover:shadow-md",
         ]

@@ -33,13 +33,10 @@ export const TYPES: string[] = [
   "All",
   "Academics",
   "Activism",
-  "Arts",
   "Business",
-  "Culture",
   "Hobbies",
+  "Humanities",
   "Identity",
-  "Language",
-  "Media",
   "STEM",
   "Other"
 ];
