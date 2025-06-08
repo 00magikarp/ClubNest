@@ -16,8 +16,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-    <body className={`${poppins.className} antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+    <head>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || 'dark';
+                  document.documentElement.className = theme === 'dark' ? 'dark' : '';
+                } catch (e) {
+                  document.documentElement.className = 'dark';
+                }
+              })();
+            `,
+        }}
+      />
+    </head>
+    <body className={`${poppins.className} antialiased bg-radial-[at_100px_200px] from-[var(--background)] to-[var(--mid)] to-75%`}>
     <ThemeContextProvider>
       {children}
     </ThemeContextProvider>

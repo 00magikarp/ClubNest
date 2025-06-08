@@ -1,5 +1,5 @@
 import expiryLocalStorage from "expiry-localstorage";
-import {Club} from "@/lib/objects";
+import {Club} from "@/lib/definitions";
 import {readClubs} from "@/lib/firebaseClient";
 
 export async function getClubs(forceNew: boolean = false): Promise<Club[]> {
