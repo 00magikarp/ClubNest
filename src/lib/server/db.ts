@@ -13,8 +13,7 @@ await signInAdmin();
  */
 export async function writeClub(data: Club): Promise<void> {
   try {
-    const docRef = await addDoc(collection(db, "clubs"), data);
-    console.info("Document written with ID: ", docRef.id);
+    await addDoc(collection(db, "clubs"), data);
   } catch (e) {
     console.error("Error adding document: ", e);
     throw new Error(`Error adding club data to document: ${e} Club data:\r\n ${JSON.stringify(data, null, 2)}`)
@@ -127,8 +126,7 @@ export async function addStudent(student: Student): Promise<boolean> {
   );
   const rosterRef = await getDocs(q);
   if (rosterRef.empty) {
-    const docRef = await addDoc(collection(db, "rosters"), student);
-    console.info("Document written with ID: ", docRef.id);
+    await addDoc(collection(db, "rosters"), student);
   } else {
     return false;
   }

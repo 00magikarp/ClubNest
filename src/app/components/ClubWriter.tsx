@@ -62,13 +62,13 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
           <TextFieldElement
             sx={textFieldStyling}
             name={`sponsors[${index}].name`}
-            label="Sponsor Name"
+            label="Sponsor Name *"
             rules={validationRules.personName}
           />
           <TextFieldElement
             sx={textFieldStyling}
             name={`sponsors[${index}].contact`}
-            label="Sponsor Email"
+            label="Sponsor Email *"
             rules={validationRules.email}
           />
         </Box>
@@ -94,13 +94,13 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
           <TextFieldElement
             sx={textFieldStyling}
             name={`students[${index}].name`}
-            label="Student Name"
+            label="Student Name *"
             rules={validationRules.personName}
           />
           <TextFieldElement
             sx={textFieldStyling}
             name={`students[${index}].contact`}
-            label="Student Email"
+            label="Student Email *"
             rules={validationRules.email}
           />
         </Box>
@@ -112,28 +112,6 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
     </Box>
   );
 };
-
-async function sendClub(data: FormReturn, clubs: Club[]): Promise<void> {
-  if (clubs.map((c: Club) => c.name).includes(data.name)) {
-    window.alert("Error:\nClub name already exists.")
-    return;
-  }
-  const dataProcessed: Club = {
-    name: data.name,
-    sponsors_name: data.sponsors?.map((s: Lead) => s.name) ?? [],
-    sponsors_contact: data.sponsors?.map((s: Lead) => s.contact) ?? [],
-    student_leads_name: data.students?.map((s: Lead) => s.name) ?? [],
-    student_leads_contact: data.students?.map((s: Lead) => s.contact) ?? [],
-    type: data.type,
-    ...(data.description !== '' && { description: data.description }),
-    ...(data.time !== '' && { time: data.time }),
-    ...(data.location !== '' && { location: data.location }),
-    ...(data.other !== '' && { other: data.other }),
-    approved: 0
-  }
-  await writeClub(dataProcessed)
-  window.alert("Club sent successfully!")
-}
 
 type Lead = {
   name: string;
@@ -156,6 +134,9 @@ type ClubWriterProps = {
 }
 
 export function ClubWriter( { clubs } : ClubWriterProps) {
+  const [loading, setLoading] = useState(false);
+  const currentClubs = clubs;
+
   return (
     <ModalButton
       buttonClass="p-2 flex items-center justify-center m-3 mr-0 w-[5vw] min-w-[55px] h-[50px] text-xl !text-[var(--mid)] rounded-md select-text
@@ -174,117 +155,155 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
       shadow-2xl p-4 text-gray
       max-h-[90vh] overflow-y-auto
 "
-      modalBody={
-        <div
-          className="w-full mt-[4vh] rounded-md flex flex-col justify-start overflow-auto items-center content-evenly p-2"
-        >
+      modalBody={(closeModal) => {
+        async function sendClub(data: FormReturn): Promise<void> {
+          if (loading) return;
+          setLoading(true);
+          if (currentClubs.map((c: Club) => c.name).includes(data.name)) {
+            window.alert("Error:\nClub name already exists.");
+            setLoading(false);
+            return;
+          }
+          const dataProcessed: Club = {
+            name: data.name,
+            sponsors_name: data.sponsors?.map((s: Lead) => s.name) ?? [],
+            sponsors_contact: data.sponsors?.map((s: Lead) => s.contact) ?? [],
+            student_leads_name: data.students?.map((s: Lead) => s.name) ?? [],
+            student_leads_contact: data.students?.map((s: Lead) => s.contact) ?? [],
+            type: data.type,
+            ...(data.description !== '' && { description: data.description }),
+            ...(data.time !== '' && { time: data.time }),
+            ...(data.location !== '' && { location: data.location }),
+            ...(data.other !== '' && { other: data.other }),
+            approved: 0
+          }
+          await writeClub(dataProcessed)
+          window.alert("Club sent successfully!")
+          setLoading(false);
+          currentClubs.push(dataProcessed);
+          closeModal(); // Close the modal here
+        }
 
-          <FormContainer<FormReturn>
-            defaultValues={{
-              name: '',
-              sponsors: [{}],
-              students: [{}],
-              type: '',
-              description: '',
-              time: '',
-              location: '',
-              other: '',
-            }}
-            onSuccess={data => sendClub(data, clubs)}
+        return (
+          <div
+            className="w-full mt-[4vh] rounded-md flex flex-col justify-start overflow-auto items-center content-evenly p-2 relative"
           >
-            <Box display="flex" flexDirection="column" gap={4} className="w-full overflow-hidden">
+            <FormContainer<FormReturn>
+              defaultValues={{
+                name: '',
+                sponsors: [{}],
+                students: [{}],
+                type: '',
+                description: '',
+                time: '',
+                location: '',
+                other: '',
+              }}
+              onSuccess={data => sendClub(data)}
+            >
+              <Box display="flex" flexDirection="column" gap={4} className="w-full overflow-hidden">
 
-              <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
-                <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Basic Info</h2>
-                <TextFieldElement
-                  sx={TEXT_FIELD_STYLING}
-                  name="name"
-                  label="Club Name"
-                  rules={validationRules.clubName}
-                />
-                <Controller
-                  name="type"
-                  rules={{ required: 'Club type is required' }}
-                  render={({field: {onChange, value}, fieldState: {error}}) => (
-                    <Autocomplete
-                      sx={{
-                        color: 'white',
-                        '& .MuiSvgIcon-root': {
-                          color: 'var(--foreground)',
-                        },
-                        ...TEXT_FIELD_STYLING
-                      }}
-                      options={TYPES.filter((s: string) => s !== "All")}
-                      getOptionLabel={(option: string) => option}
-                      value={value || null}
-                      onChange={(_, newValue) => onChange(newValue)}
-                      renderInput={(params) => (
-                        <TextField
-                          label="Type *"
-                          name="autoCompleteEntry"
-                          sx={TEXT_FIELD_STYLING}
-                          {...params}
-                          error={!!error}
-                          helperText={error?.message}
-                        />
-                      )}
-                    />
-                  )}/>
-                <TextFieldElement
-                  sx={TEXT_FIELD_STYLING}
-                  name="description"
-                  label="Description"
-                  multiline
-                  rows={3}
-                  rules={validationRules.description}
-                />
-              </Box>
+                <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
+                  <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Basic Info</h2>
+                  <TextFieldElement
+                    sx={TEXT_FIELD_STYLING}
+                    name="name"
+                    label="Club Name *"
+                    rules={validationRules.clubName}
+                  />
+                  <Controller
+                    name="type"
+                    rules={{ required: 'Club type is required' }}
+                    render={({field: {onChange, value}, fieldState: {error}}) => (
+                      <Autocomplete
+                        sx={{
+                          color: 'white',
+                          '& .MuiSvgIcon-root': {
+                            color: 'var(--foreground)',
+                          },
+                          ...TEXT_FIELD_STYLING
+                        }}
+                        options={TYPES.filter((s: string) => s !== "All")}
+                        getOptionLabel={(option: string) => option}
+                        value={value || null}
+                        onChange={(_, newValue) => onChange(newValue)}
+                        renderInput={(params) => (
+                          <TextField
+                            label="Type *"
+                            name="autoCompleteEntry"
+                            sx={TEXT_FIELD_STYLING}
+                            {...params}
+                            error={!!error}
+                            helperText={error?.message}
+                          />
+                        )}
+                      />
+                    )}/>
+                  <TextFieldElement
+                    sx={TEXT_FIELD_STYLING}
+                    name="description"
+                    label="Description"
+                    multiline
+                    rows={3}
+                    rules={validationRules.description}
+                  />
+                </Box>
 
-              <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
-                <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Sponsors</h2>
-                <DynamicSponsors textFieldStyling={TEXT_FIELD_STYLING} />
-              </Box>
+                <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
+                  <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Sponsors</h2>
+                  <DynamicSponsors textFieldStyling={TEXT_FIELD_STYLING} />
+                </Box>
 
-              <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
-                <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h2>
-                <DynamicStudents textFieldStyling={TEXT_FIELD_STYLING} />
-              </Box>
+                <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
+                  <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h2>
+                  <DynamicStudents textFieldStyling={TEXT_FIELD_STYLING} />
+                </Box>
 
-              <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
-                <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Logistics</h2>
-                <TextFieldElement
-                  sx={TEXT_FIELD_STYLING}
-                  name="time"
-                  label="Meeting Times"
-                  rules={validationRules.time}
-                  placeholder="Mondays at Lunch"
-                />
-                <TextFieldElement
-                  sx={TEXT_FIELD_STYLING}
-                  name="location"
-                  label="Location"
-                  rules={validationRules.location}
-                  placeholder="ISP Hub"
-                />
-                <TextFieldElement
-                  sx={TEXT_FIELD_STYLING}
-                  name="other"
-                  label="Other Info"
-                  multiline
-                  rows={2}
-                  rules={validationRules.other}
-                  placeholder="Website, social media, etc."
-                />
-              </Box>
+                <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
+                  <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Logistics</h2>
+                  <TextFieldElement
+                    sx={TEXT_FIELD_STYLING}
+                    name="time"
+                    label="Meeting Times"
+                    rules={validationRules.time}
+                    placeholder="Mondays at Lunch"
+                  />
+                  <TextFieldElement
+                    sx={TEXT_FIELD_STYLING}
+                    name="location"
+                    label="Location"
+                    rules={validationRules.location}
+                    placeholder="ISP Hub"
+                  />
+                  <TextFieldElement
+                    sx={TEXT_FIELD_STYLING}
+                    name="other"
+                    label="Other Info"
+                    multiline
+                    rows={2}
+                    rules={validationRules.other}
+                    placeholder="Website, social media, etc."
+                  />
+                </Box>
 
-              <Box display="flex" justifyContent="center" mt={2}>
-                <button type="submit" className="px-6 py-3 rounded-lg font-medium text-lg min-w-[120px] hover:scale-105 transform transition-all duration-200 border-2 border-[var(--fssgold)] bg-[var(--background)] text-[var(--fssgold)] hover:bg-[var(--fssgold)] hover:text-[var(--background)]">
-                  Submit
-                </button>
+                <Box display="flex" justifyContent="center" mt={2}>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className={`px-6 py-3 rounded-lg font-medium text-lg min-w-[120px] transform transition-all duration-200 border-2 border-[var(--fssgold)] ${
+                      loading
+                        ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                        : 'bg-[var(--background)] text-[var(--fssgold)] hover:bg-[var(--fssgold)] hover:text-[var(--background)] hover:scale-105'
+                    }`}
+                  >
+                    {loading ? 'Submitting...' : 'Submit'}
+                  </button>
+                </Box>
               </Box>
-            </Box>
-          </FormContainer>
-        </div>
-      } />
+            </FormContainer>
+          </div>
+        )
+      }}
+    />
   )
 }

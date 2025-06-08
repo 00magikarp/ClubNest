@@ -27,7 +27,7 @@ export function LoginPage() {
   }, [router])
 
   const handleLogin = async () => {
-    if (loading) return
+    if (loading) return;
     setLoading(true)
     const password = window.prompt("Please enter your password:")
     if (!password) {

@@ -12,12 +12,12 @@ export function ClubBox({ club }: ClubBoxProps) {
     <div>
       <ModalButton
         buttonClass="shadow-xl/30 basis-auto
-        p-3 flex flex-col my-3 w-[clamp(200px,20vw,250px)] h-[120px] text-lg bg-[var(--mid)] text-gray rounded-2xl select-text items-center justify-start
+        p-3 flex flex-col my-3 w-[clamp(200px,20vw,300px)] h-[130px] text-lg bg-[var(--mid)] text-gray rounded-2xl select-text items-center justify-start
         transform transition-transform duration-200 hover:scale-105 cursor-pointer
         "
         modalClass="leading-relaxed"
         buttonTitle={
-        <div className="h-full w-full flex flex-col justify-start justify-center-safe mt-2 mt-1">
+        <div className="h-full w-full flex flex-col justify-between my-3">
           <h3 className="h-[50%] font-semibold text-xl overflow-ellipsis truncate text-[var(--fssgold)]">{club.name}</h3>
           <p className="text-lg">{club.type || ""}</p>
         </div>

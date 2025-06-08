@@ -6,7 +6,7 @@ import ClubsTableButton from "@/app/admin/components/ClubsTableButton";
 import {Club, Roster} from "@/lib/definitions";
 import {readRoster} from "@/lib/firebaseClient";
 import {getClubs} from "@/lib/localstorage";
-import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";
+// import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";
 import {useEffect, useState} from "react";
 import { ClubRemoverModal } from "@/app/admin/components/ClubRemover";
 import { useRouter } from "next/navigation";
@@ -71,16 +71,18 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="mb-auto w-[85vw] flex flex-col md:flex-row flex-1 justify-between">
+      <div className="mb-auto w-[85vw] flex gap-10 md:gap-0 flex-col md:flex-row flex-1 justify-between">
         <div className="mr-10 h-full flex-1 w-full md:w-auto">
           <ClubReviewer/>
         </div>
 
         <div className="flex-col justify-start w-full md:w-[275px]">
-          <AdminHelpButton/>
+          {/*<div className="mb-6">*/}
+          {/*  <AdminHelpButton/>*/}
+          {/*</div>*/}
 
           <div
-            className="mt-6 bg-[var(--container)] rounded-md border-[var(--border)] border-1 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
+            className="bg-[var(--container)] rounded-md border-[var(--border)] border-1 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
             <p className="text-xl w-full text-center mt-1 mb-2">Admin Panel</p>
             <ClubRemoverModal/>
             <br className="w-0 h-20px"/>
