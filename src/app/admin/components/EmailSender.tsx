@@ -2,15 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
-import { readClubs } from '@/lib/firebaseClient';
 import { Club } from '@/lib/definitions';
 
-export default function SendEmailComponent() {
-    const [clubs, setClubs] = useState<Club[]>([]);
+type SendEmailComponentProps = {
+    clubs: Club[];
+}
+
+export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        // Initialize EmailJS with your public key
         const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
         if (publicKey) {
             emailjs.init(publicKey);
@@ -18,17 +19,6 @@ export default function SendEmailComponent() {
         } else {
             console.error('EmailJS Public Key is missing!');
         }
-
-        const loadClubs = async () => {
-            try {
-                const clubsData = await readClubs();
-                setClubs(clubsData);
-            } catch (error) {
-                console.error('Error loading clubs:', error);
-            }
-        };
-
-        loadClubs();
     }, []);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -237,7 +227,8 @@ export default function SendEmailComponent() {
         const testEmails: string[] = [
             "falconsoftwaresolutions27@gmail.com",
             "carviz@carviz.lol",
-            "kirabopayne@gmail.com"
+            "kirabopayne@gmail.com",
+            "areganathan@gmail.com"
         ];
 
         if (testEmails.length === 0) {
@@ -310,7 +301,7 @@ export default function SendEmailComponent() {
 
 
     return (
-        <div className="mt-6 bg-[var(--container)] rounded-md border-[var(--mid)] border-2 w-full flex flex-col flex-wrap p-4 justify-around gap-4">
+        <div className="mt-6 w-full flex flex-col flex-wrap p-4 justify-around gap-4">
             <h2 className="!text-gray-300 text-xl w-full text-center">Email Tools</h2>
 
             {clubs.length === 0 && (
@@ -319,11 +310,11 @@ export default function SendEmailComponent() {
                 </div>
             )}
 
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3 justify-center items-center">
+            <div className="w-full flex flex-col flex-wrap gap-3 justify-center items-center">
                 <button
                     onClick={handleTestEmail}
                     disabled={loading}
-                    className="bg-[var(--mid)] text-white rounded-xl p-4 w-[260px] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                    className="bg-[var(--mid)] text-white rounded-xl w-[90%] p-4 hover:scale-105 transition-transform duration-200 disabled:opacity-50"
                 >
                     {loading ? 'Sending...' : 'Send Test Email'}
                 </button>
@@ -331,7 +322,7 @@ export default function SendEmailComponent() {
                 <button
                     onClick={handleTestEmailMultipleClub}
                     disabled={loading}
-                    className="bg-blue-600 text-white rounded-xl p-4 w-[260px] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                    className="bg-blue-600 text-white rounded-xl p-4 w-[90%] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
                 >
                     {loading ? 'Sending...' : 'Send Multiple Test Emails'}
                 </button>
@@ -339,7 +330,7 @@ export default function SendEmailComponent() {
                 <button
                     onClick={sendEmailToAllClubs}
                     disabled={loading || clubs.length === 0}
-                    className="bg-red-600 text-white rounded-xl p-4 w-[260px] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                    className="bg-red-600 text-white rounded-xl p-4 w-[90%] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
                 >
                     {loading ? 'Sending...' : `Send Email to All Clubs (${clubs.length})`}
                 </button>

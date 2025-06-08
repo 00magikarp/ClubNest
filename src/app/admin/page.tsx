@@ -82,20 +82,20 @@ export default function Home() {
           {/*</div>*/}
 
           <div
-            className="bg-[var(--container)] rounded-md border-[var(--border)] border-1 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
+            className="bg-[var(--container)] rounded-md border-[var(--border)] border-1 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3 mb-5">
             <p className="text-xl w-full text-center mt-1 mb-2">Admin Panel</p>
             <ClubRemoverModal/>
             <br className="w-0 h-20px"/>
             <ClubsTableButton clubs={clubs}/>
             <RosterTableButton rosters={rosters}/>
           </div>
-        </div>
 
-        <div>
-          <SendEmailComponent />
+          <div
+              className="bg-[var(--container)] rounded-md border-[var(--border)] border-1 w-full flex flex-col flex-wrap flex-1 p-3 justify-around gap-3">
+              <SendEmailComponent clubs={clubs}/>
+          </div>
         </div>
       </div>
-
 
       <Footer/>
     </div>
