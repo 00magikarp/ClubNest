@@ -99,27 +99,47 @@ export const TEXT_FIELD_STYLING: SxProps<Theme> = {
 
 export const DATA_GRID_STYLING: SxProps<Theme> = {
   boxShadow: 2,
-    border: 2,
-    borderColor: 'var(--fssgold)',
-    backgroundColor: 'var(--background)',
-    color: 'var(--foreground)',
-    '& .MuiDataGrid-cell': {
+  border: 2,
+  borderColor: 'var(--fssgold)',
+  // Add the requested styling
+  backgroundColor: 'var(--background)',
+  color: 'var(--foreground)',
+  '& .MuiDataGrid-cell': {
     borderColor: 'var(--border)',
   },
   '& .MuiDataGrid-cell:hover': {
+    backgroundColor: 'var(--mid)',
     color: 'var(--fssgold)',
-      backgroundColor: 'var(--mid)',
   },
   '& .MuiDataGrid-row:hover': {
     backgroundColor: 'var(--mid)',
   },
+  '& .MuiDataGrid-row.Mui-selected': {
+    backgroundColor: 'var(--mid)',
+    '&:hover': {
+      backgroundColor: 'var(--mid)',
+    },
+  },
+  '& .MuiDataGrid-cell.Mui-selected': {
+    backgroundColor: 'var(--mid)',
+  },
+  '& .MuiDataGrid-cell--editing': {
+    backgroundColor: 'var(--background)',
+  },
+  '& .MuiInputBase-root': {
+    color: 'var(--foreground)',
+    backgroundColor: 'var(--background)',
+  },
+  '& .MuiInputBase-input': {
+    color: 'var(--foreground)',
+  },
   '& .MuiDataGrid-columnHeaders': {
     borderColor: 'var(--border)',
-      backgroundColor: 'var(--background)',
+    backgroundColor: 'var(--background)',
   },
   '& .MuiDataGrid-columnHeader': {
     backgroundColor: 'var(--background)',
-      color: 'var(--foreground)',
+    color: 'var(--foreground)',
   },
   '& .MuiDataGrid-columnHeaderTitle': {
     color: 'var(--foreground)',
@@ -129,12 +149,12 @@ export const DATA_GRID_STYLING: SxProps<Theme> = {
   },
   '& .MuiDataGrid-footerContainer': {
     borderTop: '1px solid var(--border)',
-      backgroundColor: 'var(--background)',
-      color: 'var(--foreground)',
+    backgroundColor: 'var(--background)',
+    color: 'var(--foreground)',
   },
   '& .MuiDataGrid-toolbarContainer': {
     backgroundColor: 'var(--background)',
-      color: 'var(--foreground)',
+    color: 'var(--foreground)',
   },
   '& .MuiButton-root': {
     color: 'var(--foreground)',
