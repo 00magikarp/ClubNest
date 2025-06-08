@@ -3,21 +3,51 @@
 import {Controller, FormContainer, TextFieldElement} from 'react-hook-form-mui'
 import {Button, Box, SxProps, Theme, Autocomplete, TextField} from "@mui/material";
 import { writeClub } from "@/lib/firebaseClient";
-import {Club, TYPES} from "@/lib/objects";
+import {Club, TEXT_FIELD_STYLING, TYPES} from "@/lib/definitions";
 import { ModalButton } from "@/app/components/ModalButton";
 import { useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 
-const buttonStyling: SxProps<Theme> = {
-  padding: 5,
-  borderRadius: 3,
-  width: '40%',
-  height: '40px',
-  flex: 'true',
-  margin: 2,
-  color: 'var(--fssgold)',
-  borderColor: '#00b6ae'
-}
+// Validation rules
+const validationRules = {
+  clubName: {
+    required: 'Club name is required',
+    minLength: { value: 3, message: 'Club name must be at least 3 characters' },
+    maxLength: { value: 100, message: 'Club name must be less than 100 characters' },
+    pattern: {
+      value: /^[a-zA-Z0-9\s\-']+$/,
+      message: 'Club name can only contain letters, numbers, spaces, hyphens, and apostrophes'
+    }
+  },
+  personName: {
+    required: 'Name is required',
+    minLength: { value: 2, message: 'Name must be at least 2 characters' },
+    maxLength: { value: 50, message: 'Name must be less than 50 characters' },
+    pattern: {
+      value: /^[a-zA-Z\s\-']+$/,
+      message: 'Name can only contain letters, spaces, hyphens, and apostrophes'
+    }
+  },
+  email: {
+    required: 'Contact email is required',
+    pattern: {
+      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      message: 'Please enter a valid email address'
+    }
+  },
+  description: {
+    maxLength: { value: 500, message: 'Description must be less than 500 characters' }
+  },
+  time: {
+    maxLength: { value: 100, message: 'Meeting times must be less than 100 characters' }
+  },
+  location: {
+    maxLength: { value: 100, message: 'Location must be less than 100 characters' }
+  },
+  other: {
+    maxLength: { value: 300, message: 'Other info must be less than 300 characters' }
+  }
+};
 
 const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme> }) => {
   const [sponsors, setSponsors] = useState([{ name: "", contact: "" }]);
@@ -26,21 +56,20 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
   const removeSponsor = () => sponsors.length > 1 && setSponsors([...sponsors.slice(0, -1)]);
 
   return (
-    <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
-      <h3 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Club Sponsors</h3>
+    <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3, flexWrap: 'wrap' }}>
       {sponsors.map((_, index) => (
-        <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", lg: "row"}, gap: 2, mb: 2 }}>
           <TextFieldElement
             sx={textFieldStyling}
             name={`sponsors[${index}].name`}
             label="Sponsor Name"
-            required
+            rules={validationRules.personName}
           />
           <TextFieldElement
             sx={textFieldStyling}
             name={`sponsors[${index}].contact`}
-            label="Sponsor Contact"
-            required
+            label="Sponsor Email"
+            rules={validationRules.email}
           />
         </Box>
       ))}
@@ -52,7 +81,6 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
   );
 };
 
-
 const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme> }) => {
   const [students, setStudents] = useState([{ name: "", contact: "" }]);
 
@@ -61,20 +89,19 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
 
   return (
     <Box sx={{ width: '100%', p: 2, boxShadow: 3, borderRadius: 2, mb: 3 }}>
-      <h3 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h3>
       {students.map((_, index) => (
-        <Box key={index} sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <Box key={index} sx={{ display: "flex", flexDirection: { xs: "column", lg: "row"}, gap: 2, mb: 2 }}>
           <TextFieldElement
             sx={textFieldStyling}
             name={`students[${index}].name`}
             label="Student Name"
-            required
+            rules={validationRules.personName}
           />
           <TextFieldElement
             sx={textFieldStyling}
             name={`students[${index}].contact`}
-            label="Student Contact"
-            required
+            label="Student Email"
+            rules={validationRules.email}
           />
         </Box>
       ))}
@@ -85,7 +112,6 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
     </Box>
   );
 };
-
 
 async function sendClub(data: FormReturn, clubs: Club[]): Promise<void> {
   if (clubs.map((c: Club) => c.name).includes(data.name)) {
@@ -130,47 +156,6 @@ type ClubWriterProps = {
 }
 
 export function ClubWriter( { clubs } : ClubWriterProps) {
-  const textFieldStyling: SxProps<Theme> = {
-    width: '100%',
-    minWidth: '200px',
-    flex: 1,
-    marginTop: 2,
-    marginBottom: 3,
-    marginLeft: 1,
-    marginRight: 1,
-    "& .MuiInputLabel-root": {
-      color: 'var(--foreground)',
-      opacity: '95%',
-      "& Mui.focused": {
-        color: 'var(--fssgold)',
-      }
-    },
-    "& .MuiOutlinedInput-root": {
-      borderRadius: 3,
-      color: 'var(--foreground)',
-
-      '& fieldset': {
-        borderColor: 'var(--fssgold)', // default border
-        borderWidth: 2,
-      },
-      '&:hover fieldset': {
-        borderColor: 'var(--fssgold)',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: 'var(--foreground)',
-        borderWidth: 2,
-      },
-
-      input: {
-        caretColor: 'white',
-      },
-    },
-    "& input::placeholder": {
-      color: 'gray',
-      opacity: 0.95
-    },
-  }
-
   return (
     <ModalButton
       buttonClass="p-2 flex items-center justify-center m-3 mr-0 w-[5vw] min-w-[55px] h-[50px] text-xl !text-[var(--mid)] rounded-md select-text
@@ -184,14 +169,14 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
       }
       modalTitle={"Club Creation Form"}
       modalContainerClass="
-  w-[55vw] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
-  -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)]
-  shadow-2xl p-4 text-gray
-  max-h-[90vh] overflow-y-auto
+      min-w-[360px] w-[55vw] min-h-[525px] rounded-xl absolute top-1/2 left-1/2
+      -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)]
+      shadow-2xl p-4 text-gray
+      max-h-[90vh] overflow-y-auto
 "
       modalBody={
         <div
-          className="w-full mt-[2vh] rounded-md flex flex-col justify-start overflow-auto items-center content-evenly p-2"
+          className="w-full mt-[4vh] rounded-md flex flex-col justify-start overflow-auto items-center content-evenly p-2"
         >
 
           <FormContainer<FormReturn>
@@ -207,14 +192,19 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
             }}
             onSuccess={data => sendClub(data, clubs)}
           >
-            <Box display="flex" flexDirection="column" gap={4} className="w-full">
+            <Box display="flex" flexDirection="column" gap={4} className="w-full overflow-hidden">
 
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Basic Info</h2>
-                <TextFieldElement sx={textFieldStyling} name="name" label="Club Name" required/>
+                <TextFieldElement
+                  sx={TEXT_FIELD_STYLING}
+                  name="name"
+                  label="Club Name"
+                  rules={validationRules.clubName}
+                />
                 <Controller
                   name="type"
-                  rules={{ required: 'This field is required' }}
+                  rules={{ required: 'Club type is required' }}
                   render={({field: {onChange, value}, fieldState: {error}}) => (
                     <Autocomplete
                       sx={{
@@ -222,9 +212,9 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
                         '& .MuiSvgIcon-root': {
                           color: 'var(--foreground)',
                         },
-                        ...textFieldStyling
+                        ...TEXT_FIELD_STYLING
                       }}
-                      options={TYPES.filter((s: string) => s !== "Other")}
+                      options={TYPES.filter((s: string) => s !== "All")}
                       getOptionLabel={(option: string) => option}
                       value={value || null}
                       onChange={(_, newValue) => onChange(newValue)}
@@ -232,46 +222,69 @@ export function ClubWriter( { clubs } : ClubWriterProps) {
                         <TextField
                           label="Type *"
                           name="autoCompleteEntry"
-                          sx={{
-                            textFieldStyling
-                          }}
+                          sx={TEXT_FIELD_STYLING}
                           {...params}
                           error={!!error}
                           helperText={error?.message}
                         />
                       )}
                     />
-                )}/>
-                <TextFieldElement sx={textFieldStyling} name="description" label="Description" />
+                  )}/>
+                <TextFieldElement
+                  sx={TEXT_FIELD_STYLING}
+                  name="description"
+                  label="Description"
+                  multiline
+                  rows={3}
+                  rules={validationRules.description}
+                />
               </Box>
 
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Sponsors</h2>
-                <DynamicSponsors textFieldStyling={textFieldStyling} />
+                <DynamicSponsors textFieldStyling={TEXT_FIELD_STYLING} />
               </Box>
 
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Student Leads</h2>
-                <DynamicStudents textFieldStyling={textFieldStyling} />
+                <DynamicStudents textFieldStyling={TEXT_FIELD_STYLING} />
               </Box>
 
               <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)' }}>
                 <h2 style={{ color: 'var(--fssgold)', marginBottom: '1rem' }}>Logistics</h2>
-                <TextFieldElement sx={textFieldStyling} name="time" label="Meeting Times" />
-                <TextFieldElement sx={textFieldStyling} name="location" label="Location" />
-                <TextFieldElement sx={textFieldStyling} name="other" label="Other Info" />
+                <TextFieldElement
+                  sx={TEXT_FIELD_STYLING}
+                  name="time"
+                  label="Meeting Times"
+                  rules={validationRules.time}
+                  placeholder="Mondays at Lunch"
+                />
+                <TextFieldElement
+                  sx={TEXT_FIELD_STYLING}
+                  name="location"
+                  label="Location"
+                  rules={validationRules.location}
+                  placeholder="ISP Hub"
+                />
+                <TextFieldElement
+                  sx={TEXT_FIELD_STYLING}
+                  name="other"
+                  label="Other Info"
+                  multiline
+                  rows={2}
+                  rules={validationRules.other}
+                  placeholder="Website, social media, etc."
+                />
               </Box>
 
               <Box display="flex" justifyContent="center" mt={2}>
-                <Button type="submit" color="primary" sx={{ ...buttonStyling, width: '200px', margin: 0 }}>
+                <button type="submit" className="px-6 py-3 rounded-lg font-medium text-lg min-w-[120px] hover:scale-105 transform transition-all duration-200 border-2 border-[var(--fssgold)] bg-[var(--background)] text-[var(--fssgold)] hover:bg-[var(--fssgold)] hover:text-[var(--background)]">
                   Submit
-                </Button>
+                </button>
               </Box>
             </Box>
           </FormContainer>
-
         </div>
       } />
-
   )
 }

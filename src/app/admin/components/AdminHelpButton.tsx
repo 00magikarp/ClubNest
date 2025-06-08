@@ -16,7 +16,7 @@ export function AdminHelpButton() {
       modalTitle={"Admin Help"}
       modalContainerClass="
       w-[80vw] h-[70vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
+      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
       modalBody={
         <>
           <span className="text-gray-400 text-md w-full text-center">Extra help coming soon!</span>

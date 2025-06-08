@@ -6,7 +6,7 @@ type ThemeContextProviderProps = {
     children: React.ReactNode;
 }
 
-type Theme = 'light' | 'dark' | null;
+type Theme = 'light' | 'dark';
 
 type ThemeContext = {
     theme: Theme;
@@ -20,14 +20,16 @@ export default function ThemeContextProvider({children}: ThemeContextProviderPro
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme') as Theme;
-        setTheme(savedTheme ?? 'dark');
+        if (savedTheme) {
+            setTheme(savedTheme)
+        } else {
+            setTheme('dark' as Theme);
+            localStorage.setItem('theme', 'dark' as Theme)
+        }
     }, []);
 
     useEffect(() => {
-        if (!theme) {
-            const savedTheme = localStorage.getItem('theme');
-            setTheme((savedTheme ?? 'dark') as Theme);
-        } else {
+        if (theme) {
             localStorage.setItem('theme', theme);
             document.documentElement.classList.toggle('dark', theme === 'dark');
         }
@@ -38,7 +40,7 @@ export default function ThemeContextProvider({children}: ThemeContextProviderPro
         <ThemeContext.Provider
             value={{
                 theme,
-                setTheme
+                setTheme: setTheme as React.Dispatch<React.SetStateAction<Theme>>
             }}>
             {children}
         </ThemeContext.Provider>

@@ -1,4 +1,4 @@
-import { Club, Student, Roster } from "@/lib/objects";
+import { Club, Student, Roster } from "@/lib/definitions";
 
 export async function writeClub(data: Club): Promise<void> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/writeClub`, {
@@ -32,7 +32,7 @@ export async function writeStudent(data: Student): Promise<boolean> {
   
   if (!res.ok) {
     const err = await res.json()
-    console.log(err);
+    console.error(err);
     return false;
   }
   return res.status != 400;

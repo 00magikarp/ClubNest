@@ -1,6 +1,6 @@
 import { db, signInAdmin } from "./firebase";
 import {collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc} from "firebase/firestore";
-import { Club, Roster, Student } from "@/lib/objects";
+import { Club, Roster, Student } from "@/lib/definitions";
 
 await signInAdmin();
 
@@ -14,7 +14,7 @@ await signInAdmin();
 export async function writeClub(data: Club): Promise<void> {
   try {
     const docRef = await addDoc(collection(db, "clubs"), data);
-    console.log("Document written with ID: ", docRef.id);
+    console.info("Document written with ID: ", docRef.id);
   } catch (e) {
     console.error("Error adding document: ", e);
     throw new Error(`Error adding club data to document: ${e} Club data:\r\n ${JSON.stringify(data, null, 2)}`)
@@ -128,7 +128,7 @@ export async function addStudent(student: Student): Promise<boolean> {
   const rosterRef = await getDocs(q);
   if (rosterRef.empty) {
     const docRef = await addDoc(collection(db, "rosters"), student);
-    console.log("Document written with ID: ", docRef.id);
+    console.info("Document written with ID: ", docRef.id);
   } else {
     return false;
   }

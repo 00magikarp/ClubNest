@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Club } from "@/lib/objects";
+import { Club } from "@/lib/definitions";
 import { getClubs } from "@/lib/localstorage";
 import {deleteClub, updateClub} from "@/lib/firebaseClient";
 import { ModalButton } from "@/app/components/ModalButton";
@@ -9,6 +9,7 @@ import { SearchBar } from "@/app/components/SearchBar";
 import {Button, Tooltip} from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArchiveIcon from "@mui/icons-material/Archive";
+import {ClubReviewBox} from "@/app/admin/components/ClubReviewBox";
 
 
 
@@ -43,57 +44,9 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
     };
 
     return (
-        <div className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-md flex-none m-2 w-[220px]">
+        <div className="bg-[var(--mid)] border-2 border-[var(--bars)] rounded-2xl flex flex-col justify-center m-2 w-[80%] md:w-[25vw] max-w-[280px] shadow-xl/30">
             <div>
-                <ModalButton
-                    buttonClass="mt-1 ml-2 mr-2 flex flex-col w-[calc(220px-1rem)] h-[80px] text-xl bg-[var(--mid)] text-gray rounded-md
-          select-text items-center justify-start transform transition-transform duration-200 hover:scale-105 cursor-pointer"
-                    modalClass="text-gray-300"
-                    buttonTitle={
-                        <div className="h-full w-full flex flex-col justify-start items-center mt-2 mt-1">
-                            <h3 className="h-[50%] font-semibold text-xl">{club.name}</h3>
-                            <p className="text-gray-400 text-lg">{club.type || ""}</p>
-                        </div>
-                    }
-                    modalTitle={club.name}
-                    modalBody={
-                        <div className="rounded">
-                            <p className="text-gray-400 text-lg text-center">Type: {club.type || "Other"}</p>
-                            <br />
-                            <p>Description: {club.description || "No description found"}</p>
-                            <br />
-                            <p>Student(s) in charge:</p>
-                            <ul className="list-disc list-inside">
-                                {club.student_leads_name.map((student: string, idx: number) => (
-                                    <li key={idx}>
-                                        {student} (
-                                        <a className="underline underline-offset-4" href={"mailto:" + club.student_leads_contact[idx]}>
-                                            {club.student_leads_contact[idx]}
-                                        </a>
-                                        )
-                                    </li>
-                                ))}
-                            </ul>
-                            <br />
-                            <p>Sponsor(s):</p>
-                            <ul className="list-disc list-inside">
-                                {club.sponsors_name.map((sponsor: string, idx: number) => (
-                                    <li key={idx}>
-                                        {sponsor} (
-                                        <a className="underline underline-offset-4" href={"mailto:" + club.sponsors_contact[idx]}>
-                                            {club.sponsors_contact[idx]}
-                                        </a>
-                                        )
-                                    </li>
-                                ))}
-                            </ul>
-                            <br />
-                            <p>Meeting times: {club.time || "unspecified"}</p>
-                            <p>Meeting locations: {club.location || "unspecified"}</p>
-                            <p>Additional information: {club.other || "None"}</p>
-                        </div>
-                    }
-                />
+                <ClubReviewBox club={club}/>
             </div>
             <div className="flex flex-row w-full justify-center items-center mb-2 mt-0.5 gap-2">
                 <Tooltip title="Archive">
@@ -163,7 +116,7 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
                 {/* Clubs Display Area - mirrors main page without filter bar */}
                 <div className="w-full max-w-[1200px] flex flex-col space-y-2 justify-start">
                     <div
-                        className=" justify-around w-full min-h-[337px] flex flex-row flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll gap-x-1">
+                        className="justify-around w-full min-h-[337px] flex flex-row flex-wrap items-start p-4 mb-3 overflow-x-scroll gap-x-1">
                         {
                             clubsDisplayed.length !== 0 ? (
                                 clubsDisplayed.map((club: Club, idx: number) => (
@@ -201,7 +154,7 @@ function ClubRemovalBox({ club, onDelete }: { club: Club; onDelete: (club: Club)
                 buttonTitle="Remove Clubs"
                 modalTitle="Club Removal Management"
                 modalBody={<ClubRemover/>}
-                modalContainerClass="w-[90vw] max-w-[1300px] max-h-[90vh] overflow-y-auto rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-2 border-[var(--fssgold)] shadow-2xl p-6 text-gray"
+                modalContainerClass="w-[90vw] max-w-[1300px] max-h-[90vh] overflow-y-auto rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)] border-1 border-[var(--fssgold)] shadow-2xl p-6 text-gray"
             />
         );
     }

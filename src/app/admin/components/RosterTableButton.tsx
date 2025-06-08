@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react';
-import { Roster } from '@/lib/objects';
+import { Roster } from '@/lib/definitions';
 import { ModalButton } from '@/app/components/ModalButton';
 import { DataGrid } from '@mui/x-data-grid';
 import {removeStudent} from "@/lib/firebaseClient";
@@ -38,12 +38,12 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
       }
       modalTitle={"Club Student Data"}
       modalContainerClass="
-      w-[65vw] h-[70vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
+      w-[50vw] h-[85vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
+      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
       modalBody={
         <>
           <p className="w-0 h-5"></p>
-          <div className="w-full h-[58vh]">
+          <div className="w-full h-[74vh]">
             <DataGrid
               slotProps={{
                 toolbar: {
@@ -52,8 +52,6 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
                 },
               }}
               showToolbar
-              checkboxSelection
-              keepNonExistentRowsSelected
               editMode="row"
               processRowUpdate={async (updated: UnparsedRoster, old: UnparsedRoster) => {
                 if (updated.student_id === '') {
@@ -65,7 +63,6 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
                   return old;
                 }
                 const r = parseRoster(updated);
-                console.log(r);
                 return r;
               }}
               onProcessRowUpdateError={() => {
@@ -80,7 +77,6 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
                 { field: 'firstName', headerName: 'Student Name (First)', flex: 1, editable: true  },
                 { field: 'club', headerName: 'Name of Club', flex: 1, editable: true },
               ]}
-              autosizeOnMount={true}
               sx={{
                 boxShadow: 2,
                 border: 2,

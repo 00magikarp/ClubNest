@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import {deleteClub, updateClub} from '@/lib/firebaseClient';
-import {Club, TYPES} from '@/lib/objects';
+import {Club, TYPES} from '@/lib/definitions';
 import { ModalButton } from '@/app/components/ModalButton';
 import {DataGrid} from "@mui/x-data-grid";
 
@@ -57,12 +57,12 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
       }
       modalTitle={"Club Information Data"}
       modalContainerClass="
-      w-[80vw] h-[70vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
-      border-2 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
+      w-[80vw] h-[85vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
+      border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray overflow-y-auto"
       modalBody={
         <>
           <p className="w-0 h-5"></p>
-          <div className="w-full h-[58vh]">
+          <div className="w-full h-[74vh]">
             <DataGrid
               slotProps={{
                 toolbar: {
@@ -71,8 +71,6 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                 },
               }}
               showToolbar
-              checkboxSelection
-              keepNonExistentRowsSelected
               editMode="row"
               processRowUpdate={async (updated: UnparsedClub, old: UnparsedClub) => {
                 if (updated.name === '') {
@@ -97,10 +95,8 @@ export default function ClubsTableButton({ clubs } : ClubsTableButtonProps) {
                   window.alert(`Illegal type of club "${updated.type}"`);
                   return old;
                 }
-                // TODO: add data validation to updateclub, user prompt, etc.
                 const club: Club = parseClub(updated);
                 await updateClub(club, parseClub(old));
-                console.log(updated);
                 return updated;
               }}
               onProcessRowUpdateError={() => {

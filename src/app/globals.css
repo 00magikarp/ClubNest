@@ -3,40 +3,43 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-poppins: var(--font-poppins);
 }
 
 :root {
-  --background: #FDFDFD;
-  --mid: #EEE09B;
+  --background: #f8f8f8;
+  --mid: #f0f0f0;
   --foreground: #1a1a1a;
-  --bars: #FDFDFD;
-  --fssgold: #835f1f;
-  --text-color: #0a0a0a;
+  --bars: var(--background);
+  --fssgold: #e6941a;
+  --border: #d5d5d5;
+  --shadow-color: rgba(230, 148, 26, 0.15);
 }
 
 .dark {
-  --background: #333;
-  --mid: #222222;
-  --foreground: oklch(87.2% .01 258.338); /* gray-300 */
-  --bars: #111111;
-  --fssgold: #D59D48;
+  --background: #1a1a1a;
+  --mid: #252525;
+  --foreground: oklch(92.9% 0.013 255.508);
+  --bars: var(--background);
+  --border: #333333;
+  --fssgold: #e6941a;
+}
+
+* {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 body {
-  background: var(--background);
+  /*background: var(--background);*/
   color: var(--foreground);
-  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
 
-h1, h2, h3, header, footer {
+h1, h2, header, footer {
   color: var(--fssgold);
   border-color: var(--fssgold);
 }
 
-.custom-button {
-  border: 2px solid var(--fssgold);
-  transition: all 150ms ease-in-out;
-  outline: none;
+header, footer {
+  z-index: 1;
 }

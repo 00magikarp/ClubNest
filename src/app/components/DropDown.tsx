@@ -2,7 +2,7 @@
 
 import {FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, SxProps} from "@mui/material";
 import React, { useState } from "react";
-import {TYPES} from "@/lib/objects";
+import {TYPES} from "@/lib/definitions";
 
 type DropDownProps = {
     formControlClass?: string | undefined
