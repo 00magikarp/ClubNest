@@ -73,7 +73,7 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex flex-col flex-grow w-full items-center">
+      <div className="flex flex-col flex-grow w-[90dvw] items-center">
         {
           !selectedType ? (
             <div className="flex flex-col justify-center mb-auto pb-8">

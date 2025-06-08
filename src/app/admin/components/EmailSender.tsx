@@ -301,8 +301,8 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
 
 
     return (
-        <div className="mt-6 w-full flex flex-col flex-wrap p-4 justify-around gap-4">
-            <h2 className="!text-gray-300 text-xl w-full text-center">Email Tools</h2>
+        <div className="mt-3 w-full flex flex-col flex-wrap p-4 justify-around gap-4">
+            <p className="text-xl w-full text-center">Email Tools</p>
 
             {clubs.length === 0 && (
                 <div className="p-3 bg-yellow-100 border border-yellow-300 rounded text-yellow-800 text-center">
@@ -314,7 +314,7 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
                 <button
                     onClick={handleTestEmail}
                     disabled={loading}
-                    className="bg-[var(--mid)] text-white rounded-xl w-[90%] p-4 hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                    className="border-2 border-[var(--border)] rounded-xl w-[90%] p-4 hover:scale-105 transition-transform duration-200 disabled:opacity-50 cursor-pointer"
                 >
                     {loading ? 'Sending...' : 'Send Test Email'}
                 </button>
@@ -322,7 +322,7 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
                 <button
                     onClick={handleTestEmailMultipleClub}
                     disabled={loading}
-                    className="bg-blue-600 text-white rounded-xl p-4 w-[90%] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                    className="bg-blue-500 border-2 border-[var(--border)] rounded-xl p-4 w-[90%] hover:scale-105 transition-transform duration-200 disabled:opacity-50 cursor-pointer"
                 >
                     {loading ? 'Sending...' : 'Send Multiple Test Emails'}
                 </button>
@@ -330,7 +330,7 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
                 <button
                     onClick={sendEmailToAllClubs}
                     disabled={loading || clubs.length === 0}
-                    className="bg-red-600 text-white rounded-xl p-4 w-[90%] hover:scale-105 transition-transform duration-200 disabled:opacity-50"
+                    className="bg-red-500 border-2 border-[var(--border)] rounded-xl p-4 w-[90%] hover:scale-105 transition-transform duration-200 disabled:opacity-50 cursor-pointer"
                 >
                     {loading ? 'Sending...' : `Send Email to All Clubs (${clubs.length})`}
                 </button>
