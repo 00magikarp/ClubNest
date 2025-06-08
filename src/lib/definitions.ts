@@ -96,3 +96,71 @@ export const TEXT_FIELD_STYLING: SxProps<Theme> = {
     },
   }
 }
+
+export const DATA_GRID_STYLING: SxProps<Theme> = {
+  boxShadow: 2,
+    border: 2,
+    borderColor: 'var(--fssgold)',
+    backgroundColor: 'var(--background)',
+    color: 'var(--foreground)',
+    '& .MuiDataGrid-cell': {
+    borderColor: 'var(--border)',
+  },
+  '& .MuiDataGrid-cell:hover': {
+    color: 'var(--fssgold)',
+      backgroundColor: 'var(--mid)',
+  },
+  '& .MuiDataGrid-row:hover': {
+    backgroundColor: 'var(--mid)',
+  },
+  '& .MuiDataGrid-columnHeaders': {
+    borderColor: 'var(--border)',
+      backgroundColor: 'var(--background)',
+  },
+  '& .MuiDataGrid-columnHeader': {
+    backgroundColor: 'var(--background)',
+      color: 'var(--foreground)',
+  },
+  '& .MuiDataGrid-columnHeaderTitle': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiDataGrid-columnSeparator': {
+    color: 'var(--border)',
+  },
+  '& .MuiDataGrid-footerContainer': {
+    borderTop: '1px solid var(--border)',
+      backgroundColor: 'var(--background)',
+      color: 'var(--foreground)',
+  },
+  '& .MuiDataGrid-toolbarContainer': {
+    backgroundColor: 'var(--background)',
+      color: 'var(--foreground)',
+  },
+  '& .MuiButton-root': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiIconButton-root': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiTablePagination-root': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiTablePagination-selectLabel': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiTablePagination-displayedRows': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiTablePagination-select': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiTablePagination-actions': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiTablePagination-actions .MuiIconButton-root': {
+    color: 'var(--foreground)',
+  },
+  '& .MuiSelect-icon': {
+    color: 'var(--foreground)',
+  },
+}
