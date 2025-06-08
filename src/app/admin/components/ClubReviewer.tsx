@@ -53,6 +53,7 @@ export function ClubReviewer() {
 
     async function handleArchive(club: Club) {
         await archive(club);
+        clubsforRenewal.push(club);
         setClubs(prev => prev.filter(c => c.name != club.name));
     }
 
@@ -61,7 +62,7 @@ export function ClubReviewer() {
 
     return (
         <div
-            className="w-full max-w-[1200px] flex flex-col space-y-2 justify-start">
+            className="w-full flex flex-col space-y-2 justify-start">
             <div
                 className="w-full h-[550px] bg-[var(--container)] rounded-md border-[var(--border)] border-1 flex flex-col flex-wrap items-start justify-start p-4 mb-3 overflow-x-scroll gap-2">
                 <p className="text-2xl w-full text-center mt-2 mb-3">Club Approval Panel</p>
@@ -115,7 +116,6 @@ export function ClubReviewer() {
                 backgroundColor: 'var(--container)',
                 border: '1px solid var(--border)',
                 borderRadius: '0.375rem',
-                maxWidth: '1200px',
                 width: '100%',
                 marginTop: 4,
                 marginBottom: 4

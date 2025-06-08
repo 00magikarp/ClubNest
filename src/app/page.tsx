@@ -133,10 +133,10 @@ export default function Home() {
               />
 
               <div className="w-full flex flex-row justify-center">
-                <div className="w-[90dvw] mt-2 flex flex-row flex-grow flex-wrap justify-between gap-6 py-1">
+                <div className="w-[90dvw] mt-2 flex flex-row flex-wrap justify-center gap-6 py-1">
                   {
                     loading ? (
-                      Array.from({length: 8}).map((_, idx) => (
+                      Array.from({length: 12}).map((_, idx) => (
                         <div key={idx} className="m-4">
                           <Skeleton variant="rectangular" width={210} height={118}/>
                         </div>
@@ -145,7 +145,7 @@ export default function Home() {
                       <NoClubsFound/>
                     ) : (
                       clubsDisplayed.map((club: Club, idx: number) => (
-                        <div key={idx} className="mx-auto">
+                        <div key={idx}>
                           <FadeInNode
                             key={idx}
                             node={<ClubBox key={idx} club={club}/>}

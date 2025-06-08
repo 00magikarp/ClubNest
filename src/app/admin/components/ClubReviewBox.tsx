@@ -17,7 +17,7 @@ export function ClubReviewBox({ club }: ClubReviewBoxProps) {
         "
         modalClass="leading-relaxed"
         buttonTitle={
-          <div className="h-full w-full flex flex-col justify-start justify-center-safe mt-2 mt-1">
+          <div className="h-full w-full flex flex-col justify-between my-3">
             <h3
               className="h-[50%] font-semibold text-xl overflow-ellipsis truncate text-[var(--fssgold)]">{club.name}</h3>
             <p className="text-[var(--foreground)] text-lg">{club.type || ""}</p>
