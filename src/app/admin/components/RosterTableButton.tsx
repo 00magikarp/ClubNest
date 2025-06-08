@@ -77,7 +77,6 @@ export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
                 { field: 'firstName', headerName: 'Student Name (First)', flex: 1, editable: true  },
                 { field: 'club', headerName: 'Name of Club', flex: 1, editable: true },
               ]}
-              autosizeOnMount={true}
               sx={{
                 boxShadow: 2,
                 border: 2,
