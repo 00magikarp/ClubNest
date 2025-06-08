@@ -21,6 +21,13 @@ export type Roster = {
   club: string;
 }
 
+export type Student = {
+  club: string;
+  id: number;
+  firstName: string;
+  lastName: string;
+}
+
 // Alphabetical
 export const TYPES: string[] = [
   "All",
