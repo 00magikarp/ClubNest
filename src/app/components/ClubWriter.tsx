@@ -8,7 +8,6 @@ import { ModalButton } from "@/app/components/ModalButton";
 import { useState } from 'react';
 import CreateIcon from '@mui/icons-material/Create';
 
-// Validation rules
 const validationRules = {
   clubName: {
     required: 'Club name is required',
@@ -74,8 +73,12 @@ const DynamicSponsors = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
         </Box>
       ))}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
-        <Button onClick={addSponsor} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>+ Add</Button>
-        <Button onClick={removeSponsor} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>- Remove</Button>
+        {sponsors.length > 1 && (
+          <Button onClick={removeSponsor} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>- Remove</Button>
+        )}
+        {sponsors.length < 10 && (
+          <Button onClick={addSponsor} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }} disabled={sponsors.length >= 10}>+ Add</Button>
+        )}
       </Box>
     </Box>
   );
@@ -106,8 +109,12 @@ const DynamicStudents = ({ textFieldStyling }: { textFieldStyling: SxProps<Theme
         </Box>
       ))}
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mt: 1 }}>
-        <Button onClick={addStudent} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>+ Add</Button>
-        <Button onClick={removeStudent} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>- Remove</Button>
+        {students.length > 1 && (
+          <Button onClick={removeStudent} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>- Remove</Button>
+        )}
+        {students.length < 10 && (
+          <Button onClick={addStudent} variant="text" sx={{ color: 'var(--fssgold)', fontSize: '0.9rem' }}>+ Add</Button>
+        )}
       </Box>
     </Box>
   );

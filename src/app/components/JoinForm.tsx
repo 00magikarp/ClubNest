@@ -1,26 +1,39 @@
-'use client';
+"use client"
 
-import {FormContainer, Controller, TextFieldElement} from 'react-hook-form-mui'
-import {Autocomplete, Box, TextField} from '@mui/material'
-import {Club, Student, TEXT_FIELD_STYLING} from '@/lib/definitions'
-import {writeStudent} from "@/lib/firebaseClient";
-import {ModalButton} from "@/app/components/ModalButton";
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import {useState} from "react";
+import { FormContainer, Controller, TextFieldElement } from "react-hook-form-mui"
+import { Autocomplete, Box, TextField } from "@mui/material"
+import { type Club, type Student, TEXT_FIELD_STYLING } from "@/lib/definitions"
+import { writeStudent } from "@/lib/firebaseClient"
+import { ModalButton } from "@/app/components/ModalButton"
+import PersonAddIcon from "@mui/icons-material/PersonAdd"
+import { useState } from "react"
 
 type JoinFormProps = {
-  clubs: Club[];
+  clubs: Club[]
 }
 
 type FormReturn = {
-  club: Club;
-  id: string;
-  firstName: string;
-  lastName: string;
+  club: Club
+  id: string
+  firstName: string
+  lastName: string
 }
 
-export default function JoinForm( { clubs } : JoinFormProps) {
-  const [loading, setLoading] = useState(false);
+const isValidUTF8 = (str: string): boolean => {
+  try {
+    return btoa(unescape(encodeURIComponent(str))) !== null
+  } catch {
+    return false
+  }
+}
+
+const isValidId = (id: string): boolean => {
+  const numericId = id.replace(/\D/g, "")
+  return numericId.length === 6 || numericId.length === 8
+}
+
+export default function JoinForm({ clubs }: JoinFormProps) {
+  const [loading, setLoading] = useState(false)
 
   return (
     <ModalButton
@@ -38,59 +51,97 @@ export default function JoinForm( { clubs } : JoinFormProps) {
       modalContainerClass="
       w-[55vw] min-h-[55vh] min-w-[250px] min-h-[525px] rounded-xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[var(--bars)]
       border-1 border-[var(--fssgold)] shadow-2xl p-4 text-gray"
-      modalBody={(closeModal) => {
-        async function sendData(data: FormReturn): Promise<void> {
-          if (loading) return;
-          setLoading(true);
-          if (isNaN(Number(data.id))) {
-            window.alert("Error: ID is not a number.");
-            setLoading(false);
-            return;
-          }
+                      modalBody={(closeModal) => {
+                        async function sendData(data: FormReturn): Promise<void> {
+                          if (loading) return;
+                          setLoading(true);
+                          if (isNaN(Number(data.id))) {
+                            window.alert("Error: ID is not a number.");
+                            setLoading(false);
+                            return;
+                          }
 
-          const s: Student = {
-            club: data.club.name,
-            id: Number(data.id),
-            firstName: data.firstName,
-            lastName: data.lastName
-          }
-          const res = await writeStudent(s);
+                          const s: Student = {
+                            club: data.club.name,
+                            id: Number(data.id),
+                            firstName: data.firstName,
+                            lastName: data.lastName
+                          }
+                          const res = await writeStudent(s);
 
-          if (!res) {
-            window.alert("Student already in club!");
-            setLoading(false);
-          } else {
-            window.alert("Successfully added student to club!");
-            setLoading(false);
-            closeModal();
-          }
-        }
+                          if (!res) {
+                            window.alert("Student already in club!");
+                            setLoading(false);
+                          } else {
+                            window.alert("Successfully added student to club!");
+                            setLoading(false);
+                            closeModal();
+                          }
+                        }
 
-        return (
-          <div className="flex flex-col flex-1 mt-8">
-            <FormContainer<FormReturn>
-              onSuccess={data => sendData(data)}
-              // @ts-expect-error: club SHOULD be null as default
-              defaultValues={{firstName: '', lastName: '', id: '', club: null}}
-            >
-              <Box sx={{display: 'flex', flexDirection: 'column', gap: 1, width: '100%'}}>
-                <Box sx={{p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)'}}>
-                  <h2 style={{color: 'var(--fssgold)', marginBottom: '1rem'}}>Student Info</h2>
-                  <Box sx={{display: "flex", flexDirection: {xs: "column", lg: "row"}, gap: 2}}>
-                    <TextFieldElement label="First Name:" name="firstName" placeholder='John'
-                                      sx={{...TEXT_FIELD_STYLING, marginBottom: 0}} required/>
-                    <TextFieldElement label="Last Name:" name="lastName" placeholder='Doe' sx={TEXT_FIELD_STYLING}
-                                      required/>
+                        return (
+                          <div className="flex flex-col flex-1 mt-8">
+                            <FormContainer<FormReturn>
+                              onSuccess={(data) => sendData(data)}
+                              // @ts-expect-error: club SHOULD be null as default
+                              defaultValues={{ firstName: "", lastName: "", id: "", club: null }}
+                            >
+                              <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
+                                <Box sx={{ p: 3, boxShadow: 4, borderRadius: 2, backgroundColor: "rgba(0, 0, 0, 0.35)" }}>
+                                  <h2 style={{ color: "var(--fssgold)", marginBottom: "1rem" }}>Student Info</h2>
+                                  <Box sx={{ display: "flex", flexDirection: { xs: "column", lg: "row" }, gap: 2 }}>
+                                    <TextFieldElement
+                                      label="First Name:"
+                                      name="firstName"
+                                      placeholder="John"
+                                      sx={{ ...TEXT_FIELD_STYLING, marginBottom: 0 }}
+                                      required
+                                      validation={{
+                                        required: "First name is required",
+                                        maxLength: {
+                                          value: 50,
+                                          message: "First name must be 50 characters or less",
+                                        },
+                                        validate: (value: string) => isValidUTF8(value) || "First name contains invalid characters",
+                                      }}
+                                    />
+                                    <TextFieldElement
+                                      label="Last Name:"
+                                      name="lastName"
+                      placeholder="Doe"
+                      sx={TEXT_FIELD_STYLING}
+                      required
+                      validation={{
+                        required: "Last name is required",
+                        maxLength: {
+                          value: 50,
+                          message: "Last name must be 50 characters or less",
+                        },
+                        validate: (value: string) => isValidUTF8(value) || "Last name contains invalid characters",
+                      }}
+                    />
                   </Box>
-                  <TextFieldElement label="Student ID:" name="id" placeholder='123456' sx={TEXT_FIELD_STYLING} required/>
+                  <TextFieldElement
+                    label="Student ID:"
+                    name="id"
+                    placeholder="123456"
+                    sx={TEXT_FIELD_STYLING}
+                    required
+                    validation={{
+                      required: "Student ID is required",
+                      validate: (value: string) => isValidId(value) || "Student ID must be exactly 6 or 8 digits",
+                    }}
+                  />
                 </Box>
 
-                <Box sx={{p: 3, marginBottom: 5, boxShadow: 4, borderRadius: 2, backgroundColor: 'rgba(0, 0, 0, 0.35)'}}>
-                  <h2 style={{color: 'var(--fssgold)', marginBottom: '1rem'}}>Club Info</h2>
+                <Box
+                  sx={{ p: 3, marginBottom: 5, boxShadow: 4, borderRadius: 2, backgroundColor: "rgba(0, 0, 0, 0.35)" }}
+                >
+                  <h2 style={{ color: "var(--fssgold)", marginBottom: "1rem" }}>Club Info</h2>
                   <Controller
                     name="club"
-                    rules={{ required: 'This field is required' }}
-                    render={({field: {onChange, value}, fieldState: {error}}) => (
+                    rules={{ required: "This field is required" }}
+                    render={({ field: { onChange, value }, fieldState: { error } }) => (
                       <Autocomplete
                         sx={{
                           color: 'white',
