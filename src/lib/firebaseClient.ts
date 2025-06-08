@@ -23,7 +23,7 @@ export async function readClubs(): Promise<Club[]> {
   }
 }
 
-export async function writeStudent(data: Student): Promise<boolean> {
+export async function writeStudent(data: Roster): Promise<boolean> {
   const res = await fetch("/api/writeStudent", {
     method: "POST",
     headers: {"Content-Type": "application/json"},

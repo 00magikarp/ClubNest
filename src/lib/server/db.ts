@@ -118,11 +118,11 @@ export async function removeStudent(r: Roster): Promise<void> {
  *
  * @return If adding the student was successful.
  */
-export async function addStudent(student: Student): Promise<boolean> {
+export async function addStudent(student: Roster): Promise<boolean> {
   const q = query(
     collection(db, "rosters"),
     where('club', '==', student.club),
-    where('id', '==', student.id)
+    where('id', '==', student.student_id)
   );
   const rosterRef = await getDocs(q);
   if (rosterRef.empty) {

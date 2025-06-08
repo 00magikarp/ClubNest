@@ -109,7 +109,7 @@ export default function Home() {
               <FadeInNode
                 node={
                   <div className="w-full justify-between items-center">
-                    <SelectionButtonRow passToPageAction={handleTypeChange} initialState={selectedType}/>
+                    <SelectionButtonRow passToPageAction={handleTypeChange} initialState={selectedType} options={TYPES}/>
                   </div>
                 }
                 duration={0.2}

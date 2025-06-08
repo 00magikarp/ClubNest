@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { FormContainer, TextFieldElement, Controller } from "react-hook-form-mui";
-import { Button, Typography, Card, CardContent, Divider, Autocomplete, TextField } from "@mui/material";
+import {Button, Autocomplete, TextField, Link, Box} from "@mui/material";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
 import { LoginPage } from "@/app/components/LoginPage";
 import { SlideInNode, FadeInNode } from "@/app/components/Animations";
 import { getClubs } from "@/lib/localstorage";
+import {TEXT_FIELD_STYLING} from "@/lib/definitions";
+import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
+import {updateClub} from "@/lib/firebaseClient";
 
 type EmailVerificationForm = {
     email: string;
@@ -27,27 +30,22 @@ export type Club = {
 };
 
 type ClubContinuationForm = {
-    clubStatus: boolean;
+    clubStatus: string;
     extraComments?: string;
     club: Club;
-};
-
-type EmailFormProps = {
-    clubs?: Club[];
 };
 
 const clubs = await getClubs()
 
 export default function EmailForm() {
-    // Email Verification State
     const [emailVerified, setEmailVerified] = useState(false);
     const [verificationSent, setVerificationSent] = useState(false);
     const [currentEmail, setCurrentEmail] = useState("");
     const [emailLoading, setEmailLoading] = useState(false);
 
-    // Club Form State
-    const [buttonState, setButtonState] = useState(true);
     const [clubFormSubmitted, setClubFormSubmitted] = useState(false);
+
+    const [loading, setLoading] = useState(false);
 
     // Check if emailVerified is in the URL (e.g., /?emailVerified=true)
     useEffect(() => {
@@ -103,8 +101,10 @@ export default function EmailForm() {
     };
 
     const onClubSubmit = async (data: ClubContinuationForm) => {
+        setLoading(true);
         if (!emailVerified) {
             alert("Please verify your email first before submitting the club form.");
+            setLoading(false);
             return;
         }
 
@@ -112,6 +112,7 @@ export default function EmailForm() {
         const isEmailAuthorized = checkEmailAuthorization(currentEmail, data.club);
         if (!isEmailAuthorized) {
             alert(`Access denied: The email ${currentEmail} is not associated with ${data.club.name}. Only club sponsors and student leads can submit this form.`);
+            setLoading(false);
             return;
         }
 
@@ -121,13 +122,17 @@ export default function EmailForm() {
             submittedAt: new Date().toISOString()
         };
 
-        console.log("Club form submitted with:", submissionData);
-        
-        // Here you would typically send this to your backend
-        // await submitClubContinuationForm(submissionData);
+        if (submissionData.clubStatus === "No, Not Continuing") {
+            const newClub: Club = {
+                ...submissionData.club,
+                approved: 1
+            };
+            await updateClub(newClub, submissionData.club);
+        }
         
         setClubFormSubmitted(true);
-        alert(`Club continuation form submitted successfully!\nClub: ${data.club.name}\nClub Status: ${data.clubStatus ? 'Continuing' : 'Not Continuing'}\nEmail: ${currentEmail}`);
+        alert(`Club continuation form submitted successfully!\nClub: ${data.club.name}\nClub Status: ${data.clubStatus === "Yes, Continuing" ? 'Continuing' : 'Not Continuing'}\nEmail: ${currentEmail}`);
+        setLoading(false);
     };
 
     // Helper function to check if email is authorized for the club
@@ -147,23 +152,6 @@ export default function EmailForm() {
         }
         
         return false;
-    };
-
-    const textFieldStyling = {
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'var(--border)',
-            },
-            '&:hover fieldset': {
-                borderColor: 'var(--fssgold)',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'var(--fssgold)',
-            },
-        },
-        '& .MuiInputLabel-root': {
-            color: 'var(--foreground)',
-        },
     };
 
     return (
@@ -187,12 +175,12 @@ export default function EmailForm() {
                 <FadeInNode
                     node={
                         <div className="w-[90dvw] max-w-[1200px] mb-6">
-                            <a 
+                            <Link
                                 href="/" 
                                 className="text-[var(--fssgold)] hover:text-gray-500 transition-colors duration-200 font-medium"
                             >
                                 ← Back to Home
-                            </a>
+                            </Link>
                         </div>
                     }
                     duration={0.2}
@@ -240,7 +228,7 @@ export default function EmailForm() {
                                                     type="email"
                                                     required
                                                     className="bg-[var(--background)] rounded-lg"
-                                                    sx={textFieldStyling}
+                                                    sx={TEXT_FIELD_STYLING}
                                                 />
 
                                                 <Button 
@@ -261,7 +249,7 @@ export default function EmailForm() {
                                                 {verificationSent && (
                                                     <div className="mt-6 p-4 bg-blue-600/20 border border-blue-600/30 rounded-lg">
                                                         <p className="text-[var(--foreground)]">
-                                                            📧 We've sent a verification email to <strong className="text-[var(--fssgold)]">{currentEmail}</strong>. 
+                                                            📧 We&#39;ve sent a verification email to <strong className="text-[var(--fssgold)]">{currentEmail}</strong>. 
                                                             Please check your inbox and click the verification link to continue.
                                                         </p>
                                                     </div>
@@ -270,7 +258,6 @@ export default function EmailForm() {
                                         </FormContainer>
                                     ) : (
                                         <div className="flex items-center space-x-4 p-4 bg-green-600/20 border border-green-600/30 rounded-lg">
-                                            <div className="text-green-400 text-3xl">✅</div>
                                             <div>
                                                 <p className="font-semibold text-[var(--foreground)] text-lg">
                                                     Email Verified Successfully!
@@ -314,7 +301,7 @@ export default function EmailForm() {
                                     ) : !clubFormSubmitted ? (
                                         <FormContainer<ClubContinuationForm> 
                                             onSuccess={onClubSubmit} 
-                                            defaultValues={{ clubStatus: true, club: null as any }}
+                                            defaultValues={{ clubStatus: "Yes, Continuing", club: null as never }}
                                         >
                                             <div className="space-y-8">
                                                 <p className="text-[var(--foreground)] mb-6">
@@ -336,9 +323,13 @@ export default function EmailForm() {
                                                                     '& .MuiSvgIcon-root': {
                                                                         color: 'var(--foreground)',
                                                                     },
-                                                                    ...textFieldStyling
+                                                                    ...TEXT_FIELD_STYLING
                                                                 }}
-                                                                options={clubs.filter((c: Club) => c.approved === 2)}
+                                                                options={clubs.filter((c: Club) => (
+                                                                    c.approved === 2 && (
+                                                                      c.sponsors_contact.includes(currentEmail) || c.student_leads_contact.includes(currentEmail)
+                                                                    )
+                                                                ))}
                                                                 getOptionLabel={(option: Club) => option.name}
                                                                 value={value || null}
                                                                 onChange={(_, newValue) => onChange(newValue)}
@@ -350,7 +341,7 @@ export default function EmailForm() {
                                                                         error={!!error}
                                                                         helperText={error?.message}
                                                                         className="bg-[var(--background)] rounded-lg"
-                                                                        sx={textFieldStyling}
+                                                                        sx={TEXT_FIELD_STYLING}
                                                                     />
                                                                 )}
                                                             />
@@ -358,30 +349,22 @@ export default function EmailForm() {
                                                     />
                                                 </div>
 
-                                                {/* Club Status Toggle */}
+                                                {/* Club Status Selection */}
                                                 <div>
                                                     <h3 className="font-bold text-lg text-[var(--foreground)] mb-4">
                                                         Will your club continue next year? *
                                                     </h3>
                                                     <Controller
-                                                        name="clubStatus"
-                                                        render={({ field }) => (
-                                                            <Button
-                                                                size="large"
-                                                                className={`w-48 h-12 font-bold transform transition-all duration-200 hover:scale-105 ${
-                                                                    buttonState 
-                                                                        ? 'bg-green-600 hover:bg-green-700 text-white' 
-                                                                        : 'bg-red-600 hover:bg-red-700 text-white'
-                                                                }`}
-                                                                onClick={() => {
-                                                                    const newState = !buttonState;
-                                                                    setButtonState(newState);
-                                                                    field.onChange(newState);
-                                                                }}
-                                                            >
-                                                                {buttonState ? "✓ Yes, Continuing" : "✗ No, Not Continuing"}
-                                                            </Button>
-                                                        )}
+                                                      name="clubStatus"
+                                                      render={({ field }) => (
+                                                        <SelectionButtonRow
+                                                          initialState={field.value || null}
+                                                          options={["Yes, Continuing", "No, Not Continuing"]}
+                                                          passToPageAction={(data) => {
+                                                              field.onChange(data);
+                                                          }}
+                                                        />
+                                                      )}
                                                     />
                                                 </div>
 
@@ -399,19 +382,24 @@ export default function EmailForm() {
                                                         variant="outlined"
                                                         className="bg-[var(--background)] rounded-lg"
                                                         placeholder="e.g., Change in leadership, meeting times, membership numbers, etc."
-                                                        sx={textFieldStyling}
+                                                        sx={TEXT_FIELD_STYLING}
                                                     />
                                                 </div>
 
                                                 {/* Submit Button */}
-                                                <Button 
-                                                    type="submit" 
-                                                    size="large"
-                                                    fullWidth 
-                                                    className="h-12 font-bold bg-[var(--fssgold)] hover:bg-yellow-600 transform transition-transform duration-200 hover:scale-105"
-                                                >
-                                                    Submit Club Continuation Form
-                                                </Button>
+                                                <Box display="flex" justifyContent="center" mt={2}>
+                                                    <button
+                                                      type="submit"
+                                                      disabled={loading}
+                                                      className={`px-6 py-3 rounded-lg font-medium text-lg min-w-[120px] transform transition-all duration-200 border-2 border-[var(--fssgold)] ${
+                                                        loading
+                                                          ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                                          : 'bg-[var(--background)] text-[var(--fssgold)] hover:bg-[var(--fssgold)] hover:text-[var(--background)] hover:scale-105'
+                                                      }`}
+                                                    >
+                                                        {loading ? 'Submitting...' : 'Submit Club Continuation Form'}
+                                                    </button>
+                                                </Box>
                                             </div>
                                         </FormContainer>
                                     ) : (
@@ -422,7 +410,7 @@ export default function EmailForm() {
                                                     Club Form Submitted Successfully!
                                                 </p>
                                                 <p className="text-[var(--fssgold)]">
-                                                    Thank you for updating your club's continuation status.
+                                                    Thank you for updating your club&#39;s continuation status.
                                                 </p>
                                             </div>
                                         </div>
@@ -446,7 +434,7 @@ export default function EmailForm() {
                                             <span className="font-bold text-[var(--fssgold)]">Step 1:</span> Enter your email address and verify it by clicking the link sent to your inbox
                                         </p>
                                         <p className="text-[var(--foreground)]">
-                                            <span className="font-bold text-[var(--fssgold)]">Step 2:</span> Select your club and complete the continuation form to let us know your club's status for next year
+                                            <span className="font-bold text-[var(--fssgold)]">Step 2:</span> Select your club and complete the continuation form to let us know your club&#39;s status for next year
                                         </p>
                                         <p className="text-blue-400">
                                             <span className="font-bold">Note:</span> Both steps must be completed. Email verification is required for security purposes. Only club sponsors and student leads can submit continuation forms.
