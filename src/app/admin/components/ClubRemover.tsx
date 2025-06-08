@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
-import { Club } from "@/lib/objects";
+import { Club } from "@/lib/definitions";
 import { getClubs } from "@/lib/localstorage";
 import {deleteClub, updateClub} from "@/lib/firebaseClient";
 import { ModalButton } from "@/app/components/ModalButton";

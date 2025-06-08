@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import {deleteClub, updateClub} from '@/lib/firebaseClient';
-import {Club, TYPES} from '@/lib/objects';
+import {Club, TYPES} from '@/lib/definitions';
 import { ModalButton } from '@/app/components/ModalButton';
 import {DataGrid} from "@mui/x-data-grid";
 

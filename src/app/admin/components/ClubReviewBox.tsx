@@ -1,5 +1,5 @@
 import { ModalButton } from "@/app/components/ModalButton";
-import { Club } from "@/lib/objects";
+import { Club } from "@/lib/definitions";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 

@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect, useState} from "react";
-import {Club} from "@/lib/objects";
+import {Club} from "@/lib/definitions";
 import {getClubs} from "@/lib/localstorage";
 import {Accordion, AccordionDetails, AccordionSummary, Button, Tooltip} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -120,7 +120,11 @@ export function ClubReviewer() {
                 marginTop: 4,
                 marginBottom: 4
             }}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon/>} sx={{ color: 'var(--foreground)', padding: '1rem'}}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon/>} sx={{
+                  color: 'var(--foreground)',
+                  padding: '1rem',
+                  '& .MuiSvgIcon-root': {color: 'var(--foreground)',},
+                }}>
                     <p className="text-lg">See archived clubs...</p>
                 </AccordionSummary>
 

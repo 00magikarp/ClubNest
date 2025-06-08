@@ -1,7 +1,7 @@
 'use client';
 
 import {useState} from "react";
-import {TYPES} from "@/lib/objects";
+import {TYPES} from "@/lib/definitions";
 
 type SelectionButtonRowProps = {
   initialState: string;

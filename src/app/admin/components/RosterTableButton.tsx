@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react';
-import { Roster } from '@/lib/objects';
+import { Roster } from '@/lib/definitions';
 import { ModalButton } from '@/app/components/ModalButton';
 import { DataGrid } from '@mui/x-data-grid';
 import {removeStudent} from "@/lib/firebaseClient";

@@ -3,7 +3,7 @@
 import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
 import RosterTableButton from "./components/RosterTableButton";
 import ClubsTableButton from "@/app/admin/components/ClubsTableButton";
-import {Club, Roster} from "@/lib/objects";
+import {Club, Roster} from "@/lib/definitions";
 import {readRoster} from "@/lib/firebaseClient";
 import {getClubs} from "@/lib/localstorage";
 import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";

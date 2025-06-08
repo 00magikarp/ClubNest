@@ -4,7 +4,7 @@ import {getClubs} from "@/lib/localstorage";
 import {useEffect, useState} from "react";
 import JoinForm from "./components/JoinForm";
 import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
-import {Club, TYPES} from "@/lib/objects";
+import {Club, TYPES} from "@/lib/definitions";
 import {ClubBox} from "@/app/components/ClubBox";
 import {SearchBar} from "@/app/components/SearchBar"
 import {LoginPage} from "@/app/components/LoginPage";
