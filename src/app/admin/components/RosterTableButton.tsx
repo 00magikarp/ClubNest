@@ -25,7 +25,6 @@ type RosterTableButtonProps = {
 }
 
 export default function RosterTableButton({ rosters }: RosterTableButtonProps) {
-  console.log(rosters);
   return (
     <ModalButton
       buttonClass="p-2 flex items-center justify-center h-[7vh] w-full text-lg !text-[var(--fssgold)] rounded-md select-text

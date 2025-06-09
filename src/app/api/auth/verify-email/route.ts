@@ -19,9 +19,6 @@ export async function GET(request: NextRequest) {
     return new NextResponse('Invalid or expired token.', { status: 400 });
   }
 
-  // In production: mark email as verified in DB
-  console.log(`Verified email for token ${token}: ${email}`);
-
   // Remove token after use
   deleteToken(token);
 
