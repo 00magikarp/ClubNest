@@ -33,7 +33,7 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
         }}
       />
     </head>
-    <body className={`${poppins.className} antialiased overflow-x-none bg-radial-[at_100px_200px] from-[var(--background)] to-[var(--mid)] to-75%`}>
+    <body className={`${poppins.className} antialiased overflow-x-hidden bg-radial-[at_100px_200px] from-[var(--background)] to-[var(--mid)] to-75%`}>
     <ThemeContextProvider>
       {children}
     </ThemeContextProvider>
