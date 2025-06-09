@@ -15,7 +15,6 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
         const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
         if (publicKey) {
             emailjs.init(publicKey);
-            console.log('EmailJS initialized successfully');
         } else {
             console.error('EmailJS Public Key is missing!');
         }
@@ -24,10 +23,6 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const sendEmail = async (studentLeadContact: string, studentLeadName: string) => {
         setLoading(true);
-
-        console.log('Service ID:', process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID);
-        console.log('Template ID:', process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID);
-        console.log('Public Key:', process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY);
 
         // Validate required parameters
         if (!process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID) {
@@ -63,17 +58,14 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
             reply_to: studentLeadContact
         };
 
-        console.log('Template params:', templateParams);
-
         try {
-            const response = await emailjs.send(
+            await emailjs.send(
                 process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
                 process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
                 templateParams,
                 process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY // Add public key here
             );
 
-            console.log('Email sent successfully!', response.status, response.text);
             alert('Email sent successfully!');
         } catch (error) {
             console.error('Failed to send email:', error);
@@ -98,16 +90,13 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
             club_name: 'Test club'
         };
 
-        console.log('Testing with params:', testParams);
-
         emailjs.send(
             process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
             process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
             testParams,
             process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
         ).then(
-            (result) => {
-                console.log('Test email sent successfully:', result);
+            () => {
                 alert('Test email sent successfully!');
             },
             (error) => {
@@ -120,8 +109,6 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
                     message: 'This is a test message'
                 };
 
-                console.log('Trying with to_email params:', testParams2);
-
                 return emailjs.send(
                     process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
                     process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
@@ -132,7 +119,6 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
         ).then(
             (result) => {
                 if (result) {
-                    console.log('Second test email sent successfully:', result);
                     alert('Test email sent successfully with to_email!');
                 }
             },
@@ -187,7 +173,6 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
                         );
 
                         successCount++;
-                        console.log(`✅ Email sent successfully to ${club.student_leads_name[j]}`);
 
                         // Add delay between emails to avoid rate limiting
                         if (i < clubs.length - 1) {
@@ -213,8 +198,6 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
             }
 
             alert(message);
-            console.log('Bulk email summary:', { successCount, failCount, failedClubs });
-
         } catch (error) {
             console.error('Error during bulk email sending:', error);
             alert('An error occurred during bulk email sending. Check console for details.');
@@ -269,7 +252,6 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
                     );
 
                     successCount++;
-                    console.log(`✅ Test email sent successfully to ${name} (${email})`);
 
                     if (i < testEmails.length - 1) {
                         await new Promise(resolve => setTimeout(resolve, 500)); // 0.5 sec delay
@@ -290,7 +272,6 @@ export default function SendEmailComponent({ clubs }: SendEmailComponentProps) {
             }
 
             alert(message);
-            console.log('Test email summary:', { successCount, failCount, failedRecipients });
         } catch (error) {
             console.error('Error during test email sending:', error);
             alert('An error occurred during test email sending. Check console for details.');
