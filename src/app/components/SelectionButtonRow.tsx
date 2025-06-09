@@ -16,8 +16,6 @@ export function SelectionButtonRow({ initialState, passToPageAction, options }: 
     e.preventDefault();
 
     if (newSelection === selectedType) {
-      setSelectedType(null);
-      passToPageAction(null);
       return;
     }
     setSelectedType(newSelection);
