@@ -122,7 +122,7 @@ export async function addStudent(student: Roster): Promise<boolean> {
   const q = query(
     collection(db, "rosters"),
     where('club', '==', student.club),
-    where('id', '==', student.student_id)
+    where('student_id', '==', student.student_id)
   );
   const rosterRef = await getDocs(q);
   if (rosterRef.empty) {
