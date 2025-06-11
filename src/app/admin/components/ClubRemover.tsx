@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Club } from "@/lib/definitions";
-import { getClubs } from "@/lib/localstorage";
-import {deleteClub, updateClub} from "@/lib/firebaseClient";
+import {deleteClub, readClubs, updateClub} from "@/lib/firebaseClient";
 import { ModalButton } from "@/app/components/ModalButton";
 import { SearchBar } from "@/app/components/SearchBar";
 import {Button, Tooltip} from "@mui/material";
@@ -73,7 +72,7 @@ export function ClubRemover() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getClubs()
+        readClubs()
             .then((fetchedClubs) => {
                 // Only show approved clubs (approved === 2)
                 const approvedClubs = fetchedClubs.filter((club: Club) => club.approved === 2);
