@@ -1,6 +1,5 @@
 'use client';
 
-import {getClubs} from "@/lib/localstorage";
 import {useEffect, useState} from "react";
 import JoinForm from "./components/JoinForm";
 import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
@@ -14,6 +13,7 @@ import Skeleton from '@mui/material/Skeleton';
 import {NoClubsFound} from "@/app/components/NoClubsFound";
 import {SlideInNode, FadeInNode} from "@/app/components/Animations";
 import Footer from "@/app/components/Footer";
+import {readClubs} from "@/lib/firebaseClient";
 
 export default function Home() {
   const [clubs, setClubs] = useState<Club[]>([]);
@@ -21,7 +21,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getClubs()
+    readClubs()
       .then((data) => {
         setClubs(data);
         setLoading(false);

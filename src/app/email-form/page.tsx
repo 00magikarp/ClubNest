@@ -6,10 +6,9 @@ import {Button, Autocomplete, TextField, Link, Box} from "@mui/material";
 import DarkModeToggle from "@/app/components/DarkModeToggle";
 import { LoginPage } from "@/app/components/LoginPage";
 import { SlideInNode, FadeInNode } from "@/app/components/Animations";
-import { getClubs } from "@/lib/localstorage";
 import {TEXT_FIELD_STYLING} from "@/lib/definitions";
 import {SelectionButtonRow} from "@/app/components/SelectionButtonRow";
-import {updateClub} from "@/lib/firebaseClient";
+import {readClubs, updateClub} from "@/lib/firebaseClient";
 
 type EmailVerificationForm = {
     email: string;
@@ -35,7 +34,7 @@ type ClubContinuationForm = {
     club: Club;
 };
 
-const clubs = await getClubs()
+const clubs = await readClubs()
 
 export default function EmailForm() {
     const [emailVerified, setEmailVerified] = useState(false);
