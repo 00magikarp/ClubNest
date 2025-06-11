@@ -2,11 +2,10 @@
 
 import {useEffect, useState} from "react";
 import {Club} from "@/lib/definitions";
-import {getClubs} from "@/lib/localstorage";
 import {Accordion, AccordionDetails, AccordionSummary, Button, Tooltip} from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {ClubReviewBox} from "@/app/admin/components/ClubReviewBox";
-import {deleteClub, updateClub} from "@/lib/firebaseClient";
+import {deleteClub, readClubs, updateClub} from "@/lib/firebaseClient";
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ArchiveIcon from '@mui/icons-material/Archive';
@@ -37,7 +36,7 @@ export function ClubReviewer() {
     const [clubs, setClubs] = useState<Club[]>([]);
 
     useEffect(() => {
-        getClubs(true).then(setClubs).catch(console.error);
+        readClubs().then(setClubs).catch(console.error);
     }, []);
 
 
