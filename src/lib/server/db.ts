@@ -52,6 +52,7 @@ export async function writeClub(data: Club): Promise<void> {
  * @return The list of clubs as an array, in sorted order by ascending name.
  */
 export async function readClubs(): Promise<Club[]> {
+  console.log('--- before ---', appCache.cachedClubs);
   const informationDocRef = await getDoc(doc(db, "clubs", "_information"));
   const lastUpdated = informationDocRef.data()?.last_updated_timestamp ?? 0;
 
@@ -82,6 +83,8 @@ export async function readClubs(): Promise<Club[]> {
   cl.sort((a, b) => a.name.localeCompare(b.name));
   appCache.cachedClubs = cl;
   appCache.cachedClubsTimestamp = Date.now();
+
+  console.log('--- after ---', appCache.cachedClubs);
 
   return cl;
 }
