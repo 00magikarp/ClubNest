@@ -21,9 +21,13 @@ type GlobalCache = {
   cachedRostersTimestamp?: number
 };
 
-globalThis._appCache = globalThis._appCache || {};
-
-const appCache = globalThis._appCache as GlobalCache;
+function getCache(): GlobalCache {
+  if (!globalThis._appCache) {
+    globalThis._appCache = {};
+  }
+  return globalThis._appCache as GlobalCache;
+}
+const appCache = getCache();
 
 /**
  * Write a new club to the database.
