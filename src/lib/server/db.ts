@@ -1,29 +1,8 @@
 import { db, signInAdmin } from "./firebase";
-import {collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc, getDoc, setDoc} from "firebase/firestore";
+import {collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc} from "firebase/firestore";
 import { Club, Roster } from "@/lib/definitions";
 
 await signInAdmin();
-
-declare global {
-  // eslint-disable-next-line no-var
-  var _appCache: {
-    clubs?: Club[];
-    rosters?: Roster[];
-    clubTimestamp?: number;
-    rosterTimestamp?: number;
-  };
-}
-
-type GlobalCache = {
-  cachedClubs?: Club[],
-  cachedRosters?: Roster[],
-  cachedClubsTimestamp?: number,
-  cachedRostersTimestamp?: number
-};
-
-globalThis._appCache = globalThis._appCache || {};
-
-const appCache = globalThis._appCache as GlobalCache;
 
 /**
  * Write a new club to the database.
@@ -35,10 +14,6 @@ const appCache = globalThis._appCache as GlobalCache;
 export async function writeClub(data: Club): Promise<void> {
   try {
     await addDoc(collection(db, "clubs"), data);
-    await setDoc(doc(db, "clubs", "_information"), { 'last_updated_timestamp': Date.now() })
-    if (!appCache.cachedClubs) appCache.cachedClubs = [data];
-    else appCache.cachedClubs.push(data);
-    appCache.cachedClubsTimestamp = Date.now();
   } catch (e) {
     console.error("Error adding document: ", e);
     throw new Error(`Error adding club data to document: ${e} Club data:\r\n ${JSON.stringify(data, null, 2)}`)
@@ -52,68 +27,44 @@ export async function writeClub(data: Club): Promise<void> {
  * @return The list of clubs as an array, in sorted order by ascending name.
  */
 export async function readClubs(): Promise<Club[]> {
-  console.log('--- before ---', appCache.cachedClubs);
-  const informationDocRef = await getDoc(doc(db, "clubs", "_information"));
-  const lastUpdated = informationDocRef.data()?.last_updated_timestamp ?? 0;
-
-  if (appCache.cachedClubs && (appCache.cachedClubsTimestamp ?? 0) > lastUpdated) {
-    return appCache.cachedClubs;
-  }
-
   const cl: Club[] = [];
   const querySnapshot = await getDocs(collection(db, "clubs"));
   querySnapshot.forEach((doc) => {
-    if (doc.id !== "_information") {
-      const data = doc.data();
-      cl.push({
-        name: data.name,
-        sponsors_name: data.sponsors_name,
-        sponsors_contact: data.sponsors_contact,
-        student_leads_name: data.student_leads_name,
-        student_leads_contact: data.student_leads_contact,
-        type: data.type,
-        description: data.description,
-        time: data.time,
-        location: data.location,
-        other: data.other,
-        approved: data.approved
-      });
-    }
+    const data = doc.data();
+    cl.push({
+      name: data.name,
+      sponsors_name: data.sponsors_name,
+      sponsors_contact: data.sponsors_contact,
+      student_leads_name: data.student_leads_name,
+      student_leads_contact: data.student_leads_contact,
+      type: data.type,
+      description: data.description,
+      time: data.time,
+      location: data.location,
+      other: data.other,
+      approved: data.approved
+    })
   });
-  cl.sort((a, b) => a.name.localeCompare(b.name));
-  appCache.cachedClubs = cl;
-  appCache.cachedClubsTimestamp = Date.now();
-
-  console.log('--- after ---', appCache.cachedClubs);
-
+  cl.sort((c1, c2) => (c1.name.toLowerCase() > c2.name.toLowerCase() ? 1 : -1));
   return cl;
 }
 
 
 export async function readRoster(): Promise<Roster[]> {
-  const informationDocRef = await getDoc(doc(db, "rosters", "_information"));
-  const lastUpdated = informationDocRef.data()?.last_updated_timestamp ?? 0;
-
-  if (appCache.cachedRosters && (appCache.cachedRostersTimestamp ?? 0) > lastUpdated) {
-    return appCache.cachedRosters;
-  }
-
-  const rosters: Roster[] = [];
   const querySnapshot = await getDocs(collection(db, "rosters"));
+  const roster: Roster[] = [];
+
   querySnapshot.forEach((doc) => {
-    if (doc.id !== "_information") {
-      const data = doc.data();
-      rosters.push({
-        student_id: data.student_id,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        club: data.club
-      });
-    }
+    const data = doc.data();
+    roster.push({
+      student_id: data.student_id,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      club: data.club
+    });
   });
-  appCache.cachedRosters = rosters;
-  appCache.cachedRostersTimestamp = Date.now();
-  return rosters;
+
+  return roster;
 }
 
 export async function updateClub(c: Club, o: Club): Promise<void> {
@@ -130,10 +81,6 @@ export async function updateClub(c: Club, o: Club): Promise<void> {
       ...c
     });
   });
-  await setDoc(doc(db, "clubs", "_information"), { 'last_updated_timestamp': Date.now() })
-
-  appCache.cachedClubs = appCache.cachedClubs?.map(l => l.name === o.name ? c : l);
-  appCache.cachedClubsTimestamp = Date.now();
 }
 
 export async function deleteClub(c: Club): Promise<void> {
@@ -148,11 +95,6 @@ export async function deleteClub(c: Club): Promise<void> {
     const d = doc(db, "clubs", data.id);
     deleteDoc(d);
   });
-
-  await setDoc(doc(db, "clubs", "_information"), { 'last_updated_timestamp': Date.now() });
-
-  appCache.cachedClubs = appCache.cachedClubs?.filter(o => o.name !== c.name);
-  appCache.cachedClubsTimestamp = Date.now();
 }
 
 export async function removeStudent(r: Roster): Promise<void> {
@@ -168,13 +110,6 @@ export async function removeStudent(r: Roster): Promise<void> {
     const d = doc(db, "rosters", data.id);
     deleteDoc(d);
   });
-
-  await setDoc(doc(db, "rosters", "_information"), { 'last_updated_timestamp': Date.now() });
-
-  appCache.cachedRosters = appCache.cachedRosters?.filter(o => (
-    !(o.student_id === r.student_id && o.club === r.club)
-  ));
-  appCache.cachedRostersTimestamp = Date.now();
 }
 
 /**
@@ -190,16 +125,10 @@ export async function addStudent(student: Roster): Promise<boolean> {
     where('student_id', '==', student.student_id)
   );
   const rosterRef = await getDocs(q);
-  if (!rosterRef.empty) {
+  if (rosterRef.empty) {
+    await addDoc(collection(db, "rosters"), student);
+  } else {
     return false;
   }
-
-  await addDoc(collection(db, "rosters"), student);
-  await setDoc(doc(db, "rosters", "_information"), {'last_updated_timestamp': Date.now()})
-
-  if (!appCache.cachedRosters) appCache.cachedRosters = [student];
-  else appCache.cachedRosters.push(student);
-  appCache.cachedRostersTimestamp = Date.now();
-
   return true;
 }
