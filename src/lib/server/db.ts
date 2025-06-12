@@ -30,20 +30,22 @@ export async function readClubs(): Promise<Club[]> {
   const cl: Club[] = [];
   const querySnapshot = await getDocs(collection(db, "clubs"));
   querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    cl.push({
-      name: data.name,
-      sponsors_name: data.sponsors_name,
-      sponsors_contact: data.sponsors_contact,
-      student_leads_name: data.student_leads_name,
-      student_leads_contact: data.student_leads_contact,
-      type: data.type,
-      description: data.description,
-      time: data.time,
-      location: data.location,
-      other: data.other,
-      approved: data.approved
-    })
+    if (doc.id !== "_information") {
+      const data = doc.data();
+      cl.push({
+        name: data.name,
+        sponsors_name: data.sponsors_name,
+        sponsors_contact: data.sponsors_contact,
+        student_leads_name: data.student_leads_name,
+        student_leads_contact: data.student_leads_contact,
+        type: data.type,
+        description: data.description,
+        time: data.time,
+        location: data.location,
+        other: data.other,
+        approved: data.approved
+      })
+    }
   });
   cl.sort((c1, c2) => (c1.name.toLowerCase() > c2.name.toLowerCase() ? 1 : -1));
   return cl;
@@ -55,13 +57,15 @@ export async function readRoster(): Promise<Roster[]> {
   const roster: Roster[] = [];
 
   querySnapshot.forEach((doc) => {
-    const data = doc.data();
-    roster.push({
-      student_id: data.student_id,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      club: data.club
-    });
+    if (doc.id !== "_information") {
+      const data = doc.data();
+      roster.push({
+        student_id: data.student_id,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        club: data.club
+      });
+    }
   });
 
   return roster;
