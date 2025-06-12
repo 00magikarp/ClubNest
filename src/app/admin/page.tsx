@@ -4,7 +4,8 @@ import { ClubReviewer } from "@/app/admin/components/ClubReviewer";
 import RosterTableButton from "./components/RosterTableButton";
 import ClubsTableButton from "@/app/admin/components/ClubsTableButton";
 import {Club, Roster} from "@/lib/definitions";
-import {readClubs, readRoster} from "@/lib/firebaseClient";
+import {readRoster} from "@/lib/firebaseClient";
+import {getClubs} from "@/lib/localstorage";
 // import {AdminHelpButton} from "@/app/admin/components/AdminHelpButton";
 import {useEffect, useState} from "react";
 import { ClubRemoverModal } from "@/app/admin/components/ClubRemover";
@@ -39,7 +40,7 @@ export default function Home() {
   }, [router]);
 
   useEffect(() => {
-    readClubs().then(setClubs).catch(console.error);
+    getClubs(true).then(setClubs).catch(console.error);
   }, []);
 
   useEffect(() => {
