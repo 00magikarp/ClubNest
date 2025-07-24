@@ -1,5 +1,17 @@
 import { db, signInAdmin } from "./firebase";
-import {collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc} from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc,
+  deleteDoc,
+  getDoc,
+  setDoc,
+  QuerySnapshot, Query, QueryDocumentSnapshot, DocumentData, DocumentReference, DocumentSnapshot
+} from "firebase/firestore";
 import { Club, Roster } from "@/lib/definitions";
 
 await signInAdmin();
@@ -44,27 +56,31 @@ export async function readClubs(): Promise<Club[]> {
         location: data.location,
         other: data.other,
         approved: data.approved
-      })
-    }
-  });
-  cl.sort((c1, c2) => (c1.name.toLowerCase() > c2.name.toLowerCase() ? 1 : -1));
+      });
+    }});
+  cl.sort((c1: Club, c2: Club) => (c1.name.toLowerCase() > c2.name.toLowerCase() ? 1 : -1));
   return cl;
 }
 
 
 export async function readRoster(): Promise<Roster[]> {
-  const querySnapshot = await getDocs(collection(db, "rosters"));
+  const querySnapshot: QuerySnapshot = await getDocs(collection(db, "rosters2"));
   const roster: Roster[] = [];
 
-  querySnapshot.forEach((doc) => {
+  querySnapshot.forEach((doc: QueryDocumentSnapshot) => {
     if (doc.id !== "_information") {
-      const data = doc.data();
-      roster.push({
-        student_id: data.student_id,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        club: data.club
-      });
+      const data: DocumentData = doc.data();
+      const club = doc.id;
+      const len = data.student_ids?.length ?? 0;
+
+      for (let i = 0; i < len; i++) {
+        roster.push({
+          student_id: data.student_ids[i],
+          firstName: data.firstNames[i],
+          lastName: data.lastNames[i],
+          club: club,
+        });
+      }
     }
   });
 
@@ -72,15 +88,15 @@ export async function readRoster(): Promise<Roster[]> {
 }
 
 export async function updateClub(c: Club, o: Club): Promise<void> {
-  const q = query(
+  const q: Query = query(
     collection(db, "clubs"),
     where('name', '==', o.name)
   );
-  const clubRef = await getDocs(q);
+  const clubRef: QuerySnapshot = await getDocs(q);
 
   // should be only one doc in the snapshot
-  clubRef.forEach((data) => {
-    const d = doc(db, "clubs", data.id);
+  clubRef.forEach((data: QueryDocumentSnapshot) => {
+    const d: DocumentReference = doc(db, "clubs", data.id);
     updateDoc(d, {
       ...c
     });
@@ -88,31 +104,37 @@ export async function updateClub(c: Club, o: Club): Promise<void> {
 }
 
 export async function deleteClub(c: Club): Promise<void> {
-  const q = query(
+  const q: Query = query(
     collection(db, "clubs"),
     where('name', '==', c.name)
   );
-  const clubRef = await getDocs(q);
+  const clubRef: QuerySnapshot = await getDocs(q);
 
   // should be only one doc in the snapshot
-  clubRef.forEach((data) => {
-    const d = doc(db, "clubs", data.id);
-    deleteDoc(d);
+  clubRef.forEach((data: QueryDocumentSnapshot) => {
+    deleteDoc(doc(db, "clubs", data.id));
   });
+
+  await deleteDoc(doc(db, "rosters2", c.name))
 }
 
 export async function removeStudent(r: Roster): Promise<void> {
-  const q = query(
-    collection(db, "rosters"),
-    where('id', '==', r.student_id),
-    where('club', '==', r.club)
-  );
-  const rosterRef = await getDocs(q);
+  const d: DocumentSnapshot = await getDoc(doc(db, "rosters2", r.club));
+  const data: DocumentData = d.data()!;
 
-  // should be only one doc in the snapshot
-  rosterRef.forEach((data) => {
-    const d = doc(db, "rosters", data.id);
-    deleteDoc(d);
+  const found_idx: number = data?.student_ids?.indexOf(r.student_id) ?? -1;
+
+  // this should NEVER, EVER happen, preconditions should be ran before this occurs
+  if (found_idx === -1) throw Error(`Attempting to delete student registration for ${r.student_id} which doesn't exist for club ${r.club}.`);
+
+  const student_ids: number[] = data.student_ids;
+  const firstNames: string[] = data.firstNames;
+  const lastNames: string[] = data.lastNames;
+
+  await setDoc(doc(db, "rosters2", r.club), {
+    student_ids: student_ids.filter((_id, idx) => idx !== found_idx),
+    firstNames: firstNames.filter((_fn, idx) => idx !== found_idx),
+    lastNames: lastNames.filter((_ln, idx) => idx !== found_idx),
   });
 }
 
@@ -123,16 +145,29 @@ export async function removeStudent(r: Roster): Promise<void> {
  * @return If adding the student was successful.
  */
 export async function addStudent(student: Roster): Promise<boolean> {
-  const q = query(
-    collection(db, "rosters"),
-    where('club', '==', student.club),
-    where('student_id', '==', student.student_id)
-  );
-  const rosterRef = await getDocs(q);
-  if (rosterRef.empty) {
-    await addDoc(collection(db, "rosters"), student);
-  } else {
-    return false;
+  const d: DocumentSnapshot = await getDoc(doc(db, "rosters2", student.club));
+  const data = d.data();
+
+  if (data === undefined) {
+    await setDoc(doc(db, "rosters2", student.club), {
+      student_ids: [student.student_id],
+      firstNames: [student.firstName],
+      lastNames: [student.lastName],
+    });
+    return true;
   }
+
+  const student_ids: number[] = data.student_ids ?? [];
+  const firstNames: string[] = data.firstNames ?? [];
+  const lastNames: string[] = data.lastNames ?? [];
+
+  const found_idx = student_ids.indexOf(student.student_id);
+  if (found_idx !== -1) return false;
+
+  await setDoc(doc(db, "rosters2", student.club), {
+    student_ids: [...student_ids, student.student_id],
+    firstNames: [...firstNames, student.firstName],
+    lastNames: [...lastNames, student.lastName],
+  });
   return true;
 }
