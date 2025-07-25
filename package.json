@@ -14,7 +14,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
-    "@mui/x-data-grid": "^8.5.1",
+    "@mui/x-data-grid": "^8.9.1",
     "@mui/x-date-pickers": "^7.29.3",
     "@tailwindcss/line-clamp": "^0.4.4",
     "dotenv": "^16.5.0",
