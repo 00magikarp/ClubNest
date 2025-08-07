@@ -15,7 +15,7 @@
     "@mui/icons-material": "^7.3.1",
     "@mui/material": "^7.3.0",
     "@mui/x-data-grid": "^8.9.2",
-    "@mui/x-date-pickers": "^7.29.3",
+    "@mui/x-date-pickers": "^8.9.2",
     "@tailwindcss/line-clamp": "^0.4.4",
     "dotenv": "^17.2.1",
     "expiry-localstorage": "^1.0.1",
