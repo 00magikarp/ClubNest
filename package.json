@@ -17,7 +17,7 @@
     "@mui/x-data-grid": "^8.11.0",
     "@mui/x-date-pickers": "^7.29.3",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "dotenv": "^17.2.1",
+    "dotenv": "^17.2.2",
     "expiry-localstorage": "^1.0.1",
     "firebase": "^12.2.1",
     "next": "15.5.2",
