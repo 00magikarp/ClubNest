@@ -34,7 +34,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/firebase": "^2.4.32",
+    "@types/firebase": "^3.2.3",
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
